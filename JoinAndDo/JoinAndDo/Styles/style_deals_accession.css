@@ -1,0 +1,19 @@
+.btn_join
+{
+	margin: 10px;
+}
+
+.name_Invitor
+{
+	font-family: Pacifico;
+	margin: auto;
+	width: 200px;
+	position: relative;
+	top: 0px;
+}
+
+@font-face
+{
+    font-family: Pacifico;
+    src: url( Fonts/Pacifico.ttf );
+}

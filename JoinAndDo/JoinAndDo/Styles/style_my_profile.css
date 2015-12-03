@@ -1,0 +1,120 @@
+#blocks
+{
+	box-shadow: 0 0 5px black;
+}
+
+#information
+{
+	background-color: rgba(129, 247, 243, 0.3);
+	height: 500px;
+}
+
+#img_profile {
+    width: 170px;
+	height: 200px;
+	background-color: white;
+	padding: 10px;
+	margin: 15px;
+	float: left;
+	box-shadow: 0 0 3px white;
+}
+
+#full_name
+{
+	color: white;
+	text-shadow: 0 0 12px #2ECCFA;
+	font-size: 50px;
+	margin-top: 0px;
+	padding-top: 15px;
+	padding-left: 220px;
+	margin-bottom: 0px;
+	text-align: center;
+}
+
+#Statistics
+{
+	padding-top: 0px;
+	margin-top: 0px;
+	padding-left: 220px;
+	height: 50px;
+}
+
+#Statistics p
+{
+	color: white;
+	text-shadow: 0 0 12px #2ECCFA;
+	font-weight: bold;
+	font-size: 19px;
+	margin: 10px 3px 3px 3px;
+}
+
+#full_of_accession
+{
+	height: 15px;
+	width: 450px;
+	margin-right: 10px;
+	background-color: red;
+	box-shadow: 0 0 2px red;
+
+}
+.like_or_dislike
+{
+	width: 65px;
+	padding: 4px;
+	position: relative;
+	top: -23px;
+	left: 460px;
+
+}
+
+.like, .dislike
+{
+	width: 25px;
+	height: 25px;
+	border: none;
+	margin-left: 5px;
+}
+
+.like, .like:active, .like:focus, .dislike, .dislike:active, .dislike:focus {
+    outline: none;
+}
+
+.like
+{
+	background: url( "images/like.png" ) 100% 100% no-repeat;
+	transition: 0.75s;
+}
+
+.dislike
+{
+	background: url( "images/dislike.png" ) 100% 100% no-repeat;
+	transition: 0.75s;
+}
+
+.like:focus, .dislike:focus
+{
+	transition: 0.75s;
+}
+
+#completed_percentage_of_accessions,#percentage_of_accepted_connections, #percentage_of_time_working
+{
+	height: 15px;
+	background-color: #2EFE2E;
+	box-shadow: -1px 0 7px black;
+}
+#completed_percentage_of_accessions
+{
+	width: 85%;
+}
+
+#percentage_of_accepted_connections
+{
+	width: 75%;
+}
+
+#percentage_of_time_working
+{
+	width: 98%;
+}
+
+

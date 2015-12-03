@@ -1,0 +1,69 @@
+#blocks
+{
+ margin: auto;
+ float: none;
+ margin: 0 260px 0 260px;
+}
+
+.view_choose
+{
+	width: 100px;
+	height: 25px;
+	
+	background-color: red;
+}
+
+.message
+{
+	background-color: rgba(0,191,255,0.7);
+	width: 200px;
+	height: 300px;
+	margin: 3px;
+	float:left;
+	padding: 5px;
+	box-shadow: 0 0 5px #58FAF4;
+	transition: 1s;
+}
+
+.message:hover
+{
+	background-color: rgba(0,191,255,0.9);
+	box-shadow: 0 0 35px #58FAF4;
+	transition: 0s;
+}
+
+
+.sender_name
+{
+	text-align:center;
+	color: white;
+	font-weight: bold;
+	margin:auto;
+}
+
+.list_message
+{
+	background-color: rgba(255,255,255,0.25);
+	color: white;
+	margin: 5px;
+	padding: 5px;
+}
+
+#my_message
+{
+	width: 150px;
+	padding-left: 15px;
+	float: left;
+}
+
+#him_message
+{
+	float: right;
+	margin-left: 50px;
+	padding-right: 15px;
+}
+
+#my_message:hover,#him_message:hover
+{
+	background-color: rgba(255,255,255,0.55);
+}
