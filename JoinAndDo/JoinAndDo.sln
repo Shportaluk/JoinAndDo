@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JoinAndDo", "JoinAndDo\JoinAndDo.csproj", "{946C75F9-2386-4BCD-9163-48EDD5C5C291}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JoinAndDo", "JoinAndDo\JoinAndDo.csproj", "{08DD8DB0-5A01-4CF8-86E1-0796226A942A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{946C75F9-2386-4BCD-9163-48EDD5C5C291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{946C75F9-2386-4BCD-9163-48EDD5C5C291}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{946C75F9-2386-4BCD-9163-48EDD5C5C291}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{946C75F9-2386-4BCD-9163-48EDD5C5C291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08DD8DB0-5A01-4CF8-86E1-0796226A942A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08DD8DB0-5A01-4CF8-86E1-0796226A942A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08DD8DB0-5A01-4CF8-86E1-0796226A942A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08DD8DB0-5A01-4CF8-86E1-0796226A942A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
