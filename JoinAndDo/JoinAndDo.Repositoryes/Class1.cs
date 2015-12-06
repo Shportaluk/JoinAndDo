@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JoinAndDo.Repositories
 {
-    public class Class1
+    public class SqlRepositories
     {
 
     }
