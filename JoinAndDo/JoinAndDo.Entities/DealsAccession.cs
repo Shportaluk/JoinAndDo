@@ -6,21 +6,26 @@ using System.Threading.Tasks;
 
 namespace JoinAndDo.Entities
 {
-    public class DealsAccession
+    public class DealsAccession : JoinsEntity
     {
-        public string Title { get; set; }
-        public string Text { get; set; }
+        public string User { get; set; }
 
         public DealsAccession()
         {
             this.Title = "";
             this.Text = "";
+            this.People = 0;
+            this.AllPeople = 0;
+            this.User = "";
         }
 
-        public DealsAccession( string title, string text )
+        public DealsAccession( string title, string text, string user, int people, int allPeople )
         {
             this.Title = title;
             this.Text = text;
+            this.User = user;
+            this.People = people;
+            this.AllPeople = allPeople;
         }
     }
 }

@@ -81,13 +81,13 @@
 
 .like
 {
-	background: url( "images/like.png" ) 100% 100% no-repeat;
+	background: url( images/like.png ) 100% 100% no-repeat;
 	transition: 0.75s;
 }
 
 .dislike
 {
-	background: url( "images/dislike.png" ) 100% 100% no-repeat;
+	background: url( images/dislike.png ) 100% 100% no-repeat;
 	transition: 0.75s;
 }
 

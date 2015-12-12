@@ -2,29 +2,31 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 
 namespace JoinAndDo.Repositoryes
 {
     public class SqlRepository
     {
-        List<MyAccession> myAccession = new List<MyAccession>();
+        private string conStr = ConfigurationManager.ConnectionStrings["con_str"].ConnectionString;
+        private SqlConnection con { get; set; }
+        private SqlCommand cmdJoins = new SqlCommand("SELECT * FROM Joins");
+        private SqlCommand cmdMyAccession = new SqlCommand("SELECT * FROM My_accession");
+        private SqlCommand cmdDealsAccession = new SqlCommand("SELECT * FROM Deals_accession");
 
-        public string con_str = "Data Source=.\\SQLExpress;Initial Catalog=master;Integrated Security=True";
+
+        public SqlRepository()
+        {
+            con = new SqlConnection(conStr);
+        }
 
         public List<JoinsEntity> GetAllFromJoins(  )
         {
             List<JoinsEntity> listJoins = new List<JoinsEntity>();
-
-            SqlConnection con = new SqlConnection(con_str);
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = String.Format( "SELECT * FROM Joins");
-            cmd.Connection = con;
+            cmdJoins.Connection = con;
 
             con.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
+            SqlDataReader reader = cmdJoins.ExecuteReader();
             
             string title;
             string text;
@@ -48,14 +50,10 @@ namespace JoinAndDo.Repositoryes
         public List<MyAccession> GetAllFromMyAccession(  )
         {
             List<MyAccession> listMyAccession = new List<MyAccession>();
-
-            SqlConnection con = new SqlConnection(con_str);
-            SqlCommand cmd = new SqlCommand( );
-            cmd.CommandText = String.Format( "SELECT * FROM My_accession" );
-            cmd.Connection = con;
+            cmdMyAccession.Connection = con;
 
             con.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
+            SqlDataReader reader = cmdMyAccession.ExecuteReader();
 
             string title;
             string text;
@@ -80,28 +78,31 @@ namespace JoinAndDo.Repositoryes
         public List<DealsAccession> GetAllFromDealsAccession()
         {
             List<DealsAccession> listDealsAccession = new List<DealsAccession>();
-
-            SqlConnection con = new SqlConnection(con_str);
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = String.Format( "SELECT * FROM Deals_accession" );
-            cmd.Connection = con;
+            cmdDealsAccession.Connection = con;
 
             con.Open();
-            SqlDataReader reader = cmd.ExecuteReader();
+            SqlDataReader reader = cmdDealsAccession.ExecuteReader();
+
 
             string title;
             string text;
-            
+            string user;
+            int people;
+            int allPeople;
+
+
             while (reader.Read())
             {
                 title = reader[1].ToString();
                 text = reader[2].ToString();
-                listDealsAccession.Add( new DealsAccession( title, text ) );
+                user = reader[3].ToString();
+                people = int.Parse(reader[4].ToString());
+                allPeople = int.Parse(reader[5].ToString());
+                listDealsAccession.Add( new DealsAccession( title, text, user, people, allPeople ) );
             }
 
             con.Close();
             return listDealsAccession;
         }
-        //
     }
 }

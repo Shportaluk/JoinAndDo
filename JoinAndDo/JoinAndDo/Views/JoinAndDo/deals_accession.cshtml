@@ -1,5 +1,6 @@
-﻿@{
-    Layout = null;
+﻿@using JoinAndDo.Entities
+@{
+    List<DealsAccession> listDealsAccession = ViewBag.listDealsAccession;
 }
 
 <!DOCTYPE html>
@@ -48,39 +49,19 @@
     </div>
 
     <div id="blocks">
-        <div class="block">
-            <div class="name">Test name #1</div>
-            <div class="rating">
-                <p class="number_of_people">3/7</p>
+        @foreach ( var join in listDealsAccession )
+        {
+            <div class="block">
+                <div class="name">@join.Title</div>
+                <div class="rating">
+                    <p class="number_of_people">@join.People/@join.AllPeople</p>
+                </div>
+                <div class="description">@join.Text</div>
+                <button class="btn_join">Reject</button>
+                <button class="btn_join">Accept</button>
+                <div class="name_Invitor">@join.User</div>
             </div>
-            <div class="description">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.</div>
-            <button class="btn_join">Reject</button>
-            <button class="btn_join">Accept</button>
-            <div class="name_Invitor">Nazar Dorin</div>
-        </div>
-
-        <div class="block">
-            <div class="name">Test name #2</div>
-            <div class="rating">
-                <p class="number_of_people">3/7</p>
-            </div>
-            <div class="description">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.</div>
-            <button class="btn_join">Reject</button>
-            <button class="btn_join">Accept</button>
-            <div class="name_Invitor">Bogdan Nezairs</div>
-        </div>
-
-        <div class="block">
-            <div class="name">Test name #3</div>
-            <div class="rating">
-                <p class="number_of_people">3/7</p>
-            </div>
-            <div class="description">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.</div>
-            <button class="btn_join">Reject</button>
-            <button class="btn_join">Accept</button>
-            <div class="name_Invitor">Nazar Sendder</div>
-        </div>
-
+        }
     </div>
 
 </body>

@@ -36,6 +36,7 @@ namespace JoinAndDo.Controllers
 
         public ActionResult deals_accession()
         {
+            ViewBag.listDealsAccession = sqlRepository.GetAllFromDealsAccession();
             return View();
         }
 
