@@ -25,25 +25,58 @@ namespace JoinAndDo.Repositoryes
 
             con.Open();
             SqlDataReader reader = cmd.ExecuteReader();
-
-            //int id;
+            
             string title;
             string text;
-            //bool isComplete;
-            //int priority;
+            int people;
+            int allPeople;
 
 
             while ( reader.Read() )
             {
-
                 title = reader[1].ToString();
                 text = reader[2].ToString();
+                people = int.Parse( reader[3].ToString() );
+                allPeople = int.Parse(reader[4].ToString());
 
-                listJoins.Add( new JoinsEntity( title, text ) );
+                listJoins.Add( new JoinsEntity( title, text, people, allPeople ) );
             }
 
             con.Close();
             return listJoins;
         }
+        public List<MyAccession> GetAllFromMyAccession(  )
+        {
+            List<MyAccession> listMyAccession = new List<MyAccession>();
+
+            SqlConnection con = new SqlConnection(con_str);
+            SqlCommand cmd = new SqlCommand( );
+            cmd.CommandText = String.Format( "SELECT * FROM My_accession" );
+            cmd.Connection = con;
+
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            string title;
+            string text;
+            int people;
+            int allPeople;
+            bool IsComplate;
+
+
+            while (reader.Read())
+            {
+                title = reader[1].ToString();
+                text = reader[2].ToString();
+                people = int.Parse(reader[3].ToString());
+                allPeople = int.Parse(reader[4].ToString());
+                IsComplate = Boolean.Parse( reader[5].ToString() );
+                listMyAccession.Add(new MyAccession(title, text, people, allPeople, IsComplate ));
+            }
+
+            con.Close();
+            return listMyAccession;
+        }
+        //
     }
 }

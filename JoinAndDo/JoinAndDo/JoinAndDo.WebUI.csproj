@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -135,6 +136,16 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JoinAndDo.Entities\JoinAndDo.Entities.csproj">
+      <Project>{8d947add-5dd5-4e49-8e0f-883d1d808ad6}</Project>
+      <Name>JoinAndDo.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JoinAndDo.Repositoryes\JoinAndDo.Repositories.csproj">
+      <Project>{b2a27240-efa6-4643-8199-c9055a40d025}</Project>
+      <Name>JoinAndDo.Repositories</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

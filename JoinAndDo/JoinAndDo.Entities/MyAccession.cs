@@ -14,13 +14,17 @@ namespace JoinAndDo.Entities
         {
             this.Title = "";
             this.Text = "";
+            this.People = 0;
+            this.AllPeople = 0;
             this.IsComplete = false;
         }
 
-        public MyAccession( string title, string text, bool isComplete )
+        public MyAccession( string title, string text, int people, int allPeople, bool isComplete )
         {
             this.Title = title;
             this.Text = text;
+            this.People = people;
+            this.AllPeople = allPeople;
             this.IsComplete = isComplete;
         }
     }

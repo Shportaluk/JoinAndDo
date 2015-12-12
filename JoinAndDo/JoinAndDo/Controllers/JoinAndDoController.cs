@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JoinAndDo.Entities;
+using JoinAndDo.Repositoryes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,14 +10,17 @@ namespace JoinAndDo.Controllers
 {
     public class JoinAndDoController : Controller
     {
+        private SqlRepository sqlRepository = new SqlRepository();
         // GET: JoinAndDo
         public ActionResult Index()
         {
+            ViewBag.listJoinsEntity = sqlRepository.GetAllFromJoins();
             return View();
         }
 
         public ActionResult my_accession()
         {
+            ViewBag.listMyAccession = sqlRepository.GetAllFromMyAccession();
             return View();
         }
 

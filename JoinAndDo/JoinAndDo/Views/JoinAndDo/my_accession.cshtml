@@ -1,7 +1,8 @@
-﻿@using System.Web.Mvc
+﻿@using JoinAndDo.Entities
 @{
-    Layout = null;
+    List<MyAccession> listMyAccession = ViewBag.listMyAccession;
 }
+
 
 <!DOCTYPE html>
 
@@ -49,50 +50,24 @@
     </div>
 
     <div id="blocks">
-        <div class="block">
-            <div class="name">Test name #1</div>
-            <div class="rating">
-                <p class="number_of_people">3/7</p>
+        @foreach (var join in listMyAccession)
+        {
+            <div class="block">
+                <div class="name">@join.Title</div>
+                <div class="rating">
+                    <p class="number_of_people">@join.People/@join.AllPeople</p>
+                </div>
+                <div class="description">@join.Text</div>
+                @if( @join.IsComplete )
+                {
+                    <div id="done"></div>
+                }
+                else
+                {
+                    <div id="fail"></div>
+                }
             </div>
-            <div class="description">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter. </div>
-            <div id="done"></div>
-        </div>
-
-        <div class="block">
-            <div class="name">Test name #2</div>
-            <div class="rating">
-                <p class="number_of_people">3/7</p>
-            </div>
-            <div class="description">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter. </div>
-            <div id="fail"></div>
-        </div>
-
-        <div class="block">
-            <div class="name">Test name #3</div>
-            <div class="rating">
-                <p class="number_of_people">3/7</p>
-            </div>
-            <div class="description">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter. </div>
-            <div id="done"></div>
-        </div>
-
-        <div class="block">
-            <div class="name">Test name #4</div>
-            <div class="rating">
-                <p class="number_of_people">3/7</p>
-            </div>
-            <div class="description">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter. </div>
-            <div id="done"></div>
-        </div>
-
-        <div class="block">
-            <div class="name">Test name #5</div>
-            <div class="rating">
-                <p class="number_of_people">3/7</p>
-            </div>
-            <div class="description">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter. </div>
-            <div id="done"></div>
-        </div>
+        }
     </div>
 
 </body>
