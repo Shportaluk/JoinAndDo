@@ -77,6 +77,31 @@ namespace JoinAndDo.Repositoryes
             con.Close();
             return listMyAccession;
         }
+        public List<DealsAccession> GetAllFromDealsAccession()
+        {
+            List<DealsAccession> listDealsAccession = new List<DealsAccession>();
+
+            SqlConnection con = new SqlConnection(con_str);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = String.Format( "SELECT * FROM Deals_accession" );
+            cmd.Connection = con;
+
+            con.Open();
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            string title;
+            string text;
+            
+            while (reader.Read())
+            {
+                title = reader[1].ToString();
+                text = reader[2].ToString();
+                listDealsAccession.Add( new DealsAccession( title, text ) );
+            }
+
+            con.Close();
+            return listDealsAccession;
+        }
         //
     }
 }
