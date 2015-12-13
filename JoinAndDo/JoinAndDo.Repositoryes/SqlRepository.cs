@@ -8,25 +8,25 @@ namespace JoinAndDo.Repositoryes
 {
     public class SqlRepository
     {
-        private string conStr = ConfigurationManager.ConnectionStrings["con_str"].ConnectionString;
-        private SqlConnection con { get; set; }
-        private SqlCommand cmdJoins = new SqlCommand("SELECT * FROM Joins");
-        private SqlCommand cmdMyAccession = new SqlCommand("SELECT * FROM My_accession");
-        private SqlCommand cmdDealsAccession = new SqlCommand("SELECT * FROM Deals_accession");
+        private string _conStr = ConfigurationManager.ConnectionStrings["con_str"].ConnectionString;
+        private SqlConnection _con { get; set; }
+        private SqlCommand _cmdJoins = new SqlCommand("SELECT * FROM Joins");
+        private SqlCommand _cmdMyAccession = new SqlCommand("SELECT * FROM My_accession");
+        private SqlCommand _cmdDealsAccession = new SqlCommand("SELECT * FROM Deals_accession");
 
 
         public SqlRepository()
         {
-            con = new SqlConnection(conStr);
+            _con = new SqlConnection(_conStr);
         }
 
         public List<JoinsEntity> GetAllFromJoins(  )
         {
             List<JoinsEntity> listJoins = new List<JoinsEntity>();
-            cmdJoins.Connection = con;
+            _cmdJoins.Connection = _con;
 
-            con.Open();
-            SqlDataReader reader = cmdJoins.ExecuteReader();
+            _con.Open();
+            SqlDataReader reader = _cmdJoins.ExecuteReader();
             
             string title;
             string text;
@@ -44,16 +44,16 @@ namespace JoinAndDo.Repositoryes
                 listJoins.Add( new JoinsEntity( title, text, people, allPeople ) );
             }
 
-            con.Close();
+            _con.Close();
             return listJoins;
         }
         public List<MyAccession> GetAllFromMyAccession(  )
         {
             List<MyAccession> listMyAccession = new List<MyAccession>();
-            cmdMyAccession.Connection = con;
+            _cmdMyAccession.Connection = _con;
 
-            con.Open();
-            SqlDataReader reader = cmdMyAccession.ExecuteReader();
+            _con.Open();
+            SqlDataReader reader = _cmdMyAccession.ExecuteReader();
 
             string title;
             string text;
@@ -72,16 +72,16 @@ namespace JoinAndDo.Repositoryes
                 listMyAccession.Add(new MyAccession(title, text, people, allPeople, IsComplate ));
             }
 
-            con.Close();
+            _con.Close();
             return listMyAccession;
         }
-        public List<DealsAccession> GetAllFromDealsAccession()
+        public List<DealsAccession> GetAllFromDealsAccession(  )
         {
             List<DealsAccession> listDealsAccession = new List<DealsAccession>();
-            cmdDealsAccession.Connection = con;
+            _cmdDealsAccession.Connection = _con;
 
-            con.Open();
-            SqlDataReader reader = cmdDealsAccession.ExecuteReader();
+            _con.Open();
+            SqlDataReader reader = _cmdDealsAccession.ExecuteReader();
 
 
             string title;
@@ -101,7 +101,7 @@ namespace JoinAndDo.Repositoryes
                 listDealsAccession.Add( new DealsAccession( title, text, user, people, allPeople ) );
             }
 
-            con.Close();
+            _con.Close();
             return listDealsAccession;
         }
     }

@@ -11,7 +11,7 @@ $(document).ready(function() {
 	
 	
 	$("#like_2").click( function() {
-		if(  GetFullName(this) == "like.png" ) { 
+		if(  GetFullName(this) == "like.png" ) {
 			$(this).css('background-image', 'url(' + "/Styles/images/like_.png" + ')');
 		}
 		else { 
