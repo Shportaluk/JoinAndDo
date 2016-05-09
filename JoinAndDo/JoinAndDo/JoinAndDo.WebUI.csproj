@@ -83,6 +83,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Scripts\js_draggble_settings.js" />
+    <Content Include="Scripts\js_moving_background.js" />
     <Content Include="Scripts\sc_link.js" />
     <Content Include="Scripts\sc_my_profile.js" />
     <Content Include="Styles\adapt.css" />
@@ -130,6 +132,8 @@
     <Content Include="Views\JoinAndDo\my_message.cshtml" />
     <Content Include="Views\JoinAndDo\my_profile.cshtml" />
     <Content Include="Views\JoinAndDo\test.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\JoinAndDo\layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

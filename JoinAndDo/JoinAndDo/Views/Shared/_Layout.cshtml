@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Styles/style.css" rel="stylesheet" />
+    <link href="~/Styles/style_my_messages.css" rel="stylesheet" />
+
+    <link rel="stylesheet" media="screen and (min-width:900px) and (max-width:1266px)" href="~/Styles/adapt.css" />
+    <link rel="stylesheet" media="screen and (min-width:480px) and (max-width:899px)" href="~/Styles/adapt_phone.css" />
+    <link rel="stylesheet" media="screen and (max-width:479px)" href="~/Styles/adapt_phone_vertical.css" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+    <script src="~/Scripts/js_draggble_settings.js"></script>
+    <script src="~/Scripts/sc_link.js"></script>
+    <script src="~/Scripts/js_moving_background.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+    <div id="top-image" />
+    <script type="text/javascript">
+        $( init );
+        function init() {
+            $('#left_boxes').draggable({
+                containment: '.layout',
+                cursor: 'move',
+                snap: '#content'
+            });
+        
+            $('#right_boxes').draggable({
+                containment: '.layout',
+                cursor: 'move',
+                snap: '#content'
+            });
+        }
+    </script>
+
+
+    <div id="header">
+        <a href="index" id="header_text">Join and Do</a>
+        <input id="header_search_text" type="text">
+    </div>
+    <div class="layout" style="height: 80%">
+        <div id="left_boxes">
+            <div class="boxes_hide"></div>
+            <a href="my_profile">My profile</a>
+            <a href="my_message">My message</a>
+            <a href="my_accession">My accession</a>
+            <a href="deals_accession">Deals accession</a>
+        </div>
+
+        <div id="right_boxes">
+            <p>Select Category</p>
+            <a href="test">Category #1</a>
+            <a href="test">Category #2</a>
+            <a href="test">Category #3</a>
+            <a href="test">Category #4</a>
+            <a href="test">Category #5</a>
+            <a href="test">Category #6</a>
+            <a href="test">Category #7</a>
+        </div>
+
+        @RenderBody()
+        </div>
+</body>
+</html>

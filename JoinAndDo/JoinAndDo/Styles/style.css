@@ -1,11 +1,25 @@
 body
 {
  /*min-width:1280px;*/
+ 
  margin: 0px;
  padding: 0px;
+ /*
  background: url("images/background.jpg") 100% 100% no-repeat;
  background-size: cover;
  background-attachment: fixed;
+     */
+}
+
+#top-image
+{
+	background:url( "images/background.jpg" ) no-repeat;
+	position:fixed;
+	background-size: cover;
+	z-index: 0;
+	width: 100%;
+	height: calc(100% + 100px);
+	background-position: 0px 0px;
 }
 
 #header
@@ -49,29 +63,20 @@ body
 
 #left_boxes,#right_boxes 
 {
+ z-index: 1;
  margin: 5px;
  margin-left: 10px;
  width: 230px;
  padding: 5px;
  background-color: rgba(0, 191, 255, 0.3);
  box-shadow: 0px 0px 5px rgba(129, 247, 243, 0.8);
- transition: 0.25s;
 }
 
-#left_boxes
-{
- float: left;
-}
 
-#right_boxes 
-{
- float: right;
-}
 
-#left_boxes:hover,#right_boxes:hover
+#left_boxes:hover ,#right_boxes:hover
 {
  box-shadow: 0px 0px 20px #81F7F3;
- transition: 0.35s;
 }
 
 #left_boxes>a:link,#right_boxes>a:link
@@ -90,6 +95,17 @@ body
  border-bottom: 3px solid transparent;
  transition: 0.75s;
 }
+
+.boxes_hide
+{
+    width: 25px;
+    height: 25px;
+vertical-align: middle;
+
+
+    background-color: red;
+}
+
 
 #left_boxes>a:hover,#right_boxes>a:hover
 {
@@ -116,9 +132,11 @@ body
 
 #blocks
 {
+ position: absolute;
+ top: 100px;
  margin: auto;
  float: none;
- margin: 0 260px 0 260px;
+ margin: 0 0 0 260px;
  
  	animation-timing-function: linear;
 	transform: perspective(1000px) rotateY(180deg);
@@ -174,8 +192,10 @@ body
 
 .description
 {
- margin: 12px 5px 7px 30px;
- float: left;
+    float: left;
+    position: relative;
+    margin: 0 10px 0 10px;
+    top: 5px;
 }
 
 .block:hover>.btn_join

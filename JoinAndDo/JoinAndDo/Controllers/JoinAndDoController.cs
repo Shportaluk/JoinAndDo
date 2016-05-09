@@ -44,5 +44,10 @@ namespace JoinAndDo.Controllers
         {
             return View();
         }
+
+        public ActionResult layout()
+        {
+            return View();
+        }
     }
 }
