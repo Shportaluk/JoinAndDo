@@ -14,7 +14,7 @@ body
  padding: 10px;
  height: 80px;
  color:white;
- background-color: black;
+ background-color: rgba(0,0,0,0.5);
 }
 
 #header_text
@@ -40,7 +40,7 @@ body
  height: 25px;
  width: 325px;
  top: 33px;
- left: 850px;
+ right: 25px;
  border: none;
  font-weight: bold;
  padding: 5px 5px 5px 15px;

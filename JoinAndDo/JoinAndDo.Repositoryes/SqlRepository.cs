@@ -24,7 +24,6 @@ namespace JoinAndDo.Repositoryes
         {
             List<JoinsEntity> listJoins = new List<JoinsEntity>();
             _cmdJoins.Connection = _con;
-
             _con.Open();
             SqlDataReader reader = _cmdJoins.ExecuteReader();
             
