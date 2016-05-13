@@ -1,8 +1,5 @@
 ﻿using JoinAndDo.Entities;
 using JoinAndDo.Repositoryes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,16 +9,70 @@ namespace JoinAndDo.Controllers
     {
         private SqlRepository sqlRepository = new SqlRepository();
         // GET: JoinAndDo
+        public ActionResult Login()
+        {
+            var login = Request.Params["login"].Split( new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries )[0];
+            var pass = Request.Params["pass"];
+            User user = sqlRepository.Authentication( login, pass );
+            user.hash = sqlRepository.SetHash( login, pass );
+
+            #region cookies
+            var cookieLogin = new HttpCookie("cookieLogin")
+            {
+                Name = "login",
+                Value = login
+            };
+            var cookieHash = new HttpCookie( "cookieHash" )
+            {
+                Name = "hash",
+                Value = user.hash
+            };
+            Response.SetCookie(cookieLogin);
+            Response.SetCookie(cookieHash);
+            #endregion
+
+            //TempData["LeftBoxesCssDisplay"] = "block";
+
+            return RedirectToAction("/Index");
+        }
+
+        public ActionResult Logout()
+        {
+            #region cookies
+            var cookieLogin = new HttpCookie("cookieLogin")
+            {
+                Name = "login",
+                Value = ""
+            };
+            var cookieHash = new HttpCookie("cookieHash")
+            {
+                Name = "hash",
+                Value = ""
+            };
+            Response.SetCookie(cookieLogin);
+            Response.SetCookie(cookieHash);
+            #endregion
+            return RedirectToAction("/Index");
+        }
         public ActionResult Index()
         {
             ViewBag.listJoinsEntity = sqlRepository.GetAllFromJoins();
+            //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
             return View();
         }
 
         public ActionResult my_accession()
         {
-            ViewBag.listMyAccession = sqlRepository.GetAllFromMyAccession();
-            return View();
+            string login = Request.Cookies["login"].Value;
+            string hash = Request.Cookies["hash"].Value;
+            if ( sqlRepository.IsAuthenticated( login, hash ) )
+            {
+                ViewBag.listMyAccession = sqlRepository.GetAllFromMyAccession();
+                return View();
+            }
+            //ViewBag.LeftBoxesCssDisplay = "none";
+            //ViewBag.LeftBoxesCssDisplay = "block";
+            return RedirectToAction( "/Index" );
         }
 
         public ActionResult my_message()

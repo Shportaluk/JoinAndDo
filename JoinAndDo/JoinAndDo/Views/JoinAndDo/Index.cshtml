@@ -6,8 +6,8 @@
 @using JoinAndDo.Entities
 @{
     List<JoinsEntity> listJoinsEntity = ViewBag.listJoinsEntity;
+    string LeftBoxesCssDisplay = ViewBag.LeftBoxesCssDisplay;
 }
-
 <div id="blocks" style="margin-right: 10px">
     @foreach (var join in listJoinsEntity)
     {

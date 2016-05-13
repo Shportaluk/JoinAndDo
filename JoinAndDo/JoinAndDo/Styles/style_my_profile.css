@@ -3,10 +3,13 @@
 	box-shadow: 0 0 5px black;
 }
 
+
 #information
 {
-	background-color: rgba(129, 247, 243, 0.3);
-	height: 500px;
+ overflow: hidden;
+ width: 100%;
+ background-color: rgba(129, 247, 243, 0.3);
+ height: 400px;
 }
 
 #img_profile {
@@ -24,47 +27,45 @@
 	color: white;
 	text-shadow: 0 0 12px #2ECCFA;
 	font-size: 50px;
-	margin-top: 0px;
-	padding-top: 15px;
-	padding-left: 220px;
-	margin-bottom: 0px;
-	text-align: center;
+    margin: 0px;
+    position: absolute;
+    right: 5px;
 }
 
 #Statistics
 {
-	padding-top: 0px;
-	margin-top: 0px;
-	padding-left: 220px;
-	height: 50px;
+ overflow: hidden;
+ 
+ padding: 0 10px 10px 10px;
+ margin: 60px 15px 5px 5px;
+ border: 1px solid rgba(46, 204, 250, 0.5);
 }
 
 #Statistics p
 {
-	color: white;
-	text-shadow: 0 0 12px #2ECCFA;
-	font-weight: bold;
-	font-size: 19px;
-	margin: 10px 3px 3px 3px;
+ color: white;
+ text-shadow: 0 0 12px #2ECCFA;
+ font-weight: bold;
+ font-size: 19px;
+ margin: 10px 3px 3px 3px;
 }
 
 #full_of_accession
 {
-	height: 15px;
-	width: 450px;
-	margin-right: 10px;
-	background-color: red;
-	box-shadow: 0 0 2px red;
-
+ height: 15px;
+ width: 450px;
+ margin-right: 10px;
+ background-color: red;
+ box-shadow: 0 0 2px red;
 }
 .like_or_dislike
 {
-	width: 65px;
-	padding: 4px;
-	position: relative;
-	top: -23px;
-	left: 460px;
-
+ width: 65px;
+ padding: 4px;
+ position: relative;
+ top: -23px;
+ right: 5px;
+ margin: auto;
 }
 
 .like, .dislike

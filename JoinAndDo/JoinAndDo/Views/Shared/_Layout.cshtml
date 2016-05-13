@@ -20,9 +20,11 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
 </head>
 
 <body>
+
     <div id="top-image" />
     <script type="text/javascript">
         $( init );
@@ -30,34 +32,51 @@
             $('#left_boxes').draggable({
                 containment: '.layout',
                 cursor: 'move',
-                snap: '#content'
+                snap: '#blocks'
             });
         
             $('#right_boxes').draggable({
                 containment: '.layout',
                 cursor: 'move',
-                snap: '#content'
+                snap: '#blocks'
             });
         }
     </script>
 
+    <div class="black_fon">
+        <div id="form_login">
+            <form method="get" action="Login">
+                <p>Login</p>
+                <input type="text" id="txt_login" name="login" />
+                <p>Password</p>
+                <input type="password" id="txt_pass" name="pass" />
+                <input type="submit" id="btn_Login" value="Log in" />
+                <input type="button" id="btn_Close" value="Close" />
+            </form>
+        </div>
+    </div>
 
     <div id="header">
         <a href="index" id="header_text">Join and Do</a>
-        <input id="header_search_text" type="text">
+
+        <input type="submit" class="logout_or_registration" id="login" value="Login" />
+        <input type="submit" class="logout_or_registration" id="registration" value="Registrasion" />
+        <form method="post" action="Logout">
+            <input type="submit" class="logout_or_registration" id="logout" value="Exit"/>
+        </form>
     </div>
     <div class="layout" style="height: 80%">
 
         <div id="boxesLeft_show">
             <img src=" ~/Styles/images/arrow-right.png" />
         </div>
-        <div id="left_boxes">
+        <div id="left_boxes" >
 
             <div id="boxesLeft_hide">
                 <img src=" ~/Styles/images/arrow-left.png"/>
             </div>
 
-            <a href="my_profile">My profile</a>
+            <a href="my_profile" id="name">-</a>
             <a href="my_message">My message</a>
             <a href="my_accession">My accession</a>
             <a href="deals_accession">Deals accession</a>

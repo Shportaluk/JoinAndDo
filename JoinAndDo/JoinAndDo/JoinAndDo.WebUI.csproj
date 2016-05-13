@@ -90,17 +90,16 @@
     <Content Include="Styles\adapt.css" />
     <Content Include="Styles\adapt_phone.css" />
     <Content Include="Styles\adapt_phone_vertical.css" />
+    <Content Include="Styles\images\close.png" />
+    <Content Include="Styles\images\dislike.png" />
     <Content Include="Styles\images\background.jpg" />
     <Content Include="Styles\images\background_phone.jpg" />
     <Content Include="Styles\images\background_phone_2.jpg" />
-    <Content Include="Styles\images\dislike - копия.png" />
-    <Content Include="Styles\images\dislike.png" />
     <Content Include="Styles\images\dislike_.png" />
     <Content Include="Styles\images\Done.png" />
     <Content Include="Styles\images\Fail.png" />
     <Content Include="Styles\images\like.png" />
     <Content Include="Styles\images\like_.png" />
-    <Content Include="Styles\images\like_hover.png" />
     <Content Include="Styles\images\profile.png" />
     <Content Include="Styles\images\tick.png" />
     <Content Include="Styles\images\tick_hover.png" />
@@ -134,6 +133,8 @@
     <Content Include="Views\JoinAndDo\test.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\JoinAndDo\layout.cshtml" />
+    <Content Include="Styles\Fonts\Expand.ttf" />
+    <Content Include="Styles\Fonts\Peer.ttf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

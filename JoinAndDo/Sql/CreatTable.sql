@@ -1,6 +1,15 @@
 CREATE DATABASE JoinAndDo
 USE JoinAndDo
 
+CREATE TABLE Users
+(
+	Id INT IDENTITY( 1, 1 ),
+	Name NVARCHAR( 20 ),
+	Login NVARCHAR( 20 ),
+	Pass NVARCHAR( 20 ),
+	Hash NVARCHAR( 100 )
+);
+
 CREATE TABLE Joins
 (
 	Id INT IDENTITY( 1, 1 ),
@@ -30,6 +39,11 @@ CREATE TABLE Deals_accession
 	AllPeople INT
 );
 
+SELECT Login, Name, Hash FROM Users where Login = 'admin' and Pass = '123456'
+
+INSERT INTO Users VALUES ( 'Andrew WAY', 'admin', '123456', null );
+
+
 INSERT INTO Joins VALUES ( 'Test Title #1', 'Looking started he up perhaps against. Looking started he up perhaps against. Looking started he up perhaps against. Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.', 7, 10 )
 INSERT INTO Joins VALUES ( 'Test Title #2', 'Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.', 9, 10 )
 INSERT INTO Joins VALUES ( 'Test Title #3', 'Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.', 4, 10 )
@@ -51,6 +65,7 @@ SELECT * FROM My_accession
 SELECT * FROM Deals_accession
 
 
+DROP TABLE Users
 DROP TABLE Joins
 DROP TABLE My_accession
 DROP TABLE Deals_accession

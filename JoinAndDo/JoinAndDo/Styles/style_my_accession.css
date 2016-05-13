@@ -1,14 +1,13 @@
 #fail
 {	
 	position: relative;
-	margin: auto;
+	margin: 18px auto 5px auto;
 	width: 300px;
 	height: 175px;
-	top: 15px;
 	background: url( "images/Fail.png" ) 100% 100% no-repeat;
 	background-size: cover;
-
 }
+
 
 #fail:hover
 {
@@ -40,15 +39,6 @@
 {
 	background: url( "images/tick_orange_hover.png" ) 100% 100% no-repeat;
 	background-size: cover;
-    animation: done 1.99s infinite;
-}
-
-@keyframes done
-{
-  50%
-	{
-		transform: scaleX(0.9) scaleY(0.9);
-    }
 }
 
 @keyframes fail

@@ -48,25 +48,93 @@ body
  transition: 0.75s;
 }
 
-#header_search_text
-{
+.logout_or_registration {
+ color: white;
+ font-size: 35px;
+ font-family: Peer;
  position: absolute;
- height: 25px;
- width: 325px;
- top: 33px;
- right: 25px;
- border: none;
- font-weight: bold;
- padding: 5px 5px 5px 15px;
+ right: 15px;
+ top: 30px;
+ background-color: rgba(0, 191, 255, 0.3);
+ padding: 5px 10px 5px 10px;
+ border: 1px solid rgba(46, 204, 250, 0.5);
+ background-color: rgba(0,191,255,0.5);
+ box-shadow: 0 0 35px #2ECCFA;
+
+ transition: 0.25s;
 }
+
+#login, #registration { top: 33px; font-size: 25px; display: none;}
+#login { right: 225px; }
+
+.logout_or_registration:hover {
+ border: 1px solid rgba(254, 154, 46, 1);
+ background-color: rgba(254, 154, 46, 0.85);
+ color: white;
+ cursor: pointer;
+ text-shadow: 0 0 3px black;
+ box-shadow: 0 0 15px #FE9A2E;
+ transition: 0.2s;
+}
+.black_fon {
+ display: none;
+ position: absolute;
+ background-color: rgba(0,0,0,0.8);
+ width: 100%;
+ height: 100%;
+ z-index: 998;
+}
+
+#form_login {
+ position: absolute;
+ top: 50%;
+ left: 50%;
+
+ width: 350px;
+ height: 130px;
+ margin-left: -175px;
+ margin-top: -300px;
+ 
+ border: 1px solid rgba(46, 204, 250, 0.5);
+ background-color: rgba(0,191,255,0.5);
+ box-shadow: 0 0 35px #2ECCFA;
+ 
+ z-index: 999;
+ transition: 0.5s;
+}
+#form_login p {
+    color: white;
+    font-size: 25px;
+    left: 15px;
+}
+#form_login p, #form_login input { position: absolute; margin: 0px; }
+#form_login p:nth-child(1) { top: 15px; }
+#txt_login { left: 120px; top: 15px; }
+#form_login p:nth-child(3) { left: 15px; top: 50px; }
+#txt_pass { left: 120px; top: 50px; }
+#btn_Close { top: 90px; right: 80px; }
+#btn_Login {  top: 90px; right: 20px; }
+input{
+ color: white;
+ font-size: 15px;
+ padding: 3px;
+ border: 1px solid rgba(46, 204, 250, 0.5);
+ background-color: rgba(0,191,255,0.5);
+}
+input[type="text"]:focus, input[type="password"]:focus {
+ border: 1px solid white;
+ box-shadow: 0 0 10px white;
+}
+
+
+
 
 #boxesLeft_hide, #boxesRight_hide, #boxesLeft_show, #boxesRight_show
 {
     display: none;
     position: absolute;
-    left: 5px;
+    left: 0px;
     line-height: 165px;
-
 }
 
 #boxesLeft_hide img, #boxesRight_hide img, #boxesLeft_show img, #boxesRight_show img
@@ -79,6 +147,7 @@ body
 
 #left_boxes,#right_boxes 
 {
+ position: absolute;
  z-index: 1;
  margin: 10px;
  width: 230px;
@@ -87,6 +156,9 @@ body
  box-shadow: 0px 0px 5px rgba(129, 247, 243, 0.8);
 }
 
+#right_boxes {
+    top: 280px;
+}
 
 
 #left_boxes:hover ,#right_boxes:hover
@@ -141,7 +213,6 @@ body
  top: 100px;
  margin: auto;
  float: none;
- 
  	animation-timing-function: linear;
 	transform: perspective(1000px) rotateY(180deg);
 	opacity: 0;
@@ -150,11 +221,11 @@ body
 
 .block
 {
+ overflow: hidden;
  margin: auto;
  text-shadow: 0 0 1px #A9F5F2;
  margin-top: 10px;
  width: 95%;
- height: 200px;
  border: 1px solid rgba(46, 204, 250, 0.5);
  background-color: rgba(0,191,255,0.5);
  /*color: #1C1C1C;*/
@@ -177,31 +248,36 @@ body
  transition: 0.2s;
 }
 
+.name,
+.rating
+{
+    position: relative;
+    top: 10px;
+}
 .name
 {
- margin: 15px 5px 7px 17px;
- font-weight: bold;
- float:left;
+    left: 15px;
+    float: left;
+    font-weight: bold;
 }
 
 .rating
 {
- float: right;
+    float: right;
+    right: 5px;
 }
 
 .number_of_people
 {
  font-weight: bold;
- margin: 15px 15px 0px 0px;
+ margin: -5px 15px 0px 0px;
  color: black;
 }
 
 .description
 {
     float: left;
-    position: relative;
-    margin: 0 10px 0 10px;
-    top: 5px;
+    margin: 20px;
 }
 
 .block:hover>.btn_join
@@ -215,10 +291,13 @@ body
 
 .btn_join
 {
- float: right;
+ position: relative;
+ right: 10px;
+ bottom: 10px;
  width: 125px;
  height: 35px;
- margin: 10px 20px 7px 30px;
+ float: right;
+ margin: 5px;
  color: black;
  font-weight: bold;
  background-color: #2ECCFA;
@@ -240,4 +319,17 @@ body
  color: rgba(254, 154, 46, 1);
  text-shadow: 0 0 0px black;
  transition: 0.1s;
+}
+
+@font-face {
+ font-family: Expand;
+ src: url("Fonts/Expand.ttf");
+}
+@font-face {
+ font-family: Peer;
+ src: url( "Fonts/Peer.ttf" );
+}
+@font-face {
+ font-family: Pacifico;
+ src: url( "Fonts/Pacifico.ttf" );
 }

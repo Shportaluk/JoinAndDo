@@ -10,6 +10,9 @@ namespace JoinAndDo.Repositoryes
     {
         private string _conStr = ConfigurationManager.ConnectionStrings["con_str"].ConnectionString;
         private SqlConnection _con { get; set; }
+        private SqlCommand _cmdUser = new SqlCommand();
+        private SqlCommand _cmdSetHash = new SqlCommand();
+        private SqlCommand _cmdGetHash = new SqlCommand();
         private SqlCommand _cmdJoins = new SqlCommand("SELECT * FROM Joins");
         private SqlCommand _cmdMyAccession = new SqlCommand("SELECT * FROM My_accession");
         private SqlCommand _cmdDealsAccession = new SqlCommand("SELECT * FROM Deals_accession");
@@ -18,6 +21,66 @@ namespace JoinAndDo.Repositoryes
         public SqlRepository()
         {
             _con = new SqlConnection(_conStr);
+        }
+
+        public bool IsAuthenticated( string login, string hash )
+        {
+            bool isAutn = false;
+            using ( _cmdGetHash = new SqlCommand( "SELECT Login FROM Users where Hash = '" + hash + "'") )
+            {
+                _cmdGetHash.Connection = _con;
+                _con.Open();
+                SqlDataReader reader = _cmdGetHash.ExecuteReader();
+                
+
+                while ( reader.Read() )
+                {
+                    if (login == reader[0].ToString())
+                    {
+                        isAutn = true;
+                    }
+                }
+
+                _con.Close();
+                return isAutn;
+            }
+        }
+
+        public User Authentication( string login, string pass )
+        {
+            User user = new User();
+
+            using ( _cmdUser = new SqlCommand( "SELECT Login, Name, Hash FROM Users where Login = '" + login + "' and Pass = '" + pass + "'") )
+            {
+                _cmdUser.Connection = _con;
+                _con.Open();
+                SqlDataReader reader = _cmdUser.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    user.login = reader[0].ToString();
+                    user.name = reader[1].ToString();
+                    user.hash = reader[2].ToString();
+                }
+                _con.Close();
+                return user;
+            }
+        }
+
+        public string SetHash( string login, string pass )
+        {
+            Guid g = Guid.NewGuid();
+            string hash = Convert.ToBase64String(g.ToByteArray());
+            hash = hash.Replace("=", "").Replace("+", "");
+
+            _cmdSetHash = new SqlCommand("UPDATE Users SET Hash = '" + hash + "' where Login = '" + login + "' and Pass = '" + pass + "' ");
+            _cmdSetHash.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = _cmdSetHash.ExecuteReader();
+            _con.Close();
+            
+
+            return hash;
         }
 
         public List<JoinsEntity> GetAllFromJoins(  )
