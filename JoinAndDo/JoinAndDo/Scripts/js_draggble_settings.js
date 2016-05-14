@@ -152,7 +152,7 @@ function CheckPosition()
         }
         else if(statusRight == "hide" && statusLeft == "right")
         {
-            blocks.css("marginLeft", "25px");
+            blocks.css( "marginLeft", "25px" );
         }
     }
     

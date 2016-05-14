@@ -60,10 +60,33 @@ INSERT INTO Deals_accession VALUES ( 'Test Title #1', 'Looking started he up per
 INSERT INTO Deals_accession VALUES ( 'Test Title #1', 'Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.', 'Nazar Sendder', 7, 7 )
 
 
+
+CREATE PROC registration
+  @login NVARCHAR(20),
+  @pass NVARCHAR(20),
+  @res NVARCHAR(30) OUTPUT
+AS
+SELECT @res = 's'
+IF ((SELECT COUNT(*) FROM Users where Login = @login ) = 0)
+BEGIN
+	INSERT INTO Users VALUES( '', @login, @pass, null );
+	SELECT @res = 'OK'
+END
+ELSE
+	SELECT @res = 'user is already registered'
+GO
+
+DECLARE @res NVARCHAR(30)
+EXEC registration @login = '5', @pass = 'a', @res = @res OUTPUT
+SELECT @res
+
+DROP PROC registration
+
+SELECT * FROM Users
 SELECT * FROM Joins
 SELECT * FROM My_accession
 SELECT * FROM Deals_accession
-
+UPDATE Users SET Hash = NULL where Login = '' and hash = 'hash'
 
 DROP TABLE Users
 DROP TABLE Joins

@@ -10,7 +10,9 @@ namespace JoinAndDo.Repositoryes
     {
         private string _conStr = ConfigurationManager.ConnectionStrings["con_str"].ConnectionString;
         private SqlConnection _con { get; set; }
+        private SqlCommand _cmdRegistration = new SqlCommand();
         private SqlCommand _cmdUser = new SqlCommand();
+        private SqlCommand _cmdDeleteHash = new SqlCommand();
         private SqlCommand _cmdSetHash = new SqlCommand();
         private SqlCommand _cmdGetHash = new SqlCommand();
         private SqlCommand _cmdJoins = new SqlCommand("SELECT * FROM Joins");
@@ -20,9 +22,22 @@ namespace JoinAndDo.Repositoryes
 
         public SqlRepository()
         {
-            _con = new SqlConnection(_conStr);
+            _con = new SqlConnection( _conStr );
         }
 
+        public string Registration( string login, string pass )
+        {
+            _cmdRegistration = new SqlCommand( "DECLARE @res NVARCHAR(30) EXEC registration @login = '" + login + "', @pass = '" + pass + "', @res = @res OUTPUT SELECT @res" );
+            _cmdRegistration.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = _cmdRegistration.ExecuteReader();
+
+            while( reader.Read() )
+            {
+                return reader[0].ToString();
+            }
+            return null;
+        }
         public bool IsAuthenticated( string login, string hash )
         {
             bool isAutn = false;
@@ -45,7 +60,6 @@ namespace JoinAndDo.Repositoryes
                 return isAutn;
             }
         }
-
         public User Authentication( string login, string pass )
         {
             User user = new User();
@@ -66,7 +80,14 @@ namespace JoinAndDo.Repositoryes
                 return user;
             }
         }
-
+        public void DeleteHash(string login, string hash)
+        {
+            _cmdDeleteHash = new SqlCommand( "UPDATE Users SET Hash = NULL where Login = '" + login + "' and hash = '" + hash + "'" );
+            _cmdDeleteHash.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = _cmdDeleteHash.ExecuteReader();
+            _con.Close();
+        }
         public string SetHash( string login, string pass )
         {
             Guid g = Guid.NewGuid();
@@ -82,7 +103,6 @@ namespace JoinAndDo.Repositoryes
 
             return hash;
         }
-
         public List<JoinsEntity> GetAllFromJoins(  )
         {
             List<JoinsEntity> listJoins = new List<JoinsEntity>();

@@ -9,6 +9,12 @@ namespace JoinAndDo.Controllers
     {
         private SqlRepository sqlRepository = new SqlRepository();
         // GET: JoinAndDo
+        public ActionResult Index()
+        {
+            ViewBag.listJoinsEntity = sqlRepository.GetAllFromJoins();
+            //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
+            return View();
+        }
         public ActionResult Login()
         {
             var login = Request.Params["login"].Split( new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries )[0];
@@ -35,8 +41,13 @@ namespace JoinAndDo.Controllers
 
             return RedirectToAction("/Index");
         }
-
-        public ActionResult Logout()
+        [HttpPost]
+        public ActionResult Registration( string login, string pass )
+        {
+            string res = sqlRepository.Registration( login, pass );
+            return Content(res);
+        }
+        public void Logout( string login, string hash )
         {
             #region cookies
             var cookieLogin = new HttpCookie("cookieLogin")
@@ -49,18 +60,16 @@ namespace JoinAndDo.Controllers
                 Name = "hash",
                 Value = ""
             };
+            sqlRepository.DeleteHash( login, hash );
+
+            cookieLogin.Value = "";
+            cookieHash.Value = "";
+
             Response.SetCookie(cookieLogin);
             Response.SetCookie(cookieHash);
             #endregion
-            return RedirectToAction("/Index");
+            //return RedirectToAction("/Index");
         }
-        public ActionResult Index()
-        {
-            ViewBag.listJoinsEntity = sqlRepository.GetAllFromJoins();
-            //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
-            return View();
-        }
-
         public ActionResult my_accession()
         {
             string login = Request.Cookies["login"].Value;
@@ -74,28 +83,23 @@ namespace JoinAndDo.Controllers
             //ViewBag.LeftBoxesCssDisplay = "block";
             return RedirectToAction( "/Index" );
         }
-
         public ActionResult my_message()
         {
             return View();
         }
-
         public ActionResult my_profile()
         {
             return View();
         }
-
         public ActionResult deals_accession()
         {
             ViewBag.listDealsAccession = sqlRepository.GetAllFromDealsAccession();
             return View();
         }
-
         public ActionResult test()
         {
             return View();
         }
-
         public ActionResult layout()
         {
             return View();

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string RegistrationError = ViewBag.RegistrationError;
+}
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -44,26 +47,43 @@
     </script>
 
     <div class="black_fon">
-        <div id="form_login">
+        <div class="form" id="form_login">
             <form method="get" action="Login">
                 <p>Login</p>
                 <input type="text" id="txt_login" name="login" />
                 <p>Password</p>
                 <input type="password" id="txt_pass" name="pass" />
                 <input type="submit" id="btn_Login" value="Log in" />
-                <input type="button" id="btn_Close" value="Close" />
+                <input type="button" class="btn_Close" value="Close" />
+            </form>
+        </div>
+        <div class="form" id="form_registration">
+            <form method="get" action="Registration">
+                <p>Login</p>
+                <input type="text" id="txt_login" name="login" />
+                <p>Password</p>
+                <input type="password" id="txt_pass" name="pass" />
+                <input type="button" id="btn_Registration" value="Registration" />
+                <input type="button" class="btn_Close" value="Close" />
+                <p id="registration_error"/>
             </form>
         </div>
     </div>
+
+    <div class="top_message">
+        <p id="text"></p>
+    </div>
+
+
+
+
 
     <div id="header">
         <a href="index" id="header_text">Join and Do</a>
 
         <input type="submit" class="logout_or_registration" id="login" value="Login" />
         <input type="submit" class="logout_or_registration" id="registration" value="Registrasion" />
-        <form method="post" action="Logout">
-            <input type="submit" class="logout_or_registration" id="logout" value="Exit"/>
-        </form>
+        <input type="submit" class="logout_or_registration" id="logout" value="Exit"/>
     </div>
     <div class="layout" style="height: 80%">
 

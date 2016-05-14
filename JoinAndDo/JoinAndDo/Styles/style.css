@@ -84,8 +84,7 @@ body
  height: 100%;
  z-index: 998;
 }
-
-#form_login {
+.form {
  position: absolute;
  top: 50%;
  left: 50%;
@@ -96,24 +95,25 @@ body
  margin-top: -300px;
  
  border: 1px solid rgba(46, 204, 250, 0.5);
- background-color: rgba(0,191,255,0.5);
+ background-color: rgba(0,191,255, 0.5);
  box-shadow: 0 0 35px #2ECCFA;
  
  z-index: 999;
  transition: 0.5s;
 }
-#form_login p {
+.form p {
     color: white;
     font-size: 25px;
     left: 15px;
 }
-#form_login p, #form_login input { position: absolute; margin: 0px; }
-#form_login p:nth-child(1) { top: 15px; }
+.form p, .form input { position: absolute; margin: 0px; }
+.form p:nth-child(1) { top: 15px; }
 #txt_login { left: 120px; top: 15px; }
-#form_login p:nth-child(3) { left: 15px; top: 50px; }
+.form p:nth-child(3) { left: 15px; top: 50px; }
 #txt_pass { left: 120px; top: 50px; }
-#btn_Close { top: 90px; right: 80px; }
-#btn_Login {  top: 90px; right: 20px; }
+#form_login .btn_Close { top: 90px; right: 80px; }
+#form_registration .btn_Close { top: 90px; right: 100px; }
+#btn_Login, #btn_Registration {  top: 90px; right: 10px; }
 input{
  color: white;
  font-size: 15px;
@@ -125,9 +125,35 @@ input[type="text"]:focus, input[type="password"]:focus {
  border: 1px solid white;
  box-shadow: 0 0 10px white;
 }
+#registration_error {
+ top: 93px;
+ font-size: 18px;
+ color: red;
+ text-shadow: 0 0 5px red;
+}
 
+.top_message {
+ opacity: 0;
+ position: absolute;
+ left: 50%;
+ top: -150px;
+ 
+ font-size: 0px;
+ width: 100px;
 
+ border: 1px solid rgba(46, 204, 250, 0.5);
+ background-color: rgba(0,191,255, 0.5);
+ box-shadow: 0 0 35px #2ECCFA;
 
+ z-index: 999;
+}
+#text {
+ text-align: center;
+ margin: 10px 25px 10px 25px;
+ font-family: Expand;
+ text-shadow: 0 0 5px white;
+ color: white;
+}
 
 #boxesLeft_hide, #boxesRight_hide, #boxesLeft_show, #boxesRight_show
 {
@@ -136,15 +162,12 @@ input[type="text"]:focus, input[type="password"]:focus {
     left: 0px;
     line-height: 165px;
 }
-
 #boxesLeft_hide img, #boxesRight_hide img, #boxesLeft_show img, #boxesRight_show img
 {
     height: 100px;
     width: 17px;
     vertical-align: middle;
 }
-
-
 #left_boxes,#right_boxes 
 {
  position: absolute;
@@ -155,17 +178,8 @@ input[type="text"]:focus, input[type="password"]:focus {
  background-color: rgba(0, 191, 255, 0.3);
  box-shadow: 0px 0px 5px rgba(129, 247, 243, 0.8);
 }
-
-#right_boxes {
-    top: 280px;
-}
-
-
-#left_boxes:hover ,#right_boxes:hover
-{
- box-shadow: 0px 0px 20px #81F7F3;
-}
-
+#right_boxes {  top: 280px; }
+#left_boxes:hover ,#right_boxes:hover { box-shadow: 0px 0px 20px #81F7F3; }
 #left_boxes>a:link,#right_boxes>a:link
 {
  font-size: 17px;
@@ -182,14 +196,11 @@ input[type="text"]:focus, input[type="password"]:focus {
  border-bottom: 3px solid transparent;
  transition: 0.75s;
 }
-
-
 #left_boxes>a:hover,#right_boxes>a:hover
 {
  text-shadow: 0 0 15px white;
  transition: 0.15s;
 }
-
 #left_boxes>a:hover,#right_boxes>a:hover
 {
  padding-left: 30px;
@@ -198,7 +209,6 @@ input[type="text"]:focus, input[type="password"]:focus {
  color: white;
  transition: 0.25s;
 }
-
 #left_boxes>p,#right_boxes>p
 {
  margin: 11px;
@@ -206,6 +216,8 @@ input[type="text"]:focus, input[type="password"]:focus {
  color: white;
  font-weight: bold;
 }
+
+
 
 #blocks
 {
@@ -218,7 +230,6 @@ input[type="text"]:focus, input[type="password"]:focus {
 	opacity: 0;
 	transition: 0.35s;
 }
-
 .block
 {
  overflow: hidden;
@@ -235,7 +246,6 @@ input[type="text"]:focus, input[type="password"]:focus {
  box-shadow: 0 0 35px #2ECCFA;
  transition: 0.75s;
 }
-
 .block:hover
 {
  border: 1px solid rgba(254, 154, 46, 1);
