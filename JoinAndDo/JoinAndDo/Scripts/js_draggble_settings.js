@@ -1,14 +1,14 @@
 ﻿$(document).ready(function () {
     var leftBoxes = $("#left_boxes");
     var rightBoxes = $("#right_boxes");
-
-
+    
+    
     var boxesLeft_show = $('#boxesLeft_show');
     var boxesLeft_hide = $('#boxesLeft_hide');
     var boxesRight_show = $('#boxesRight_show');
     var boxesRight_hide = $('#boxesRight_hide');
-
-
+    
+    
     boxesRight_show.css("top", rightBoxes.position().top);
     var cookieLogin = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -25,7 +25,7 @@
         $( "#login" ).css( "display", "none" );
         localStorage.setItem("leftBoxes_X", "0");
         if ( GetStatus( rightBoxes ) == "left" ) {
-            localStorage.setItem("rightBoxes_Y", "290");
+            localStorage.setItem("rightBoxes_Y", "190");
             localStorage.setItem("rightBoxes_X", "0");
         }
     } else {
@@ -39,7 +39,7 @@
         localStorage.setItem( "leftBoxes_X", "-500" );
         if( GetStatus( rightBoxes ) == "left" )
         {
-            localStorage.setItem("rightBoxes_Y", "100");
+            localStorage.setItem("rightBoxes_Y", "0");
         }
     }
     

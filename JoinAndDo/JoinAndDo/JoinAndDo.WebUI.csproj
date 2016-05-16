@@ -84,12 +84,14 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Scripts\js_draggble_settings.js" />
-    <Content Include="Scripts\js_moving_background.js" />
+    <Content Include="Scripts\js_singl_page_move.js" />
     <Content Include="Scripts\sc_link.js" />
     <Content Include="Scripts\sc_my_profile.js" />
     <Content Include="Styles\adapt.css" />
     <Content Include="Styles\adapt_phone.css" />
     <Content Include="Styles\adapt_phone_vertical.css" />
+    <Content Include="Styles\images\background1.jpg" />
+    <Content Include="Styles\images\background2.jpg" />
     <Content Include="Styles\images\close.png" />
     <Content Include="Styles\images\dislike.png" />
     <Content Include="Styles\images\background.jpg" />
@@ -98,8 +100,11 @@
     <Content Include="Styles\images\dislike_.png" />
     <Content Include="Styles\images\Done.png" />
     <Content Include="Styles\images\Fail.png" />
+    <Content Include="Styles\images\Join.png" />
     <Content Include="Styles\images\like.png" />
     <Content Include="Styles\images\like_.png" />
+    <Content Include="Styles\images\man_right.png" />
+    <Content Include="Styles\images\man_right2.png" />
     <Content Include="Styles\images\profile.png" />
     <Content Include="Styles\images\tick.png" />
     <Content Include="Styles\images\tick_hover.png" />
@@ -135,6 +140,7 @@
     <Content Include="Views\JoinAndDo\layout.cshtml" />
     <Content Include="Styles\Fonts\Expand.ttf" />
     <Content Include="Styles\Fonts\Peer.ttf" />
+    <Content Include="Styles\Fonts\basic.ttf" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

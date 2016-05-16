@@ -8,16 +8,17 @@
     List<JoinsEntity> listJoinsEntity = ViewBag.listJoinsEntity;
     string LeftBoxesCssDisplay = ViewBag.LeftBoxesCssDisplay;
 }
-<div id="blocks" style="margin-right: 10px">
-    @foreach (var join in listJoinsEntity)
-    {
-        <div class="block">
-            <div class="name">@join.Title</div>
-            <div class="rating">
-                <p class="number_of_people">@join.People/@join.AllPeople</p>
+    <!--<div id="blocks" style="margin-right: 10px">
+        @foreach (var join in listJoinsEntity)
+        {
+            <div class="block">
+                <div class="name">@join.Title</div>
+                <div class="rating">
+                    <p class="number_of_people">@join.People/@join.AllPeople</p>
+                </div>
+                <div class="description">@join.Text</div>
+                <button class="btn_join">Join</button>
             </div>
-            <div class="description">@join.Text</div>
-            <button class="btn_join">Join</button>
-        </div>
-    }
-</div>
+        }
+    </div> 
+-->
