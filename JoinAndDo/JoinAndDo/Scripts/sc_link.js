@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
 	$("#blocks").css( "transform", "perspective(1000px) rotateY(0deg)" );
 	$("#blocks").animate({
         opacity: 1
@@ -42,6 +41,7 @@ $(document).ready(function () {
 	    var pass = $("#form_registration #txt_pass")
 	    Registration(login.val(), pass.val());
 	})
+
 
 });
 function Registration(l, p) {

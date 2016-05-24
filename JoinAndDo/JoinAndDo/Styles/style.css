@@ -1,36 +1,23 @@
 body
 {
- /*min-width:1280px;*/
+ min-width:1280px;
+ min-height: 600px;
  
  margin: 0px;
  padding: 0px;
- background: url( "images/background2.jpg" ) 100% 100% no-repeat;
+ background: url( "https://wallpaperscraft.com/image/road_sunset_marking_grass_102104_3840x2160.jpg" ) 100% 100% no-repeat;
  /*background: url("images/background.jpg") 100% 100% no-repeat;*/
  background-size: cover;
  background-attachment: fixed;
-
 }
 
-
-
-/*
-#top-image
-{
-	z-index: 0;
-	width: 100%;
-	height: calc(100% + 100px);
-	background-position: 0px 0px;
-}
-*/
 
 #header
 {
- /*min-width:1200px;*/
- position: fixed;
+ position: absolute;
  left: 0px;
- top: 10px;
+ bottom: 10px;
  width: 100%;
- box-shadow: 0 0 50px #BDBDBD;
  transition: 0.5s;
  
  z-index: 5;
@@ -53,11 +40,11 @@ body
 }
 #header button {
     color: rgba(242, 242, 242, 1);
-    font-size: 15px;
+    font-size: 25px;
     font-weight: 500;
     padding: 6px 10px;
 
-    color: black;
+    color: white;
     border: none;
     text-shadow: 0 0 1px #2E2E2E;
     background-color: transparent;
@@ -82,37 +69,51 @@ body
 }
 
 #page1 { background-color: transparent; }
-#page2 { background-color: rgba(100, 100, 100, 0.5); }
-#page3 { background-color: rgba(200, 200, 200, 0.5); }
-#page4 { background-color: rgba(300, 300, 300, 0.5); }
+#page2 { background-color: rgba(100, 100, 100, 0.1); }
+#page3 { background-color: rgba(200, 200, 200, 0.1); }
+#page4 { background-color: rgba(300, 300, 300, 0.2); }
 
 
 
-
-#left_text_div {
+#running_text {
+    overflow: hidden;
     position: absolute;
-    left: 5%;
-    top: 10%;
+
+    left: 50%;
+    top: calc(50% - 200px);
+    margin-left: -600px;
+    
+    width: 1200px;
+    height: 100px;
+
 }
-#left_text_div p {
+#running_text p {
+    position: absolute;
     text-shadow: 1px -1px 5px white;
     margin: 0px;
-    font-size: 33px;
-    font-family: Pacifico;
+    font-size: 75px;
+    font-family: CaviarDreams;
+    color: white;
+    text-shadow: 0 10px 10px black;
 }
+#running_text p:nth-child(1) { top: 0px; left: 250px; }
+#running_text p:nth-child(2) { top: 100px; left: 245px; }
+#running_text p:nth-child(3) { top: 200px; left: 120px; }
+
+
 
 #join_center_div {
+ overflow: hidden;
     position: absolute;
     left: 50%;
-    top: 35%;
-    width: 380px;
-    height: 100px;
-    margin-left: -150px;
-
-    border-radius: 50px 0;
+    top: 50%;
+    margin-left: -202px;
     background-color: transparent;
 
-    border: 2px solid black;
+    box-shadow: 0 0 15px black;
+    z-index: 5;
+
+    transition: 0.25s;
 }
 #join_center_div:hover {
     cursor: pointer;
@@ -120,17 +121,17 @@ body
     background-color: rgba(255, 128, 0, 0.7);
     box-shadow: 0 0 10px #FF8000;
 }
+#join_center_div p {
+    font-weight: bold;
+    text-shadow: 0 0 5px white;
+    margin: 20px 85px;
+    color: white;
+    font-size: 50px;
+    font-family: Caviar_Dreams_Bold;
+}
 #join_center_div:hover>p {
     color: white;
     text-shadow: 0 0 5px white;
-}
-#join_center_div p {
-    font-weight: bold;
-    text-shadow: 0 0 5px black;
-    margin: 25px;
-    color: black;
-    font-size: 50px;
-    font-family: Expand;
 }
 
 #right_man_div {
@@ -156,42 +157,19 @@ body
 }
 
 
-
-
-.logout_or_registration {
- color: white;
- font-size: 35px;
- font-family: Peer;
- position: absolute;
- right: 15px;
- top: 30px;
- padding: 5px 10px 5px 10px;
- border: 1px solid black;
- background-color: transparent;
- box-shadow: 0 0 5px black;
-
- transition: 0.25s;
-}
 #login, #registration { top: 33px; font-size: 25px; display: none;}
 #login { right: 225px; }
 
-.logout_or_registration:hover {
- border: 1px solid rgba(254, 154, 46, 1);
- background-color: rgba(254, 154, 46, 0.85);
- color: white;
- cursor: pointer;
- text-shadow: 0 0 3px black;
- box-shadow: 0 0 15px #FE9A2E;
- transition: 0.2s;
-}
+
 .black_fon {
- display: none;
  position: absolute;
- background-color: rgba(0,0,0,0.8);
+ background-color: rgba(0,0,0,0.1);
  width: 100%;
  height: 100%;
- z-index: 998;
+ z-index: 0;
 }
+.black_fon .form { display: none; }
+
 .form {
  position: absolute;
  top: 50%;
@@ -450,7 +428,14 @@ input[type="text"]:focus, input[type="password"]:focus {
  font-family: Basic;
  src: url( "Fonts/Basic.ttf" );
 }
-
+@font-face {
+ font-family: Caviar_Dreams_Bold;
+ src: url("Fonts/Caviar_Dreams_Bold.ttf");
+}
+@font-face {
+ font-family: CaviarDreams;
+ src: url("Fonts/CaviarDreams.ttf");
+}
 
 ::-webkit-scrollbar{
     width:7px;
