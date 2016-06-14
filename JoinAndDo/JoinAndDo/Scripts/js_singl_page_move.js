@@ -50,73 +50,93 @@
     var page3 = $("#page3");
     var page4 = $("#page4");
 
-    var heightPage = page1.height();
-    page2.css( "top", heightPage );
-    page3.css( "top", heightPage*2 );
-    page4.css("top", heightPage * 3);
-
-    setTimeout(function () { $("#right_man_div #think").css("display", "block") }, 5000);
-    setTimeout(function () { $("#right_man_div #think").css("display", "none") }, 15000);
-
-    // if scroll win than header position = fixed
-    var tmpScrollTop = -1;
-    setInterval(function () {
-        var scrollTop = $('body').scrollTop();
-        if (scrollTop != tmpScrollTop) {
-            tmpScrollTop = scrollTop;
-            if( scrollTop >= page1.height() - 55 )
-            {
-                $( "#header" ).css( "position", "fixed" );
-                $( "#header" ).css( "top", "0px" );
-            }
-            else
-            {
-                $("#header").css("position", "absolute");
-                $("#header").css("top", page1.height() - 55 + "px");
-            }
-        }
-    });
-
-
     var btn1 = $("#header button[data-target=#page1]");
     var btn2 = $("#header button[data-target=#page2]");
     var btn3 = $("#header button[data-target=#page3]");
     var btn4 = $("#header button[data-target=#page4]");
-    
-    var onPage;
-    
-    var tmpScrollTop2 = -1;
-    setInterval(function () {
-        var scrollTop = $('body').scrollTop();
-        if (scrollTop != tmpScrollTop2) {
-    
-            tmpScrollTop2 = scrollTop;
-            var heightPage = page1.height();
-    
-            if (scrollTop >= 0 && scrollTop < heightPage) { onPage = btn1; }
-            else if (scrollTop >= heightPage && scrollTop < heightPage * 2) { onPage = btn2; }
-            else if (scrollTop >= heightPage * 2 && scrollTop < heightPage * 3) { onPage = btn3; }
-            else if (scrollTop >= heightPage * 3 && scrollTop < heightPage * 4) { onPage = btn4; }
-    
-            btn1.css("color", "white");
-            btn2.css("color", "white");
-            btn3.css("color", "white");
-            btn4.css("color", "white");
-            
-            //btn1.hover(function () { btn1.css("backgroundColor", "red"); })
-            //btn2.css("backgroundColor", "transparent");
-            //btn3.css("backgroundColor", "transparent");
-            //btn4.css("backgroundColor", "transparent");
-            //background-color: #FFBF00;
-            
-            onPage.css("color", "red")
+
+    var heightPage = page1.height();
+    page2.css( "top", heightPage );
+    page3.css( "top", heightPage*2 );
+    page4.css( "top", heightPage * 3);
+
+    setTimeout(function () { $("#right_man_div #think").css("display", "block") }, 5000);
+    setTimeout(function () { $("#right_man_div #think").css("display", "none") }, 15000);
+
+    // Scroll page
+    btn1.css("border", "1px solid white");
+    document.addEventListener('wheel', function (e) {
+        btn1.css("border", "1px solid transparent");
+        btn2.css("border", "1px solid transparent");
+        btn3.css("border", "1px solid transparent");
+        btn4.css("border", "1px solid transparent");
+
+        var st = $(this).scrollTop();
+        if( e.deltaY > 0 )
+        {
+            //alert("Down");
+            if (st >= 0 && st < heightPage - 1) {
+                $("#header").css( "position", "fixed" );
+                $("#header").css( "top", "5px" );
+                btn2.css("border", "1px solid white");
+                $('body,html').animate({ scrollTop: heightPage }, 100); }
+            else if (st >= heightPage - 1 && st < heightPage) {
+                btn3.css("border", "1px solid white");
+                $('body,html').animate({ scrollTop: heightPage*2 }, 100); }
+            else if (st >= heightPage * 2 - 1 && st < heightPage * 3) {
+                btn4.css("border", "1px solid white");
+                $('body,html').animate({ scrollTop: heightPage * 3 }, 100); }
         }
-    }, 200);
+        else
+        {
+            //alert("Up");
+            if (st >= heightPage * 2 && st < heightPage * 3) {
+                btn3.css("border", "1px solid white");
+                $('body,html').animate({ scrollTop: heightPage*2 - 1 }, 100); }
+            else if (st >= heightPage && st < heightPage * 2) {
+                btn2.css("border", "1px solid white");
+                $('body,html').animate({ scrollTop: heightPage-1 }, 100); }
+            else if (st >= 0 && st < heightPage) {
+                $("#header").css("position", "absolute");
+                $("#header").css("top", heightPage - 53);
+                btn1.css("border", "1px solid white");
+                $('body,html').animate({ scrollTop: 0 }, 100); }
+        }
+    });
+
 
     $("#header button").click(function () {
         var target = $(this).attr("data-target");
         var top = $(target).offset().top;
         //alert(top);
+
+        btn1.css("border", "1px solid transparent");
+        btn2.css("border", "1px solid transparent");
+        btn3.css("border", "1px solid transparent");
+        btn4.css("border", "1px solid transparent");
+
+        if ( top > -1 && top < 1 ) {
+            $("#header").css("position", "absolute");
+            $("#header").css("top", heightPage - 53);
+
+            btn1.css("border", "1px solid white");
+        } else {
+            switch (target)
+            {
+                case "#page2":
+                    btn2.css("border", "1px solid white");
+                    break;
+                case "#page3":
+                    btn3.css("border", "1px solid white");
+                    break;
+                case "#page4":
+                    btn4.css("border", "1px solid white");
+                    break;
+            }
+            $("#header").css("position", "fixed");
+            $("#header").css("top", "5px");
+        }
+        
         $('body,html').animate({ scrollTop: top }, 500);
     })
 

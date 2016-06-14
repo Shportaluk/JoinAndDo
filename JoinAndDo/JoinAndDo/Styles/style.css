@@ -20,7 +20,7 @@ body
  width: 100%;
  transition: 0.5s;
  
- z-index: 5;
+ z-index: 999;
 }
 #header_text
 {
@@ -45,16 +45,20 @@ body
     padding: 6px 10px;
 
     color: white;
-    border: none;
+    border: 1px solid transparent;
     text-shadow: 0 0 1px #2E2E2E;
     background-color: transparent;
+
+    
+    transition: .5s;
 }
 #header button:hover {
-    color: white;
-    text-shadow: 0 0 1px white;
-    background-color: #FFBF00;
-    box-shadow: 0 5px 10px #BDBDBD;
+    color: #FF8000;
+    border-color: #FF8000;
+    text-shadow: 0 0 10px #FF8000;
+    transition: .1s;
 }
+#header button:focus { outline: none; }
 #header button:nth-child(1) { margin-left: 35px; }
 
 
