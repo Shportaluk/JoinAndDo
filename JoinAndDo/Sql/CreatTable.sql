@@ -4,9 +4,10 @@ USE JoinAndDo
 CREATE TABLE Users
 (
 	Id INT IDENTITY( 1, 1 ),
-	Name NVARCHAR( 20 ),
 	Login NVARCHAR( 20 ),
 	Pass NVARCHAR( 20 ),
+	FirstName NVARCHAR( 20 ),
+	LastName NVARCHAR( 15 ),
 	Hash NVARCHAR( 100 )
 );
 
@@ -64,12 +65,14 @@ INSERT INTO Deals_accession VALUES ( 'Test Title #1', 'Looking started he up per
 CREATE PROC registration
   @login NVARCHAR(20),
   @pass NVARCHAR(20),
+  @firstName NVARCHAR(20),
+  @lastName NVARCHAR(20),
   @res NVARCHAR(30) OUTPUT
 AS
 SELECT @res = 's'
 IF ((SELECT COUNT(*) FROM Users where Login = @login ) = 0)
 BEGIN
-	INSERT INTO Users VALUES( '', @login, @pass, null );
+	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null );
 	SELECT @res = 'OK'
 END
 ELSE
@@ -77,7 +80,7 @@ ELSE
 GO
 
 DECLARE @res NVARCHAR(30)
-EXEC registration @login = '5', @pass = 'a', @res = @res OUTPUT
+EXEC registration @login = 'Anonymus', @pass = '123456', @firstName = 'Andriy', @lastName = 'Shportaluk', @res = @res OUTPUT
 SELECT @res
 
 DROP PROC registration

@@ -25,9 +25,9 @@ namespace JoinAndDo.Repositoryes
             _con = new SqlConnection( _conStr );
         }
 
-        public string Registration( string login, string pass )
+        public string Registration( string login, string pass, string firstName, string lastName )
         {
-            _cmdRegistration = new SqlCommand( "DECLARE @res NVARCHAR(30) EXEC registration @login = '" + login + "', @pass = '" + pass + "', @res = @res OUTPUT SELECT @res" );
+            _cmdRegistration = new SqlCommand( "DECLARE @res NVARCHAR(30) EXEC registration @login = '" + login + "', @pass = '" + pass + "', @firstName = '"+ firstName +"', @lastName = '" + lastName + "', @res = @res OUTPUT SELECT @res");
             _cmdRegistration.Connection = _con;
             _con.Open();
             SqlDataReader reader = _cmdRegistration.ExecuteReader();
@@ -64,7 +64,7 @@ namespace JoinAndDo.Repositoryes
         {
             User user = new User();
 
-            using ( _cmdUser = new SqlCommand( "SELECT Login, Name, Hash FROM Users where Login = '" + login + "' and Pass = '" + pass + "'") )
+            using ( _cmdUser = new SqlCommand( "SELECT Login, FirstName, LastName, Hash FROM Users where Login = '" + login + "' and Pass = '" + pass + "'") )
             {
                 _cmdUser.Connection = _con;
                 _con.Open();
@@ -73,8 +73,9 @@ namespace JoinAndDo.Repositoryes
                 while (reader.Read())
                 {
                     user.login = reader[0].ToString();
-                    user.name = reader[1].ToString();
-                    user.hash = reader[2].ToString();
+                    user.firstName = reader[1].ToString();
+                    user.lastName = reader[2].ToString();
+                    user.hash = reader[3].ToString();
                 }
                 _con.Close();
                 return user;

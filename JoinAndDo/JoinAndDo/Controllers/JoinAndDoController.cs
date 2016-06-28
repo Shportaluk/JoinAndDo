@@ -15,13 +15,19 @@ namespace JoinAndDo.Controllers
             //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
             return View();
         }
-        public ActionResult Login()
+        public ActionResult Login( string login, string pass )
         {
-            var login = Request.Params["login"].Split( new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries )[0];
-            var pass = Request.Params["pass"];
-            User user = sqlRepository.Authentication( login, pass );
-            user.hash = sqlRepository.SetHash( login, pass );
 
+            string res = "OK";
+            //var login = Request.Params["login"].Split( new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries )[0];
+            //var pass = Request.Params["pass"];
+            User user = sqlRepository.Authentication( login, pass );
+            if (user.login == null)
+            {
+                res = "Invalid name or password";
+                return Content(res);
+            }
+            user.hash = sqlRepository.SetHash( login, pass );
             #region cookies
             var cookieLogin = new HttpCookie("cookieLogin")
             {
@@ -36,15 +42,12 @@ namespace JoinAndDo.Controllers
             Response.SetCookie(cookieLogin);
             Response.SetCookie(cookieHash);
             #endregion
-
-            //TempData["LeftBoxesCssDisplay"] = "block";
-
-            return RedirectToAction("/Index");
+            return Content(res);
         }
         [HttpPost]
-        public ActionResult Registration( string login, string pass )
+        public ActionResult Registration( string login, string pass, string firstName, string lastName )
         {
-            string res = sqlRepository.Registration( login, pass );
+            string res = sqlRepository.Registration( login, pass, firstName, lastName );
             return Content(res);
         }
         public void Logout( string login, string hash )

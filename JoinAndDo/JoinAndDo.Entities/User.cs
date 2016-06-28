@@ -9,7 +9,8 @@ namespace JoinAndDo.Entities
     public class User
     {
         public string login;
-        public string name;
+        public string firstName;
+        public string lastName;
         public string hash;
 
         public User()

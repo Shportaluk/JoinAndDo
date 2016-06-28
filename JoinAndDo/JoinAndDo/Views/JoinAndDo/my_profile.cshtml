@@ -1,15 +1,19 @@
 ﻿@{
-    ViewBag.Title = "Join And Do";
+    ViewBag.Title = "My Profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@using JoinAndDo.Entities
+@{
+    User user = ViewBag.User;
+}
 <link href="~/Styles/style_my_profile.css" rel="stylesheet" />
 <script src="~/Scripts/sc_my_profile.js"></script>
 
 <div id="blocks">
     <div id="information">
-        <img src="~/Styles/images/profile.png" id="img_profile" alt=" " />
-        <p id="full_name">Andriy Shportaluk</p>
+        <img src="~/Styles/images/profile.png" id="img_profile" alt="test" />
+        <p id="full_name">@user.lastName</p>
 
         <div id="Statistics">
             <div class="statictic">
@@ -48,6 +52,4 @@
             </div>
         </div>
     </div>
-    
-    <!---->
 </div>
