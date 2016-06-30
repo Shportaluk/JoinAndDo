@@ -90,10 +90,24 @@ namespace JoinAndDo.Controllers
         {
             return View();
         }
-        public ActionResult my_profile()
+        public ActionResult peopleId( int? id )
         {
+            if (id == null)
+            {
+                return RedirectToAction("/NoUser");
+            }
+            User user = sqlRepository.GetUserById( id.ToString() );
+            if( user != null )
+            {
+                ViewBag.user = user;
+            }
+            else
+            {
+                return RedirectToAction( "/NoUser" );
+            }
             return View();
         }
+        
         public ActionResult deals_accession()
         {
             ViewBag.listDealsAccession = sqlRepository.GetAllFromDealsAccession();

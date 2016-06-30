@@ -228,9 +228,7 @@ function Login(l, p) {
         data: JSON.stringify({ login: l, pass: p }),
         success: function (res) {
             if (res == "OK") {
-                var NestId = $(this).data('id');
-                var url = "/JoinAndDo/my_profile?NestId=" + NestId;
-                window.location.href = url;
+                window.location.href = "/JoinAndDo/my_profile";
             }
             else {
                 $("#login_error").text(res);

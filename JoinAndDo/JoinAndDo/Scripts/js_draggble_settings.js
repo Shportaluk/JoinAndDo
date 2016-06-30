@@ -17,29 +17,31 @@
 
     SetLocalStorage();
     
+    
     if ( cookieLogin != "" && cookieHash != "" ) {
         // if log in
         $("#name").text( cookieLogin );
-        $( "#logout" ).css( "display", "block" );
-        $( "#registration" ).css( "display", "none" );
-        $( "#login" ).css( "display", "none" );
-        localStorage.setItem("leftBoxes_X", "0");
-        if ( GetStatus( rightBoxes ) == "left" ) {
-            localStorage.setItem("rightBoxes_Y", "190");
-            localStorage.setItem("rightBoxes_X", "0");
-        }
+        //$( "#logout" ).css( "display", "block" );
+        //$( "#registration" ).css( "display", "none" );
+        //$( "#login" ).css( "display", "none" );
+        //localStorage.setItem("leftBoxes_X", "20");
+        //if ( GetStatus( rightBoxes ) == "left" ) {
+        //    localStorage.setItem("rightBoxes_Y", "190");
+        //    localStorage.setItem("rightBoxes_X", "20");
+        //}
     } else {
         // if log out
-        $( "#logout" ).css( "display", "none" );
-        $( "#registration" ).css( "display", "block" );
-        $( "#login" ).css( "display", "block" );
+        //$( "#logout" ).css( "display", "none" );
+        //$( "#registration" ).css( "display", "block" );
+        //$( "#login" ).css( "display", "block" );
     
         boxesLeft_show.css("display", "none");
         localStorage.setItem("leftBoxesStatus", "show");
         localStorage.setItem( "leftBoxes_X", "-500" );
         if( GetStatus( rightBoxes ) == "left" )
         {
-            localStorage.setItem("rightBoxes_Y", "0");
+            localStorage.setItem("rightBoxes_Y", "20");
+            blocks.css("marginRight", "10px");
         }
     }
     
@@ -161,13 +163,13 @@ function GetStatus(boxes) {
     var boxesPosition = boxes.position();
     if (boxes.css("display") == "none") { return "hide"; }
     if (boxesPosition.left > screen.width - 350) { return "right"; }
-    else if (boxesPosition.left < 200 && boxesPosition.left >= -10) { return "left"; }
+    else if (boxesPosition.left < 200 && boxesPosition.left <= 0) { return "left"; }
     else { return "hide" };
 }
 function IsTouchLeft( boxes )
 {
     var boxesPosition = boxes.position();
-    if( boxesPosition.left <= -10 )
+    if( boxesPosition.left <= 0 )
     { return true; }
     return false;
 }
@@ -175,6 +177,6 @@ function ShowBoxes( boxes, img )
 {
     img.css("display", "none");
     boxes.animate({
-        left: "0px"
+        left: "20px"
     }, 275);
 }

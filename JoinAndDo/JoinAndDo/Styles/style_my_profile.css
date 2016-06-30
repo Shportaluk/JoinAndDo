@@ -6,10 +6,10 @@
 
 #information
 {
- overflow: hidden;
- width: 100%;
- background-color: rgba(129, 247, 243, 0.3);
- height: 400px;
+    overflow: hidden;
+    width: 100%;
+    background-color: rgba(129, 247, 243, 0.3);
+    height: 400px;
 }
 
 #img_profile {

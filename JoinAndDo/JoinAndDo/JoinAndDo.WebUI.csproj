@@ -112,6 +112,7 @@
     <Content Include="Styles\images\tick_orange_hover.png" />
     <Content Include="Styles\style.css" />
     <Content Include="Styles\style_deals_accession.css" />
+    <Content Include="Styles\style_index.css" />
     <Content Include="Styles\style_my_accession.css" />
     <Content Include="Styles\style_my_messages.css" />
     <Content Include="Styles\style_my_profile.css" />
@@ -134,7 +135,7 @@
     <Content Include="Views\JoinAndDo\Index.cshtml" />
     <Content Include="Views\JoinAndDo\my_accession.cshtml" />
     <Content Include="Views\JoinAndDo\my_message.cshtml" />
-    <Content Include="Views\JoinAndDo\my_profile.cshtml" />
+    <Content Include="Views\JoinAndDo\peopleId.cshtml" />
     <Content Include="Views\JoinAndDo\test.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\JoinAndDo\layout.cshtml" />

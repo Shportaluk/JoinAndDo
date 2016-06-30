@@ -15,6 +15,9 @@ namespace JoinAndDo.Repositoryes
         private SqlCommand _cmdDeleteHash = new SqlCommand();
         private SqlCommand _cmdSetHash = new SqlCommand();
         private SqlCommand _cmdGetHash = new SqlCommand();
+
+        // Get
+        private SqlCommand _cmdGetUserById;
         private SqlCommand _cmdJoins = new SqlCommand("SELECT * FROM Joins");
         private SqlCommand _cmdMyAccession = new SqlCommand("SELECT * FROM My_accession");
         private SqlCommand _cmdDealsAccession = new SqlCommand("SELECT * FROM Deals_accession");
@@ -103,6 +106,28 @@ namespace JoinAndDo.Repositoryes
             
 
             return hash;
+        }
+
+        public User GetUserById(string iD)
+        {
+            User user = null;
+            using (_cmdGetUserById = new SqlCommand( "SELECT Login, FirstName, LastName FROM Users where Id = " + iD ))
+            {
+                _cmdGetUserById.Connection = _con;
+                _con.Open();
+                SqlDataReader reader = _cmdGetUserById.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    user = new User();
+                    user.login = reader[0].ToString();
+                    user.firstName = reader[1].ToString();
+                    user.lastName = reader[2].ToString();
+                }
+
+                _con.Close();
+            }
+            return user;
         }
         public List<JoinsEntity> GetAllFromJoins(  )
         {
