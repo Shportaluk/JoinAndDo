@@ -19,7 +19,7 @@
 
     <script src="~/Scripts/js_draggble_settings.js"></script>
     <script src="~/Scripts/sc_link.js"></script>
-
+    <script src="~/Scripts/js_sms.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -43,42 +43,51 @@
             });
         }
     </script>
-
-
-        <div id="boxesLeft_show">
-            <img src="~/Styles/images/arrow-right.png" />
+    <div id="header">
+        <div name="JoinAndDo">
+            JoinAndDO
         </div>
-        <div id="left_boxes">
+        <form id="form_search" action="Search" method="get">
+            <input type="text" name="txt_search" />
+            <input type="submit" value="Search">
+        </form>
+        <div name="exit">Exit</div>
+    </div>
 
-            <div id="boxesLeft_hide">
-                <img src="~/Styles/images/arrow-left.png" />
-            </div>
+    <div id="array_sms" >
+        <audio id="new_msg_sound" src="~/Scripts/new_msg.ogg"></audio>
+    </div>
+    <div id="left_boxes">
 
-            <a href="/JoinAndDo/my_profile" id="name">-</a>
-            <a href="/JoinAndDo/my_message">My message</a>
-            <a href="/JoinAndDo/my_accession">My accession</a>
-            <a href="/JoinAndDo/deals_accession">Deals accession</a>
+        <div id="boxesLeft_hide">
+            <img src="~/Styles/images/arrow-left.png" />
         </div>
 
+        <a href="/JoinAndDo/" id="name">-</a>
+        <a href="/JoinAndDo/my_message">My message</a>
+        <a href="/JoinAndDo/my_accession">My accession</a>
+        <a href="/JoinAndDo/deals_accession">Deals accession</a>
+    </div>
 
-        <div id="boxesRight_show">
-            <img src="~/Styles/images/arrow-right.png" />
+
+    <div id="boxesRight_show">
+        <img src="~/Styles/images/arrow-right.png" />
+    </div>
+    <div id="right_boxes">
+
+        <div id="boxesRight_hide">
+            <img src="~/Styles/images/arrow-left.png" />
         </div>
-        <div id="right_boxes">
 
-            <div id="boxesRight_hide">
-                <img src="~/Styles/images/arrow-left.png" />
-            </div>
-
-            <p>Select Category</p>
-            <a href="test">Category #1</a>
-            <a href="test">Category #2</a>
-            <a href="test">Category #3</a>
-            <a href="test">Category #4</a>
-            <a href="test">Category #5</a>
-            <a href="test">Category #6</a>
-            <a href="test">Category #7</a>
-        </div>
+        <p>Select Category</p>
+        <a href="test">Category #1</a>
+        <a href="test">Category #2</a>
+        <a href="test">Category #3</a>
+        <a href="test">Category #4</a>
+        <a href="test">Category #5</a>
+        <a href="test">Category #6</a>
+        <a href="test">Category #7</a>
+    </div>
 
     <div id="layout">
         @RenderBody()

@@ -11,11 +11,94 @@ body
  background-attachment: fixed;
 }
 
+#header {
+    width: 100%;
+    height: 50px;
+    
+    background-color: rgba(0,0,0,0.5);
+}
+
+#header #form_search {
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    height: 40px;
+    width: 500px;
+    padding: 5px;
+}
+#header #form_search input[name="txt_search"] {
+    width: 400px;
+    height: 25px;
+    margin: 5px;
+}
+#header #form_search input[type="submit"] {
+    width: 65px;
+    height: 30px;
+    margin: 5px;
+    
+    color: white;
+
+    border-color: transparent;
+    background-color: rgba(0,0,0,0.5);
+
+}
+
+#header div{
+    position: absolute;
+
+    height: 34px;
+    
+    font-size: 30px;
+    font-family: Expand;
+    overflow: hidden;
+    color: white;
+    cursor: pointer;
+    padding: 8px 35px;
+
+    transition: .2s;
+}
+#header div[name="exit"] { background-color: rgba(0,0,0,0.5); right: 10px; }
+#header div[name="exit"]:hover{
+    color: black;
+    background-color: white;
+    box-shadow: 0 0 25px black;
+}
+#header div[name="JoinAndDo"]:hover{ text-shadow: 0 0 5px white; }
+
+#array_sms {
+    position: absolute;
+    bottom: 10px;
+}
+.sms{
+    position: relative;
+    bottom: 5px;
+    left: 5px;
+
+    width: 300px;
+    height: 120px;
+    
+    border-radius: 7px;
+    background-color: rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px;
+}
+.sms .name_sender{
+    color: white;
+    font-family: Caviar_Dreams_Bold;
+    cursor: pointer;
+    margin: 10px 10px 0px;
+}
+.sms .text{
+    color: white;
+    font-family: Expand;
+
+    margin: 10px 15px;
+}
+
 
 #layout {
-    background-color: transparent;
+ background-color: transparent;
  position: absolute;
- top: 0px;
+ top: 50px;
  left: 0px;
  width: 100%;
  height: 80%;

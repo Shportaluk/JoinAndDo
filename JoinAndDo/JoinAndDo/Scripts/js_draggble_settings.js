@@ -163,13 +163,13 @@ function GetStatus(boxes) {
     var boxesPosition = boxes.position();
     if (boxes.css("display") == "none") { return "hide"; }
     if (boxesPosition.left > screen.width - 350) { return "right"; }
-    else if (boxesPosition.left < 200 && boxesPosition.left <= 0) { return "left"; }
+    else if (boxesPosition.left < 200 && boxesPosition.left >= 0) { return "left"; }
     else { return "hide" };
 }
 function IsTouchLeft( boxes )
 {
     var boxesPosition = boxes.position();
-    if( boxesPosition.left <= 0 )
+    if( boxesPosition.left == 0 )
     { return true; }
     return false;
 }

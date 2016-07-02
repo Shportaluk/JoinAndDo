@@ -17,7 +17,9 @@ namespace JoinAndDo.Repositoryes
         private SqlCommand _cmdGetHash = new SqlCommand();
 
         // Get
+        private SqlCommand _cmdGetLastMessages;
         private SqlCommand _cmdGetUserById;
+        private SqlCommand _cmdGetCountMessages;
         private SqlCommand _cmdJoins = new SqlCommand("SELECT * FROM Joins");
         private SqlCommand _cmdMyAccession = new SqlCommand("SELECT * FROM My_accession");
         private SqlCommand _cmdDealsAccession = new SqlCommand("SELECT * FROM Deals_accession");
@@ -27,6 +29,7 @@ namespace JoinAndDo.Repositoryes
         {
             _con = new SqlConnection( _conStr );
         }
+
 
         public string Registration( string login, string pass, string firstName, string lastName )
         {
@@ -108,6 +111,40 @@ namespace JoinAndDo.Repositoryes
             return hash;
         }
 
+        public string GetLastMessages( string login, string hash )
+        {
+            string res = "";
+            string comm = "SELECT TOP 1 Name, Text  FROM Messages WHERE Id_user = ( SELECT Id FROM Users WHERE Login = '" + login + "' and Hash = '" + hash + "' ) ORDER BY Id DESC";
+            _cmdGetLastMessages = new SqlCommand(comm);
+            _cmdGetLastMessages.Connection = _con;
+            _con.Open();
+
+            SqlDataReader reader = _cmdGetLastMessages.ExecuteReader();
+            while (reader.Read())
+            {
+                res = reader[0].ToString() + ":" + reader[1].ToString();
+            }
+
+            _con.Close();
+            return res;
+        }
+        public string GetCountMessages(string login, string hash)
+        {
+            string count = "-";
+            _cmdGetCountMessages = new SqlCommand("DECLARE @res INT EXEC GetCountMessages @login = '" + login + "', @hash = '" + hash + "', @res = @res OUTPUT SELECT @res");
+            _cmdGetCountMessages.Connection = _con;
+            _con.Open();
+
+            SqlDataReader reader = _cmdGetCountMessages.ExecuteReader();
+            while (reader.Read())
+            {
+                count = reader[0].ToString();
+            }
+
+            _con.Close();
+
+            return count;
+        }
         public User GetUserById(string iD)
         {
             User user = null;

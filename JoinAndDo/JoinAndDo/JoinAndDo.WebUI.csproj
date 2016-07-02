@@ -85,6 +85,8 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\js_draggble_settings.js" />
     <Content Include="Scripts\js_singl_page_move.js" />
+    <Content Include="Scripts\js_sms.js" />
+    <Content Include="Scripts\new_msg.mp3" />
     <Content Include="Scripts\sc_link.js" />
     <Content Include="Scripts\sc_my_profile.js" />
     <Content Include="Styles\adapt.css" />
@@ -142,6 +144,7 @@
     <Content Include="Styles\Fonts\Expand.ttf" />
     <Content Include="Styles\Fonts\Peer.ttf" />
     <Content Include="Styles\Fonts\basic.ttf" />
+    <Content Include="Scripts\new_msg.ogg" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

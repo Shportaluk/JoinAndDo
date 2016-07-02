@@ -15,6 +15,14 @@ namespace JoinAndDo.Controllers
             //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
             return View();
         }
+        public string GetLastMessages( string login, string hash )
+        {
+            return sqlRepository.GetLastMessages( login, hash );
+        }
+        public string CheckSms(string login, string hash )
+        {
+            return sqlRepository.GetCountMessages(login, hash);
+        }
         public ActionResult Login( string login, string pass )
         {
 
