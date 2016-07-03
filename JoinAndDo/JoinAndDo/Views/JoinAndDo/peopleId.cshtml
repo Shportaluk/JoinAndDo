@@ -13,6 +13,14 @@
 <div id="blocks">
     <div id="information">
         <img src="~/Styles/images/profile.png" id="img_profile" alt="test" />
+        
+        <div id="form_write_msg">
+            <p>To:</p>
+            <p id="recipient_name">@user.login</p>
+            <textarea id="txt_msg" ></textarea>
+            <button id="btn_send_msg" onclick="SendMsg()">Send</button>
+            <button id="close" onclick="HideFormWriteMsg()">Close</button>
+        </div>
         <p id="full_name">@user.lastName @user.firstName</p>
 
         <div id="Statistics">

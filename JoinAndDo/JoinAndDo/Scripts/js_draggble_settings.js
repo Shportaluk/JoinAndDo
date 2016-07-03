@@ -10,6 +10,7 @@
     
     
     boxesRight_show.css("top", rightBoxes.position().top);
+    var cookieId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var cookieLogin = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
@@ -20,13 +21,14 @@
     
     if ( cookieLogin != "" && cookieHash != "" ) {
         // if log in
-        $("#name").text( cookieLogin );
+        $("#name").text(cookieLogin);
+        $("#name").attr( "href", "/JoinAndDo/peopleId/" + cookieId );
         //$( "#logout" ).css( "display", "block" );
         //$( "#registration" ).css( "display", "none" );
         //$( "#login" ).css( "display", "none" );
-        //localStorage.setItem("leftBoxes_X", "20");
+        //localStorage.setItem("leftBoxes_Y", "20");
         //if ( GetStatus( rightBoxes ) == "left" ) {
-        //    localStorage.setItem("rightBoxes_Y", "190");
+        //localStorage.setItem("rightBoxes_Y", "190");
         //    localStorage.setItem("rightBoxes_X", "20");
         //}
     } else {
@@ -35,14 +37,14 @@
         //$( "#registration" ).css( "display", "block" );
         //$( "#login" ).css( "display", "block" );
     
-        boxesLeft_show.css("display", "none");
-        localStorage.setItem("leftBoxesStatus", "show");
-        localStorage.setItem( "leftBoxes_X", "-500" );
-        if( GetStatus( rightBoxes ) == "left" )
-        {
-            localStorage.setItem("rightBoxes_Y", "20");
-            blocks.css("marginRight", "10px");
-        }
+        //boxesLeft_show.css("display", "none");
+        //localStorage.setItem("leftBoxesStatus", "show");
+        //localStorage.setItem( "leftBoxes_X", "-500" );
+        //if( GetStatus( rightBoxes ) == "left" )
+        //{
+        //    localStorage.setItem("rightBoxes_Y", "20");
+        //    blocks.css("marginRight", "10px");
+        //}
     }
     
     SetLocalStorage();

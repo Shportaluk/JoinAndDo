@@ -145,6 +145,8 @@
     <Content Include="Styles\Fonts\Peer.ttf" />
     <Content Include="Styles\Fonts\basic.ttf" />
     <Content Include="Scripts\new_msg.ogg" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\JoinAndDo\NoUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -16,6 +16,10 @@ namespace JoinAndDo.Repositoryes
         private SqlCommand _cmdSetHash = new SqlCommand();
         private SqlCommand _cmdGetHash = new SqlCommand();
 
+        // Send
+        private SqlCommand _cmdSendMsg;
+
+
         // Get
         private SqlCommand _cmdGetLastMessages;
         private SqlCommand _cmdGetUserById;
@@ -70,7 +74,7 @@ namespace JoinAndDo.Repositoryes
         {
             User user = new User();
 
-            using ( _cmdUser = new SqlCommand( "SELECT Login, FirstName, LastName, Hash FROM Users where Login = '" + login + "' and Pass = '" + pass + "'") )
+            using ( _cmdUser = new SqlCommand( "SELECT Id, Login, FirstName, LastName, Hash FROM Users where Login = '" + login + "' and Pass = '" + pass + "'") )
             {
                 _cmdUser.Connection = _con;
                 _con.Open();
@@ -78,10 +82,11 @@ namespace JoinAndDo.Repositoryes
 
                 while (reader.Read())
                 {
-                    user.login = reader[0].ToString();
-                    user.firstName = reader[1].ToString();
-                    user.lastName = reader[2].ToString();
-                    user.hash = reader[3].ToString();
+                    user.id = reader[0].ToString();
+                    user.login = reader[1].ToString();
+                    user.firstName = reader[2].ToString();
+                    user.lastName = reader[3].ToString();
+                    user.hash = reader[4].ToString();
                 }
                 _con.Close();
                 return user;
@@ -95,6 +100,7 @@ namespace JoinAndDo.Repositoryes
             SqlDataReader reader = _cmdDeleteHash.ExecuteReader();
             _con.Close();
         }
+
         public string SetHash( string login, string pass )
         {
             Guid g = Guid.NewGuid();
@@ -110,7 +116,17 @@ namespace JoinAndDo.Repositoryes
 
             return hash;
         }
-
+        public string SendMsg( string login, string hash, string to, string text )
+        {
+            string res = "-";
+            _cmdSendMsg = new SqlCommand("DECLARE @res NVARCHAR(20) EXEC SendMsg @login = '"+login+"', @hash = '"+hash+"', @to = '"+to+"', @text = '"+text+"', @res = @res OUTPUT SELECT @res" );
+            _cmdSendMsg.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = _cmdSendMsg.ExecuteReader();
+            _con.Close();
+            
+            return res;
+        }
         public string GetLastMessages( string login, string hash )
         {
             string res = "";

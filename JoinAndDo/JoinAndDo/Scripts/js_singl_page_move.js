@@ -228,7 +228,8 @@ function Login(l, p) {
         data: JSON.stringify({ login: l, pass: p }),
         success: function (res) {
             if (res == "OK") {
-                window.location.href = "/JoinAndDo/my_profile";
+                var cookieId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+                window.location.href = "/JoinAndDo/peopleId/" + cookieId;
             }
             else {
                 $("#login_error").text(res);

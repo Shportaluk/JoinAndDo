@@ -15,17 +15,8 @@ namespace JoinAndDo.Controllers
             //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
             return View();
         }
-        public string GetLastMessages( string login, string hash )
-        {
-            return sqlRepository.GetLastMessages( login, hash );
-        }
-        public string CheckSms(string login, string hash )
-        {
-            return sqlRepository.GetCountMessages(login, hash);
-        }
         public ActionResult Login( string login, string pass )
         {
-
             string res = "OK";
             //var login = Request.Params["login"].Split( new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries )[0];
             //var pass = Request.Params["pass"];
@@ -37,6 +28,11 @@ namespace JoinAndDo.Controllers
             }
             user.hash = sqlRepository.SetHash( login, pass );
             #region cookies
+            var cookieId = new HttpCookie("cookieId")
+            {
+                Name = "id",
+                Value = user.id
+            };
             var cookieLogin = new HttpCookie("cookieLogin")
             {
                 Name = "login",
@@ -47,6 +43,7 @@ namespace JoinAndDo.Controllers
                 Name = "hash",
                 Value = user.hash
             };
+            Response.SetCookie(cookieId);
             Response.SetCookie(cookieLogin);
             Response.SetCookie(cookieHash);
             #endregion
@@ -102,7 +99,7 @@ namespace JoinAndDo.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction("/NoUser");
+                //return RedirectToAction("/NoUser");
             }
             User user = sqlRepository.GetUserById( id.ToString() );
             if( user != null )
@@ -111,11 +108,14 @@ namespace JoinAndDo.Controllers
             }
             else
             {
-                return RedirectToAction( "/NoUser" );
+                //return RedirectToAction( "/NoUser" );
             }
             return View();
         }
-        
+        public ActionResult NoUser()
+        {
+            return View();
+        }
         public ActionResult deals_accession()
         {
             ViewBag.listDealsAccession = sqlRepository.GetAllFromDealsAccession();
@@ -128,6 +128,20 @@ namespace JoinAndDo.Controllers
         public ActionResult layout()
         {
             return View();
+        }
+
+
+        public string GetLastMessages(string login, string hash)
+        {
+            return sqlRepository.GetLastMessages(login, hash);
+        }
+        public string CheckSms(string login, string hash)
+        {
+            return sqlRepository.GetCountMessages(login, hash);
+        }
+        public string SendMsg(string login, string hash, string to, string text)
+        {
+            return sqlRepository.SendMsg( login, hash, to, text );
         }
     }
 }

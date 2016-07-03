@@ -3,7 +3,7 @@
     var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
     $.ajax({
-        url: 'CheckSms',
+        url: '/JoinAndDo/CheckSms',
         type: 'POST',
         contentType: 'application/json;',
         data: JSON.stringify({ login: l, hash: h }),
@@ -54,7 +54,7 @@ function GetLastMessages(handleData)
     var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
     $.ajax({
-        url: 'GetLastMessages',
+        url: '/JoinAndDo/GetLastMessages',
         type: 'POST',
         contentType: 'application/json;',
         data: JSON.stringify({ login: l, hash: h }),

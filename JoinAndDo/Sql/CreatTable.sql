@@ -1,4 +1,3 @@
-CREATE DATABASE JoinAndDo
 USE JoinAndDo
 
 CREATE TABLE Users
@@ -16,30 +15,6 @@ CREATE TABLE Messages (
 	Text NVARCHAR ( 1000 ),
 	Id_user INT
 );
-
-INSERT INTO Messages VALUES( 'jeka', 'sdgh', 2 )
-
-SELECT * FROM USERS
-SELECT * FROM Messages WHERE Id_user = 2
-SELECT count(*) FROM Messages WHERE Id_user = 2
-SELECT TOP 1 * from Messages WHERE Id_user = 2 ORDER BY Id DESC 
-
-SELECT TOP 1 Name, Text  FROM Messages WHERE Id_user = ( SELECT Id FROM Users WHERE Login = 'asd' and Hash = 'onWGh8qZEE6TjmTlQwOE6w' ) ORDER BY Id DESC 
-
-CREATE PROC GetCountMessages
-  @login NVARCHAR(20),
-  @hash NVARCHAR(100),
-  @res INT OUTPUT
-AS
-SELECT @res = 0
-DECLARE @id INT
-SET @id = ( SELECT Id FROM Users WHERE Login = @login and Hash = @hash )
-SELECT count(*) FROM Messages WHERE Id_user = @id
-
-DECLARE @res INT
-EXEC GetCountMessages @login = 'asd', @hash = 'onWGh8qZEE6TjmTlQwOE6w', @res = @res OUTPUT
-SELECT @res
-
 
 CREATE TABLE Joins
 (
@@ -89,30 +64,6 @@ INSERT INTO Deals_accession VALUES ( 'Test Title #1', 'Looking started he up per
 INSERT INTO Deals_accession VALUES ( 'Test Title #1', 'Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.', 'Nazar Sendder', 7, 7 )
 
 
-
-CREATE PROC registration
-  @login NVARCHAR(20),
-  @pass NVARCHAR(20),
-  @firstName NVARCHAR(20),
-  @lastName NVARCHAR(20),
-  @res NVARCHAR(30) OUTPUT
-AS
-SELECT @res = 's'
-IF ((SELECT COUNT(*) FROM Users where Login = @login ) = 0)
-BEGIN
-	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null );
-	SELECT @res = 'OK'
-END
-ELSE
-	SELECT @res = 'user is already registered'
-GO
-
-DECLARE @res NVARCHAR(30)
-EXEC registration @login = 'Anonymus', @pass = '123456', @firstName = 'Andriy', @lastName = 'Shportaluk', @res = @res OUTPUT
-SELECT @res
-
-DROP PROC registration
-DROP PROC GetCountMessages
 
 SELECT * FROM Users
 SELECT * FROM Joins

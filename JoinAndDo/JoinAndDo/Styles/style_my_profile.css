@@ -1,13 +1,61 @@
-#blocks
-{
-	box-shadow: 0 0 5px black;
+#form_write_msg {
+    
+ overflow: hidden;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    margin-left: -250px;
+    width: 500px;
+    background-color: rgba(0, 170, 250, 0.95);
+
+    opacity: 0;
+    z-index: -1;
 }
+#form_write_msg p {
+    font-family: Basic;
+    font-weight: bold;
+    font-size: 20px;
+
+    float: left;
+
+    color: white;
+    margin: 15px 20px 15px 20px;
+}
+#form_write_msg #recipient_name {
+    margin: 5px 20px 15px 20px;
+    text-shadow: 0 0 1px black;
+    box-shadow: 0 0 5px white;
+    padding: 7px;
+}
+#txt_msg {
+    width: calc( 100% - 50px );
+    height: 133px;
+    max-width: calc( 100% - 50px );
+    max-height: 500px;
+    margin: -10px 15px 44px;
+
+    border: none;
+    padding: 10px;
+}
+#btn_send_msg {
+    position: absolute;
+    width: 150px;
+    right: 15px;
+    bottom: 7px;
+}
+#close {
+    position: absolute;
+    width: 150px;
+    right: 170px;
+    bottom: 7px;
+}
+
 
 
 #information
 {
     overflow: hidden;
-    width: 100%;
+    width: 710px;
     background-color: rgba(129, 247, 243, 0.3);
     height: 400px;
 }
@@ -21,7 +69,13 @@
 	float: left;
 	box-shadow: 0 0 3px white;
 }
+#btn_WriteMsg {
+    position: absolute;
+    left: 25px;
+    top: 240px;
 
+    width: 190px;
+}
 #full_name
 {
 	color: white;
@@ -29,18 +83,16 @@
 	font-size: 50px;
     margin: 0px;
     position: absolute;
-    right: 5px;
+    left: 250px;
 }
 
 #Statistics
 {
  overflow: hidden;
- 
  padding: 0 10px 10px 10px;
  margin: 60px 15px 5px 5px;
  border: 1px solid rgba(46, 204, 250, 0.5);
 }
-
 #Statistics p
 {
  color: white;
@@ -75,27 +127,18 @@
 	border: none;
 	margin-left: 5px;
 }
-
-.like, .like:active, .like:focus, .dislike, .dislike:active, .dislike:focus {
-    outline: none;
-}
-
+.like, .like:active, .like:focus, .dislike, .dislike:active, .dislike:focus { outline: none; }
 .like
 {
 	background: url( images/like.png ) 100% 100% no-repeat;
 	transition: 0.75s;
 }
-
 .dislike
 {
 	background: url( images/dislike.png ) 100% 100% no-repeat;
 	transition: 0.75s;
 }
-
-.like:focus, .dislike:focus
-{
-	transition: 0.75s;
-}
+.like:focus, .dislike:focus { transition: 0.75s; }
 
 #completed_percentage_of_accessions,#percentage_of_accepted_connections, #percentage_of_time_working
 {
@@ -103,19 +146,32 @@
 	background-color: #2EFE2E;
 	box-shadow: -1px 0 7px black;
 }
-#completed_percentage_of_accessions
-{
-	width: 85%;
+#completed_percentage_of_accessions { width: 85%; }
+#percentage_of_accepted_connections { width: 75%; }
+#percentage_of_time_working { width: 98%; }
+
+
+@font-face {
+ font-family: Expand;
+ src: url("Fonts/Expand.ttf");
 }
-
-#percentage_of_accepted_connections
-{
-	width: 75%;
+@font-face {
+ font-family: Peer;
+ src: url( "Fonts/Peer.ttf" );
 }
-
-#percentage_of_time_working
-{
-	width: 98%;
+@font-face {
+ font-family: Pacifico;
+ src: url( "Fonts/Pacifico.ttf" );
 }
-
-
+@font-face {
+ font-family: Basic;
+ src: url( "Fonts/Basic.ttf" );
+}
+@font-face {
+ font-family: Caviar_Dreams_Bold;
+ src: url("Fonts/Caviar_Dreams_Bold.ttf");
+}
+@font-face {
+ font-family: CaviarDreams;
+ src: url("Fonts/CaviarDreams.ttf");
+}
