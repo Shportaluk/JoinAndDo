@@ -1,5 +1,6 @@
 ﻿using JoinAndDo.Entities;
 using JoinAndDo.Repositoryes;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -15,6 +16,7 @@ namespace JoinAndDo.Controllers
             //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
             return View();
         }
+        
         public ActionResult Login( string login, string pass )
         {
             string res = "OK";
@@ -93,6 +95,17 @@ namespace JoinAndDo.Controllers
         }
         public ActionResult my_message()
         {
+            string cookieLogin = HttpContext.Request.Cookies["login"].Value;
+            string cookieHash = HttpContext.Request.Cookies["hash"].Value;
+
+            List<string> interlocutors = sqlRepository.GetInterlocutors(cookieLogin);
+            List<Interlocutor> listInterlocutors = new List<Interlocutor>();
+
+            foreach (string login in interlocutors)
+            {
+                listInterlocutors.Add(new Interlocutor(login, sqlRepository.GetDialog(cookieLogin, cookieHash, login)));
+            }
+            ViewBag.listInterlocutors = listInterlocutors;
             return View();
         }
         public ActionResult peopleId( int? id )

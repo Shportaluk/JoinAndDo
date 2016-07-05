@@ -9,12 +9,17 @@ CREATE TABLE Users
 	LastName NVARCHAR( 15 ),
 	Hash NVARCHAR( 100 )
 );
+
 CREATE TABLE Messages (
 	Id INT IDENTITY( 1, 1 ),
-	Name NVARCHAR ( 20 ),
+	Login NVARCHAR ( 20 ),
 	Text NVARCHAR ( 1000 ),
-	Id_user INT
+	ToLogin NVARCHAR ( 20 ),
+	Date datetime
 );
+
+INSERT INTO Messages VALUES ( 'Anonymus', 'text3', 'asd', GETDATE() )
+SELECT TOP 1 Login, Text  FROM Messages WHERE ToLogin = 'asd' ORDER BY Id DESC
 
 CREATE TABLE Joins
 (
@@ -67,11 +72,13 @@ INSERT INTO Deals_accession VALUES ( 'Test Title #1', 'Looking started he up per
 
 SELECT * FROM Users
 SELECT * FROM Joins
+SELECT * FROM Messages
 SELECT * FROM My_accession
 SELECT * FROM Deals_accession
 UPDATE Users SET Hash = NULL where Login = '' and hash = 'hash'
 
 DROP TABLE Users
+DROP TABLE Messages
 DROP TABLE Joins
 DROP TABLE My_accession
 DROP TABLE Deals_accession

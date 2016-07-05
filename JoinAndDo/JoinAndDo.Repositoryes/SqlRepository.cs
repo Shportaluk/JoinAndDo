@@ -21,6 +21,8 @@ namespace JoinAndDo.Repositoryes
 
 
         // Get
+        private SqlCommand _cmdGetInterlocutors;
+        private SqlCommand _cmdGetDialog;
         private SqlCommand _cmdGetLastMessages;
         private SqlCommand _cmdGetUserById;
         private SqlCommand _cmdGetCountMessages;
@@ -127,10 +129,51 @@ namespace JoinAndDo.Repositoryes
             
             return res;
         }
+
+
+        public List<string> GetInterlocutors(string login)
+        {
+            List<string> interlocutors = new List<string>();
+            _cmdGetDialog = new SqlCommand("SELECT DISTINCT ToLogin FROM Messages WHERE Login = '"+login+"'");
+            _cmdGetDialog.Connection = _con;
+            _con.Open();
+
+            SqlDataReader reader = _cmdGetDialog.ExecuteReader();
+            while (reader.Read())
+            {
+                interlocutors.Add( reader[0].ToString() );
+            }
+            _con.Close();
+
+            return interlocutors;
+        }
+        public List<Message> GetDialog( string login, string hash, string LoginInterlocutor )
+        {
+            List < Message > dialog = new List<Message>();
+            //
+            string comm = "EXEC GetDialog @login = '"+login+"', @hash = '"+hash+"', @loginInterlocutor = '"+LoginInterlocutor+"'";
+            _cmdGetDialog = new SqlCommand(comm);
+            _cmdGetDialog.Connection = _con;
+            _con.Open();
+
+            SqlDataReader reader = _cmdGetDialog.ExecuteReader();
+            while (reader.Read())
+            {
+                Message msg = new Message();
+                msg.Login = reader[0].ToString();
+                msg.Text = reader[1].ToString();
+                msg.LoginInterlocutor = reader[2].ToString();
+                msg.Date = reader[3].ToString();
+                dialog.Add( msg );
+            }
+
+            _con.Close();
+            return dialog;
+        }
         public string GetLastMessages( string login, string hash )
         {
             string res = "";
-            string comm = "SELECT TOP 1 Name, Text  FROM Messages WHERE Id_user = ( SELECT Id FROM Users WHERE Login = '" + login + "' and Hash = '" + hash + "' ) ORDER BY Id DESC";
+            string comm = "SELECT TOP 1 Login, Text  FROM Messages WHERE ToLogin = ( SELECT Login FROM Users WHERE Login = '" + login + "' and Hash = '" + hash + "' ) ORDER BY Id DESC";
             _cmdGetLastMessages = new SqlCommand(comm);
             _cmdGetLastMessages.Connection = _con;
             _con.Open();

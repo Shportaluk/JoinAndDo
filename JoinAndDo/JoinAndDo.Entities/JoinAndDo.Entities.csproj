@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DealsAccession.cs" />
+    <Compile Include="Interlocutor.cs" />
     <Compile Include="JoinsEntity.cs" />
+    <Compile Include="Message.cs" />
     <Compile Include="MyAccession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />

@@ -32,30 +32,33 @@ CREATE PROC GetCountMessages
   @res INT OUTPUT
 AS
 SELECT @res = 0
-DECLARE @id INT
-SET @id = ( SELECT Id FROM Users WHERE Login = @login and Hash = @hash )
-SELECT count(*) FROM Messages WHERE Id_user = @id
+
+IF (( SELECT COUNT(*) FROM Users WHERE Login = @login and Hash = @hash ) = 1 )
+BEGIN
+	SET @res = ( SELECT count(*) FROM Messages WHERE toLogin = @login );
+END
+SELECT @res
+GO
+
+
+SELECT COUNT(*) FROM Users WHERE Login = 'asd' and Hash = 'GPYymdpnnkue8JfzY/lVCg'
+	SELECT count(*) FROM Messages WHERE Login = 'asd'
 
 DECLARE @res INT
-EXEC GetCountMessages @login = 'asd', @hash = 'onWGh8qZEE6TjmTlQwOE6w', @res = @res OUTPUT
+EXEC GetCountMessages @login = 'asd', @hash = 'GPYymdpnnkue8JfzY/lVCg', @res = @res OUTPUT
 SELECT @res
-
-
 
 
 CREATE PROC SendMsg
   @login NVARCHAR(20),
   @hash NVARCHAR(100),
   @to NVARCHAR(20),
-  @text NVARCHAR(100),
+  @text NVARCHAR(1000),
   @res NVARCHAR(20) OUTPUT
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
-	DECLARE @id INT
-	SET @id = ( SELECT Id FROM Users WHERE Login = @to )
-	
-	INSERT INTO Messages VALUES( @login, @text, @id );
+	INSERT INTO Messages VALUES( @login, @text, @to, GETDATE() );
 	SELECT @res = 'OK'
 END
 ELSE
@@ -66,9 +69,42 @@ SELECT * FROM Users
 SELECT * FROM Messages WHERE Id_user = 2
 
 DECLARE @res NVARCHAR(20)
-EXEC SendMsg @login = 'Anonymus', @hash = '4afDfTFc206Kws1rZLOKTw', @to = 'w', @text = 'Hello :))', @res = @res OUTPUT
+EXEC SendMsg @login = 'asd', @hash = 'GPYymdpnnkue8JfzY/lVCg', @to = 'Anonymus', @text = 'hey i am ASD', @res = @res OUTPUT
 SELECT @res
+
+
+SELECT TOP 1 Login, Text  FROM Messages WHERE ToLogin = ( SELECT Login FROM Users WHERE Login = 'asd' and Hash = 'GPYymdpnnkue8JfzY/lVCg' ) ORDER BY Id DESC;
+
+
+
+-- GetDialog     Login, Hash, LoginInterlocutor
+CREATE PROC  GetDialog
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@loginInterlocutor VARCHAR(20)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	SELECT * FROM 
+	(
+		SELECT Login, Text, ToLogin, Date FROM Messages WHERE Login = @login and ToLogin = @loginInterlocutor
+		UNION ALL
+		SELECT Login, Text, ToLogin, Date FROM Messages WHERE Login = @loginInterlocutor and ToLogin = @login
+	) Messages ORDER BY Date
+END
+GO
+
+
+
+
+
+EXEC GetDialog @login = 'asd', @hash = 'GPYymdpnnkue8JfzY/lVCg', @loginInterlocutor = 'Anonymus' 
+
+
+
+
 
 DROP PROC SendMsg
 DROP PROC registration
 DROP PROC GetCountMessages
+DROP PROC GetDialog

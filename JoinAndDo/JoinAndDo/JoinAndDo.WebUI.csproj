@@ -88,6 +88,7 @@
     <Content Include="Scripts\js_sms.js" />
     <Content Include="Scripts\new_msg.mp3" />
     <Content Include="Scripts\sc_link.js" />
+    <Content Include="Scripts\sc_my_messages.js" />
     <Content Include="Scripts\sc_my_profile.js" />
     <Content Include="Styles\adapt.css" />
     <Content Include="Styles\adapt_phone.css" />
