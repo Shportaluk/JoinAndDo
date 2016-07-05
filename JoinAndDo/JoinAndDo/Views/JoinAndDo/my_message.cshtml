@@ -7,6 +7,7 @@
     List<Interlocutor> listInterlocutors = ViewBag.listInterlocutors;
 }
 
+<script src="~/Scripts/js_my_messages_sms.js"></script>
 <link href="~/Styles/style_my_messages.css" rel="stylesheet" />
 <script src="~/Scripts/sc_my_messages.js"></script>
 
@@ -14,19 +15,21 @@
     @foreach (var Interlocutor in @listInterlocutors)
     {
     <div class="dialog">
-        <div class="sender_name"> @Interlocutor.login </div>
+        <div class="sender_name">@Interlocutor.login</div>
         <div class="messages">
             @foreach (var msg in @Interlocutor.dialog)
             {
-                if (@msg.Login != @Interlocutor.login)
-                {
+                <div id="message">
+                    @if (@msg.Login != @Interlocutor.login)
+                    {
                     <div class="list_message" id="my_message">@msg.Text</div>
-                }
-                else
-                {
+                    }
+                    else
+                    {
 
                     <div class="list_message" id="him_message">@msg.Text</div>
-                }
+                    }
+                </div>
             }
         </div>
         <div class="div_send_msg">

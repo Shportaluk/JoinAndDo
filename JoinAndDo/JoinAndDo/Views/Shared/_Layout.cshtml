@@ -14,7 +14,6 @@
 
     <script src="~/Scripts/js_draggble_settings.js"></script>
     <script src="~/Scripts/sc_link.js"></script>
-    <script src="~/Scripts/js_sms.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -46,11 +45,12 @@
             <input type="text" name="txt_search" />
             <input type="submit" value="Search">
         </form>
-        <div name="exit">Exit</div>
+        <div name="exit" onclick="Logout()">Exit</div>
     </div>
 
     <div id="array_sms">
         <audio id="new_msg_sound" src="~/Scripts/new_msg.ogg"></audio>
+        <audio id="new_msg_in_dialog_sound" src="~/Scripts/new_msg_in_dialog.ogg"></audio>
     </div>
     <div id="left_boxes">
 
@@ -59,6 +59,8 @@
         </div>
 
         <a href="/JoinAndDo/" id="name">-</a>
+        <a href="/JoinAndDo/new_join">New Join</a>
+        <a href="/JoinAndDo/find_accession">Find Accession</a>
         <a href="/JoinAndDo/my_message">My message</a>
         <a href="/JoinAndDo/my_accession">My accession</a>
         <a href="/JoinAndDo/deals_accession">Deals accession</a>

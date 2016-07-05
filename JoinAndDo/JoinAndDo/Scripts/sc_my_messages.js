@@ -42,6 +42,7 @@
             
             $(this).parent().children(".txt_msg").val("");
             $(this).parent().parent().children(".messages").append("<div class='list_message' id='my_message'>" + text + "</div>")
+
             ScrollDown();
 
         })

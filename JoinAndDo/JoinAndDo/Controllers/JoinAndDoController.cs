@@ -16,7 +16,12 @@ namespace JoinAndDo.Controllers
             //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
             return View();
         }
-        
+
+        public ActionResult new_join()
+        {
+            return View();
+        }
+
         public ActionResult Login( string login, string pass )
         {
             string res = "OK";
@@ -57,7 +62,7 @@ namespace JoinAndDo.Controllers
             string res = sqlRepository.Registration( login, pass, firstName, lastName );
             return Content(res);
         }
-        public void Logout( string login, string hash )
+        public ActionResult Logout( string login, string hash )
         {
             #region cookies
             var cookieLogin = new HttpCookie("cookieLogin")
@@ -78,35 +83,44 @@ namespace JoinAndDo.Controllers
             Response.SetCookie(cookieLogin);
             Response.SetCookie(cookieHash);
             #endregion
-            //return RedirectToAction("/Index");
+            return Redirect("/JoinAndDo");
         }
         public ActionResult my_accession()
         {
-            string login = Request.Cookies["login"].Value;
-            string hash = Request.Cookies["hash"].Value;
-            if ( sqlRepository.IsAuthenticated( login, hash ) )
+            try
             {
-                ViewBag.listMyAccession = sqlRepository.GetAllFromMyAccession();
+                string login = Request.Cookies["login"].Value;
+                string hash = Request.Cookies["hash"].Value;
+                ViewBag.listMyAccession = sqlRepository.GetAccessions(login, hash);
                 return View();
             }
-            //ViewBag.LeftBoxesCssDisplay = "none";
-            //ViewBag.LeftBoxesCssDisplay = "block";
-            return RedirectToAction( "/Index" );
+            catch
+            {
+                return RedirectToAction("/Index");
+            }
         }
         public ActionResult my_message()
         {
-            string cookieLogin = HttpContext.Request.Cookies["login"].Value;
-            string cookieHash = HttpContext.Request.Cookies["hash"].Value;
-
-            List<string> interlocutors = sqlRepository.GetInterlocutors(cookieLogin);
-            List<Interlocutor> listInterlocutors = new List<Interlocutor>();
-
-            foreach (string login in interlocutors)
+            try
             {
-                listInterlocutors.Add(new Interlocutor(login, sqlRepository.GetDialog(cookieLogin, cookieHash, login)));
+                string cookieLogin = HttpContext.Request.Cookies["login"].Value;
+                string cookieHash = HttpContext.Request.Cookies["hash"].Value;
+
+                List<string> interlocutors = sqlRepository.GetInterlocutors(cookieLogin);
+                List<Interlocutor> listInterlocutors = new List<Interlocutor>();
+
+                foreach (string login in interlocutors)
+                {
+                    listInterlocutors.Add(new Interlocutor(login, sqlRepository.GetDialog(cookieLogin, cookieHash, login)));
+                }
+                ViewBag.listInterlocutors = listInterlocutors;
+                return View();
             }
-            ViewBag.listInterlocutors = listInterlocutors;
-            return View();
+            catch
+            {
+                return Redirect( "/JoinAndDo" );
+            }
+            
         }
         public ActionResult peopleId( int? id )
         {
@@ -143,7 +157,10 @@ namespace JoinAndDo.Controllers
             return View();
         }
 
-
+        public void NewJoin(string login, string hash, string name, string text, string category, string needPeople)
+        {
+            sqlRepository.NewJoin(login, hash, name, text, category, needPeople);
+        }
         public string GetLastMessages(string login, string hash)
         {
             return sqlRepository.GetLastMessages(login, hash);

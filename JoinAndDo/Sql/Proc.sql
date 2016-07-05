@@ -1,7 +1,7 @@
 USE JoinAndDo
 
 
-CREATE PROC registration
+CREATE PROC Registration
   @login NVARCHAR(20),
   @pass NVARCHAR(20),
   @firstName NVARCHAR(20),
@@ -11,7 +11,7 @@ AS
 SELECT @res = 's'
 IF ((SELECT COUNT(*) FROM Users where Login = @login ) = 0)
 BEGIN
-	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null );
+	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null, 0, 0, 0 );
 	SELECT @res = 'OK'
 END
 ELSE
@@ -19,7 +19,7 @@ ELSE
 GO
 
 DECLARE @res NVARCHAR(30)
-EXEC registration @login = 'Anonymus', @pass = '123456', @firstName = 'Andriy', @lastName = 'Shportaluk', @res = @res OUTPUT
+EXEC Registration @login = 'Anonymus', @pass = '123456', @firstName = 'Andriy', @lastName = 'Shportaluk', @res = @res OUTPUT
 SELECT @res
 
 
@@ -95,16 +95,66 @@ END
 GO
 
 
-
-
-
 EXEC GetDialog @login = 'asd', @hash = 'GPYymdpnnkue8JfzY/lVCg', @loginInterlocutor = 'Anonymus' 
 
 
+CREATE PROC GetInterlocutor 
+	@login NVARCHAR(20)
+AS
+
+SELECT  DISTINCT * FROM 
+(
+	SELECT ToLogin FROM Messages WHERE Login = @login
+	UNION ALL
+	SELECT Login FROM Messages WHERE ToLogin = @login
+) Messages
+GO
+
+
+EXEC GetInterlocutor @login = 'asd'
 
 
 
+CREATE PROC GetAccessions
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	SELECT Title, Text, People, AllPeople, IsComplete FROM My_accession WHERE Login = @login
+END
+GO
+
+SELECT * FROM Users
+EXEC GetAccessions @login = 'admin', @hash = 'xR2sWR5wIUq8vsjoisq0w'
+
+
+
+
+
+
+
+CREATE PROC NewJoin
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@title NVARCHAR(20),
+	@text NVARCHAR(100),
+	@category NVARCHAR(20),
+	@needPeople INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	INSERT INTO Joins VALUES ( @login, @title, @text, @category, 0, @needPeople )
+END
+GO
+
+EXEC NewJoin @login = '', @hash = '', @title = '', @text = '', @category = '', @needPeople = 0
+SELECT * FROM Joins
+
+DROP PROC NewJoin
+DROP PROC GetAccessions
+DROP PROC GetInterlocutor
 DROP PROC SendMsg
-DROP PROC registration
+DROP PROC Registration
 DROP PROC GetCountMessages
 DROP PROC GetDialog

@@ -12,11 +12,11 @@
 	
 	background-color: red;
 }
-
 .dialog
 {
 	background-color: rgba(0,191,255,0.7);
 	width: calc( 25% - 7px );
+    min-width: 200px;
     padding: 0px;
 	margin: 3px;
 	float:left;
@@ -36,6 +36,11 @@
 	height: 200px;
 	float:left;
 	transition: 1s;
+}
+
+#message {
+    width: 100%;
+    overflow: hidden;
 }
 
 .sender_name

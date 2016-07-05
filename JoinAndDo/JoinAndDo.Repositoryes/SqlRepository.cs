@@ -16,6 +16,8 @@ namespace JoinAndDo.Repositoryes
         private SqlCommand _cmdSetHash = new SqlCommand();
         private SqlCommand _cmdGetHash = new SqlCommand();
 
+        private SqlCommand _cmdNewJoin;
+
         // Send
         private SqlCommand _cmdSendMsg;
 
@@ -27,7 +29,7 @@ namespace JoinAndDo.Repositoryes
         private SqlCommand _cmdGetUserById;
         private SqlCommand _cmdGetCountMessages;
         private SqlCommand _cmdJoins = new SqlCommand("SELECT * FROM Joins");
-        private SqlCommand _cmdMyAccession = new SqlCommand("SELECT * FROM My_accession");
+        private SqlCommand _cmdMyAccession;
         private SqlCommand _cmdDealsAccession = new SqlCommand("SELECT * FROM Deals_accession");
 
 
@@ -36,10 +38,19 @@ namespace JoinAndDo.Repositoryes
             _con = new SqlConnection( _conStr );
         }
 
+        public void NewJoin( string login, string hash, string title, string text, string category, string needPeople)
+        {
+            string comm = "EXEC NewJoin @login = '"+login+"', @hash = '"+hash+"', @title = '"+title+"', @text = '"+text+"', @category = '"+category+"', @needPeople = " + needPeople;
+            _cmdNewJoin = new SqlCommand(comm);
+            _cmdNewJoin.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = _cmdNewJoin.ExecuteReader();
+            _con.Close();
+        }
 
         public string Registration( string login, string pass, string firstName, string lastName )
         {
-            _cmdRegistration = new SqlCommand( "DECLARE @res NVARCHAR(30) EXEC registration @login = '" + login + "', @pass = '" + pass + "', @firstName = '"+ firstName +"', @lastName = '" + lastName + "', @res = @res OUTPUT SELECT @res");
+            _cmdRegistration = new SqlCommand("DECLARE @res NVARCHAR(30) EXEC Registration @login = '" + login + "', @pass = '" + pass + "', @firstName = '"+ firstName +"', @lastName = '" + lastName + "', @res = @res OUTPUT SELECT @res");
             _cmdRegistration.Connection = _con;
             _con.Open();
             SqlDataReader reader = _cmdRegistration.ExecuteReader();
@@ -134,11 +145,11 @@ namespace JoinAndDo.Repositoryes
         public List<string> GetInterlocutors(string login)
         {
             List<string> interlocutors = new List<string>();
-            _cmdGetDialog = new SqlCommand("SELECT DISTINCT ToLogin FROM Messages WHERE Login = '"+login+"'");
-            _cmdGetDialog.Connection = _con;
+            _cmdGetInterlocutors = new SqlCommand("EXEC GetInterlocutor @login = '"+login+"'");
+            _cmdGetInterlocutors.Connection = _con;
             _con.Open();
 
-            SqlDataReader reader = _cmdGetDialog.ExecuteReader();
+            SqlDataReader reader = _cmdGetInterlocutors.ExecuteReader();
             while (reader.Read())
             {
                 interlocutors.Add( reader[0].ToString() );
@@ -207,7 +218,7 @@ namespace JoinAndDo.Repositoryes
         public User GetUserById(string iD)
         {
             User user = null;
-            using (_cmdGetUserById = new SqlCommand( "SELECT Login, FirstName, LastName FROM Users where Id = " + iD ))
+            using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, FulfillmentAccession, AcceptedConnections, TimeWorking FROM Users where Id = " + iD ))
             {
                 _cmdGetUserById.Connection = _con;
                 _con.Open();
@@ -219,6 +230,9 @@ namespace JoinAndDo.Repositoryes
                     user.login = reader[0].ToString();
                     user.firstName = reader[1].ToString();
                     user.lastName = reader[2].ToString();
+                    user.fulfillmentAccession = reader[3].ToString();
+                    user.acceptedConnections = reader[4].ToString();
+                    user.timeWorking = reader[5].ToString();
                 }
 
                 _con.Close();
@@ -251,29 +265,24 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return listJoins;
         }
-        public List<MyAccession> GetAllFromMyAccession(  )
+        public List<MyAccession> GetAccessions( string login, string hash )
         {
             List<MyAccession> listMyAccession = new List<MyAccession>();
+            _cmdMyAccession = new SqlCommand( "EXEC GetAccessions @login = '"+login+"', @hash = '"+hash+"'" );
             _cmdMyAccession.Connection = _con;
 
             _con.Open();
             SqlDataReader reader = _cmdMyAccession.ExecuteReader();
 
-            string title;
-            string text;
-            int people;
-            int allPeople;
-            bool IsComplate;
-
-
             while (reader.Read())
             {
-                title = reader[1].ToString();
-                text = reader[2].ToString();
-                people = int.Parse(reader[3].ToString());
-                allPeople = int.Parse(reader[4].ToString());
-                IsComplate = Boolean.Parse( reader[5].ToString() );
-                listMyAccession.Add(new MyAccession(title, text, people, allPeople, IsComplate ));
+                MyAccession accession = new MyAccession();
+                accession.Title = reader[0].ToString();
+                accession.Text = reader[1].ToString();
+                accession.People = int.Parse(reader[2].ToString());
+                accession.AllPeople = int.Parse(reader[3].ToString());
+                accession.IsComplete = Boolean.Parse( reader[4].ToString() );
+                listMyAccession.Add(accession);
             }
 
             _con.Close();

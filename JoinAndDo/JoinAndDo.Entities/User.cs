@@ -13,6 +13,9 @@ namespace JoinAndDo.Entities
         public string firstName;
         public string lastName;
         public string hash;
+        public string fulfillmentAccession;
+        public string acceptedConnections;
+        public string timeWorking;
 
         public User()
         {

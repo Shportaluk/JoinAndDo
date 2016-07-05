@@ -19,6 +19,7 @@ function SendMsg()
     var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
+
     $.ajax({
         url: '/JoinAndDo/SendMsg',
         type: 'POST',

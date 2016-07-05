@@ -84,6 +84,8 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Scripts\js_draggble_settings.js" />
+    <Content Include="Scripts\js_my_messages_sms.js" />
+    <Content Include="Scripts\js_new_join.js" />
     <Content Include="Scripts\js_singl_page_move.js" />
     <Content Include="Scripts\js_sms.js" />
     <Content Include="Scripts\new_msg.mp3" />
@@ -119,6 +121,7 @@
     <Content Include="Styles\style_my_accession.css" />
     <Content Include="Styles\style_my_messages.css" />
     <Content Include="Styles\style_my_profile.css" />
+    <Content Include="Styles\style_new_join.css" />
     <Content Include="Styles\style_test.css" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -148,6 +151,8 @@
     <Content Include="Scripts\new_msg.ogg" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\JoinAndDo\NoUser.cshtml" />
+    <Content Include="Scripts\new_msg_in_dialog.ogg" />
+    <Content Include="Views\JoinAndDo\new_join.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

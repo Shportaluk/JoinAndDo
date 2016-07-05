@@ -21,21 +21,6 @@ $(document).ready(function () {
 	    $(".black_fon").css("display", "block");
 	});
 
-	$("#logout").click(function () {
-	    var cookieLogin = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-	    var cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-
-	    //alert(cookieHash)
-
-	    $.ajax({
-	        url: 'Logout',
-	        type: 'POST',
-	        contentType: 'application/json;',
-	        data: JSON.stringify({ login: cookieLogin, hash: cookieHash }),
-	        success: function () { window.location.href = "index" }
-	    });
-	});
-
 	$("#btn_Registration").click(function () {
 	    var login = $("#form_registration #txt_login")
 	    var pass = $("#form_registration #txt_pass")
@@ -44,6 +29,20 @@ $(document).ready(function () {
 
 
 });
+function Logout() {
+    var cookieLogin = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+    //alert(cookieHash)
+
+    $.ajax({
+        url: 'Logout',
+        type: 'POST',
+        contentType: 'application/json;',
+        data: JSON.stringify({ login: cookieLogin, hash: cookieHash }),
+        success: function () { window.location.href = "index" }
+    });
+}
 function Registration(l, p) {
     $("#registration_error").text("");
     $.ajax({

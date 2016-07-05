@@ -1,14 +1,14 @@
 ﻿@using JoinAndDo.Entities
 @{
     List<MyAccession> listMyAccession = ViewBag.listMyAccession;
-    string LeftBoxesCssDisplay = ViewBag.LeftBoxesCssDisplay;
 }
 
 @{
     ViewBag.Title = "Join And Do";
-    ViewBag.LeftBoxesCssDisplay = LeftBoxesCssDisplay;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script src="~/Scripts/js_sms.js"></script>
 <link href="~/Styles/style_my_accession.css" rel="stylesheet" />
 
 <div id="blocks">

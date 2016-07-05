@@ -199,7 +199,6 @@
         var login = $("#form_login #txt_login")
         var pass = $("#form_login #txt_pass")
         Login(login.val(), pass.val());
-
     })
 
     $("#btn_Registration").click(function () {
@@ -220,9 +219,10 @@ function Swap(spanClick, span) {
     span.css("box-shadow", "0 0 10px transparent");
 };
 function Login(l, p) {
+    //alert(l +"  "+ p);
     $("#login_error").text("");
     $.ajax({
-        url: 'Login',
+        url: '/JoinAndDo/Login',
         type: 'POST',
         contentType: 'application/json;',
         data: JSON.stringify({ login: l, pass: p }),
@@ -240,7 +240,7 @@ function Login(l, p) {
 function Registration(l, p, fn, ln) {
     $("#registration_error").text("");
     $.ajax({
-        url: 'Registration',
+        url: '/JoinAndDo/Registration',
         type: 'POST',
         contentType: 'application/json;',
         data: JSON.stringify({ login: l, pass: p, firstName: fn, lastName: ln }),
