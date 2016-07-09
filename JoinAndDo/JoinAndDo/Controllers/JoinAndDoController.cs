@@ -13,7 +13,6 @@ namespace JoinAndDo.Controllers
         public ActionResult Index()
         {
             ViewBag.listJoinsEntity = sqlRepository.GetAllFromJoins();
-            //ViewBag.LeftBoxesCssDisplay = TempData["LeftBoxesCssDisplay"];
             return View();
         }
 
@@ -25,8 +24,6 @@ namespace JoinAndDo.Controllers
         public ActionResult Login( string login, string pass )
         {
             string res = "OK";
-            //var login = Request.Params["login"].Split( new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries )[0];
-            //var pass = Request.Params["pass"];
             User user = sqlRepository.Authentication( login, pass );
             if (user.login == null)
             {
@@ -126,8 +123,10 @@ namespace JoinAndDo.Controllers
         {
             if (id == null)
             {
-                //return RedirectToAction("/NoUser");
+                return RedirectToAction("/NoUser");
             }
+
+            
             User user = sqlRepository.GetUserById( id.ToString() );
             if( user != null )
             {
@@ -135,7 +134,7 @@ namespace JoinAndDo.Controllers
             }
             else
             {
-                //return RedirectToAction( "/NoUser" );
+                return RedirectToAction( "/NoUser" );
             }
             return View();
         }

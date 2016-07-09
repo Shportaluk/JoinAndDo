@@ -1,3 +1,36 @@
+#shape {
+    position: absolute;
+    top: 17px;
+    right: 5px;
+    height: 30px;
+    width: 95px;
+
+}
+#shape p {
+    font-family: CaviarDreams;
+    margin: 4px;
+    color: white;
+
+    text-shadow: 0 0 3px white;
+}
+.shape_status {
+    float: left;
+    width: 12px;
+    height: 12px;
+    margin: 9px 4px 9px 9px;
+    border-radius: 100px;
+}
+#shape_status_online {
+    background-color: #2ECCFA;
+    box-shadow: 0 0 5px #2ECCFA;
+}
+#shape_status_offline {
+    background-color: grey;
+    box-shadow: 0 0 5px grey;
+}
+
+
+
 #form_write_msg {
     
  overflow: hidden;
@@ -78,12 +111,14 @@
 }
 #full_name
 {
+    font-family: CaviarDreams;
 	color: white;
 	text-shadow: 0 0 12px #2ECCFA;
-	font-size: 50px;
+	font-size: 25px;
     margin: 0px;
     position: absolute;
-    left: 250px;
+    top: 15px;
+    left: 240px;
 }
 
 #Statistics
@@ -95,21 +130,37 @@
 }
 #Statistics p
 {
- color: white;
- text-shadow: 0 0 12px #2ECCFA;
- font-weight: bold;
- font-size: 19px;
- margin: 10px 3px 3px 3px;
+    text-align: center;
+    position: relative;
+    top: 19px;
+    font-family: CaviarDreams;
+    color: white;
+    font-size: 17px;
+    margin: 0px;
 }
+
+
 
 #full_of_accession
 {
- height: 15px;
- width: 450px;
- margin-right: 10px;
- background-color: red;
- box-shadow: 0 0 2px red;
+    border-radius: 3px;
+    height: 20px;
+    width: 450px;
+    margin-right: 10px;
+    background-color: rgba(0,0,0,0.5);
 }
+#completed_percentage_of_accessions,#percentage_of_accepted_connections, #percentage_of_time_working
+{
+    border-radius: 3px;
+	height: 100%;
+    background-color: #2ECCFA;
+}
+#completed_percentage_of_accessions { width: 50%; }
+#percentage_of_accepted_connections { width: 25%; }
+#percentage_of_time_working { width: 98%; }
+
+
+
 .like_or_dislike
 {
  width: 65px;
@@ -119,7 +170,6 @@
  right: 5px;
  margin: auto;
 }
-
 .like, .dislike
 {
 	width: 25px;
@@ -139,39 +189,3 @@
 	transition: 0.75s;
 }
 .like:focus, .dislike:focus { transition: 0.75s; }
-
-#completed_percentage_of_accessions,#percentage_of_accepted_connections, #percentage_of_time_working
-{
-	height: 15px;
-	background-color: #2EFE2E;
-	box-shadow: -1px 0 7px black;
-}
-#completed_percentage_of_accessions { width: 85%; }
-#percentage_of_accepted_connections { width: 75%; }
-#percentage_of_time_working { width: 98%; }
-
-
-@font-face {
- font-family: Expand;
- src: url("Fonts/Expand.ttf");
-}
-@font-face {
- font-family: Peer;
- src: url( "Fonts/Peer.ttf" );
-}
-@font-face {
- font-family: Pacifico;
- src: url( "Fonts/Pacifico.ttf" );
-}
-@font-face {
- font-family: Basic;
- src: url( "Fonts/Basic.ttf" );
-}
-@font-face {
- font-family: Caviar_Dreams_Bold;
- src: url("Fonts/Caviar_Dreams_Bold.ttf");
-}
-@font-face {
- font-family: CaviarDreams;
- src: url("Fonts/CaviarDreams.ttf");
-}

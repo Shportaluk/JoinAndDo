@@ -1,7 +1,4 @@
-﻿@{
-    string RegistrationError = ViewBag.RegistrationError;
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html>
 <head>
@@ -13,7 +10,6 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
     <script src="~/Scripts/js_draggble_settings.js"></script>
-    <script src="~/Scripts/sc_link.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -24,6 +20,13 @@
     <script type="text/javascript">
         $( init );
         function init() {
+            var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+            var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+            if (l != "" || h != "") {
+                $('div[name="exit"]').css("display", "block");
+            }
+
             $('#left_boxes').draggable({
                 containment: '#layout',
                 cursor: 'move',
@@ -36,15 +39,32 @@
                 snap: '#blocks'
             });
         }
+        function Logout() {
+            var cookieLogin = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+            var cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+            $.ajax({
+                url: '/JoinAndDo/Logout',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({ login: cookieLogin, hash: cookieHash }),
+                success: function () { window.location.href = "index" }
+            });
+        }
     </script>
     <div id="header">
         <div name="JoinAndDo">
             JoinAndDO
         </div>
-        <form id="form_search" action="Search" method="get">
-            <input type="text" name="txt_search" />
-            <input type="submit" value="Search">
-        </form>
+        <div name="search">
+            <div id="img_search"></div>
+            <p>Search</p>
+
+            <div id="form_list_search">
+                <div class="list_search" id="user">User</div>
+                <div class="list_search" id="accession">Accession</div>
+            </div>
+        </div>
         <div name="exit" onclick="Logout()">Exit</div>
     </div>
 
@@ -53,29 +73,23 @@
         <audio id="new_msg_in_dialog_sound" src="~/Scripts/new_msg_in_dialog.ogg"></audio>
     </div>
     <div id="left_boxes">
-
         <div id="boxesLeft_hide">
             <img src="~/Styles/images/arrow-left.png" />
         </div>
-
         <a href="/JoinAndDo/" id="name">-</a>
         <a href="/JoinAndDo/new_join">New Join</a>
-        <a href="/JoinAndDo/find_accession">Find Accession</a>
         <a href="/JoinAndDo/my_message">My message</a>
         <a href="/JoinAndDo/my_accession">My accession</a>
         <a href="/JoinAndDo/deals_accession">Deals accession</a>
     </div>
 
-
     <div id="boxesRight_show">
         <img src="~/Styles/images/arrow-right.png" />
     </div>
     <div id="right_boxes">
-
         <div id="boxesRight_hide">
             <img src="~/Styles/images/arrow-left.png" />
         </div>
-
         <p>Select Category</p>
         <a href="test">Category #1</a>
         <a href="test">Category #2</a>

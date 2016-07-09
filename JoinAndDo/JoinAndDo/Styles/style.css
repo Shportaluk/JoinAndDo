@@ -1,6 +1,6 @@
 body
 {
- min-width:1280px;
+ min-width: 1080px;
  min-height: 600px;
  
  margin: 0px;
@@ -66,24 +66,100 @@ button:hover {
 }
 
 #header div{
-    position: absolute;
-
-    height: 34px;
+    position: relative;
     
-    font-size: 30px;
     font-family: Expand;
-    overflow: hidden;
     color: white;
-    cursor: pointer;
-    padding: 8px 35px;
 
     transition: .2s;
 }
-#header div[name="exit"] { background-color: rgba(0,0,0,0.5); right: 10px; }
+#header div[name="JoinAndDo"] {
+    width: 200px;
+    font-size: 30px;
+    padding: 8px 35px;
+}
+
+#header div[name="search"] {
+    position: absolute;
+    top: 0px;
+    right: 100px;
+
+    width: 140px;
+    height: 40px;
+    
+    padding: 5px;
+
+    z-index: 1;
+    background-color: rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+#header div[name="search"]:hover {
+    height: 131px;
+    background-color: rgba(0,0,0,0.25);
+    border-radius: 0 0 5px 5px;
+}
+#header div[name="search"]:hover>#form_list_search {
+
+}
+#img_search {
+    background: url( "images/search.png" ) 100% 100% no-repeat;
+    width: 25px;
+    height: 25px;
+    padding: 5px 8px;
+    margin: 5px;
+}
+#header div[name="search"] p {
+    position: absolute;
+    top: 2px;
+    left: 45px;
+    font-family: Caviar_Dreams_Bold;
+    font-size: 20px;
+    color: black;
+    padding: 0px;
+    margin: 10px;
+}
+
+#form_list_search {
+    top: 4px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+#form_list_search div:hover { background-color: rgba(0,0,0,0.5); }
+#form_list_search div {
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    font-family: Caviar_Dreams_Bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    width: 100%;
+    height: 20px;
+
+    border-radius: 5px;
+    background-color: rgba(0,0,0,0.2);
+
+    transition: 0s;
+}
+#form_list_search #user { top: 0px; }
+#form_list_search #accession { top: 42px; }
+
+#header div[name="exit"] {
+    font-size: 20px;
+    height: 22px;
+    width: 40px;
+    padding: 14px 15px;
+    position: absolute;
+    display: none;
+    background-color: rgba(0,0,0,0.5);
+    top: 0px;
+    right: 10px;
+    cursor: pointer;
+}
 #header div[name="exit"]:hover{
     color: black;
     background-color: white;
-    box-shadow: 0 0 25px black;
 }
 #header div[name="JoinAndDo"]:hover{ text-shadow: 0 0 5px white; }
 
@@ -218,7 +294,7 @@ button:hover {
  top: 50px;
  left: 0px;
  width: 100%;
- height: 100%;
+ height: calc( 100% - 50px);
  z-index: 0;
 
  margin: 0px;
@@ -228,6 +304,7 @@ button:hover {
 #blocks
 {
  position: absolute;
+ top: 10px;
  margin: auto;
  float: none;
  opacity: 1;

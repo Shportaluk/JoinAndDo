@@ -1,11 +1,11 @@
-﻿@{
-    ViewBag.Title = "My Profile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
+﻿
 @using JoinAndDo.Entities
 @{
     User user = ViewBag.User;
+}
+@{
+    ViewBag.Title = @user.firstName  + " " + @user.lastName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script src="~/Scripts/js_sms.js"></script>
@@ -24,16 +24,23 @@
             <button id="close" onclick="HideFormWriteMsg()">Close</button>
         </div>
         <p id="full_name">@user.lastName @user.firstName</p>
-
+        <div id="shape">
+            @if (user.isOnline)
+            {
+                <div class="shape_status" id="shape_status_online"></div>
+                <p>Online</p>
+            }
+            else
+            {
+                <div class="shape_status" id="shape_status_offline"></div>
+                <p>Offline</p>
+            }
+        </div>
         <div id="Statistics">
             <div class="statictic">
                 <p>Fulfillment accession</p>
                 <div id="full_of_accession">
                     <div id="completed_percentage_of_accessions" />
-                </div>
-                <div class="like_or_dislike">
-                    <button class="like" id="like_1" />
-                    <button class="dislike" id="dislike_1" onclick="dislike(1)" />
                 </div>
             </div>
 
@@ -41,10 +48,6 @@
                 <p>Accepted connections</p>
                 <div id="full_of_accession">
                     <div id="percentage_of_accepted_connections" />
-                </div>
-                <div class="like_or_dislike">
-                    <button class="like" id="like_2" onclick="like(2)" />
-                    <button class="dislike" id="dislike_2" onclick="dislike(2)" />
                 </div>
             </div>
 
@@ -54,11 +57,6 @@
                 <div id="full_of_accession">
                     <div id="percentage_of_time_working" />
                 </div>
-                <div class="like_or_dislike">
-                    <button class="like" id="like_3" onclick="like(3)" />
-                    <button class="dislike" id="dislike_3" onclick="dislike(3)" />
-                </div>
-
             </div>
         </div>
     </div>

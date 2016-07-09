@@ -218,7 +218,7 @@ namespace JoinAndDo.Repositoryes
         public User GetUserById(string iD)
         {
             User user = null;
-            using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, FulfillmentAccession, AcceptedConnections, TimeWorking FROM Users where Id = " + iD ))
+            using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, Hash, FulfillmentAccession, AcceptedConnections, TimeWorking FROM Users where Id = " + iD))
             {
                 _cmdGetUserById.Connection = _con;
                 _con.Open();
@@ -230,9 +230,13 @@ namespace JoinAndDo.Repositoryes
                     user.login = reader[0].ToString();
                     user.firstName = reader[1].ToString();
                     user.lastName = reader[2].ToString();
-                    user.fulfillmentAccession = reader[3].ToString();
-                    user.acceptedConnections = reader[4].ToString();
-                    user.timeWorking = reader[5].ToString();
+                    if (!String.IsNullOrEmpty(reader[3].ToString()))
+                    {
+                        user.isOnline = true;
+                    }
+                    user.fulfillmentAccession = reader[4].ToString();
+                    user.acceptedConnections = reader[5].ToString();
+                    user.timeWorking = reader[6].ToString();
                 }
 
                 _con.Close();
@@ -246,21 +250,21 @@ namespace JoinAndDo.Repositoryes
             _con.Open();
             SqlDataReader reader = _cmdJoins.ExecuteReader();
             
-            string title;
-            string text;
-            int people;
-            int allPeople;
-
-
-            while ( reader.Read() )
-            {
-                title = reader[1].ToString();
-                text = reader[2].ToString();
-                people = int.Parse( reader[3].ToString() );
-                allPeople = int.Parse(reader[4].ToString());
-
-                listJoins.Add( new JoinsEntity( title, text, people, allPeople ) );
-            }
+            //string title;
+            //string text;
+            //int people;
+            //int allPeople;
+            //
+            //
+            //while ( reader.Read() )
+            //{
+            //    title = reader[1].ToString();
+            //    text = reader[2].ToString();
+            //    people = int.Parse( reader[3].ToString() );
+            //    allPeople = int.Parse(reader[4].ToString());
+            //
+            //    listJoins.Add( new JoinsEntity( title, text, people, allPeople ) );
+            //}
 
             _con.Close();
             return listJoins;
@@ -297,22 +301,22 @@ namespace JoinAndDo.Repositoryes
             SqlDataReader reader = _cmdDealsAccession.ExecuteReader();
 
 
-            string title;
-            string text;
-            string user;
-            int people;
-            int allPeople;
-
-
-            while (reader.Read())
-            {
-                title = reader[1].ToString();
-                text = reader[2].ToString();
-                user = reader[3].ToString();
-                people = int.Parse(reader[4].ToString());
-                allPeople = int.Parse(reader[5].ToString());
-                listDealsAccession.Add( new DealsAccession( title, text, user, people, allPeople ) );
-            }
+            //string title;
+            //string text;
+            //string user;
+            //int people;
+            //int allPeople;
+            //
+            //
+            //while (reader.Read())
+            //{
+            //    title = reader[1].ToString();
+            //    text = reader[2].ToString();
+            //    user = reader[3].ToString();
+            //    people = int.Parse(reader[4].ToString());
+            //    allPeople = int.Parse(reader[5].ToString());
+            //    listDealsAccession.Add( new DealsAccession( title, text, user, people, allPeople ) );
+            //}
 
             _con.Close();
             return listDealsAccession;

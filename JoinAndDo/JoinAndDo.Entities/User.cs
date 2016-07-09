@@ -12,6 +12,7 @@ namespace JoinAndDo.Entities
         public string login;
         public string firstName;
         public string lastName;
+        public bool isOnline;
         public string hash;
         public string fulfillmentAccession;
         public string acceptedConnections;
@@ -19,7 +20,7 @@ namespace JoinAndDo.Entities
 
         public User()
         {
-
+            isOnline = false;
         }
     }
 }
