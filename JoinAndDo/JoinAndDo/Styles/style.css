@@ -89,18 +89,17 @@ button:hover {
     
     padding: 5px;
 
-    z-index: 1;
+    z-index: 996;
     background-color: rgba(0,0,0,0.1);
     overflow: hidden;
 }
 #header div[name="search"]:hover {
     height: 131px;
-    background-color: rgba(0,0,0,0.25);
+    background-color: rgba(0,0,0,0.3);
+    color: white;
     border-radius: 0 0 5px 5px;
 }
-#header div[name="search"]:hover>#form_list_search {
 
-}
 #img_search {
     background: url( "images/search.png" ) 100% 100% no-repeat;
     width: 25px;
@@ -125,7 +124,6 @@ button:hover {
     height: 100%;
     overflow: hidden;
 }
-#form_list_search div:hover { background-color: rgba(0,0,0,0.5); }
 #form_list_search div {
     cursor: pointer;
     text-align: center;
@@ -139,8 +137,11 @@ button:hover {
 
     border-radius: 5px;
     background-color: rgba(0,0,0,0.2);
-
-    transition: 0s;
+    transition: .2s;
+}
+#form_list_search div:hover { 
+    color: black;
+    background-color: white;
 }
 #form_list_search #user { top: 0px; }
 #form_list_search #accession { top: 42px; }

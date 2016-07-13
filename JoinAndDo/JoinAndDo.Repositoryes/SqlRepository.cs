@@ -23,6 +23,7 @@ namespace JoinAndDo.Repositoryes
 
 
         // Get
+        private SqlCommand _cmdGetUsers;
         private SqlCommand _cmdGetInterlocutors;
         private SqlCommand _cmdGetDialog;
         private SqlCommand _cmdGetLastMessages;
@@ -141,7 +142,40 @@ namespace JoinAndDo.Repositoryes
             return res;
         }
 
+        public List<User> GetUsers( string full_name )
+        {
+            List<User> listUser = new List<User>();
 
+            string comm;
+            if (String.IsNullOrEmpty(full_name))
+            {
+                comm = "SELECT Id, FirstName, LastName, Hash FROM Users";
+            }
+            else
+            {
+                comm = "EXEC GetUserByName @name = '" + full_name + "'";
+            }
+            _cmdGetUsers = new SqlCommand( comm );
+            _cmdGetUsers.Connection = _con;
+            _con.Open();
+
+            SqlDataReader reader = _cmdGetUsers.ExecuteReader();
+            while (reader.Read())
+            {
+                User user = new User();
+                user.id = reader[0].ToString();
+                user.firstName = reader[1].ToString();
+                user.lastName = reader[2].ToString();
+                if (!String.IsNullOrEmpty(reader[3].ToString()))
+                {
+                    user.isOnline = true;
+                }
+                listUser.Add(user);
+            }
+            _con.Close();
+
+            return listUser;
+        }
         public List<string> GetInterlocutors(string login)
         {
             List<string> interlocutors = new List<string>();

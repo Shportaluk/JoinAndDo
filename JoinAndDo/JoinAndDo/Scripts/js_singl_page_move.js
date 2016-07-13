@@ -65,6 +65,10 @@
     // Scroll page
     btn1.css("border", "1px solid white");
     document.addEventListener('wheel', function (e) {
+        AddButtonHover(btn1)
+        AddButtonHover(btn2)
+        AddButtonHover(btn3)
+        AddButtonHover(btn4)
         btn1.css("border", "1px solid transparent");
         btn2.css("border", "1px solid transparent");
         btn3.css("border", "1px solid transparent");
@@ -79,15 +83,23 @@
                 $("#header").css("position", "fixed");
                 $("#header").css("top", "5px");
                 btn2.css("border", "1px solid white");
+                AddButtonOver(btn2)
                 $('body,html').animate({ scrollTop: heightPage }, 100);
             }
             else if (st >= heightPage - 1 && st <= heightPage + 1) {//&& st < heightPage*2 - 1 ) {
                 //alert("Test");
                 btn3.css("border", "1px solid white");
+                AddButtonOver(btn3)
                 $('body,html').animate({ scrollTop: heightPage * 2 }, 100);
             }
             else if (st >= heightPage * 2 - 1 && st < heightPage * 2 + 1) {
                 btn4.css("border", "1px solid white");
+                AddButtonOver(btn4)
+                $('body,html').animate({ scrollTop: heightPage * 3 }, 100);
+            }
+            else {
+                btn4.css("border", "1px solid white");
+                AddButtonOver(btn4)
                 $('body,html').animate({ scrollTop: heightPage * 3 }, 100);
             }
         }
@@ -95,16 +107,26 @@
             //alert("Up");
             if (st >= heightPage * 3 - 1 && st < heightPage * 3 + 1) {
                 btn3.css("border", "1px solid white");
+                AddButtonOver(btn3)
                 $('body,html').animate({ scrollTop: heightPage * 2 }, 100);
             }
             else if (st >= heightPage * 2 - 1 && st < heightPage * 2 + 1) {
                 btn2.css("border", "1px solid white");
+                AddButtonOver(btn2)
                 $('body,html').animate({ scrollTop: heightPage }, 100);
             }
             else if (st >= heightPage - 1 && st < heightPage + 1) {
                 $("#header").css("position", "absolute");
                 $("#header").css("top", heightPage - 53);
                 btn1.css("border", "1px solid white");
+                AddButtonOver(btn1)
+                $('body,html').animate({ scrollTop: 0 }, 100);
+            }
+            else {
+                $("#header").css("position", "absolute");
+                $("#header").css("top", heightPage - 53);
+                btn1.css("border", "1px solid white");
+                AddButtonOver(btn1)
                 $('body,html').animate({ scrollTop: 0 }, 100);
             }
         }
@@ -210,6 +232,20 @@
     })
 
 });
+
+function AddButtonHover(btn) {
+    btn.hover(function () {
+        $(this).css("border", "1px solid #FF8000");
+    }, function () {
+        $(this).css("border", "1px solid transparent");
+    })
+}
+function AddButtonOver(btn) {
+    btn.hover(function () {
+    }, function () {
+        $(this).css("border", "1px solid white");
+    })
+}
 
 function Swap(spanClick, span) {
     spanClick.css("border", "1px solid black");

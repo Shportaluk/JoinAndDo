@@ -1,0 +1,133 @@
+﻿#blocks {
+    background-color: rgba(0,0,0,.2);
+    width: calc( 100% - 530px );
+    padding: 10px;
+}
+
+#form_search input[name="name"] {
+    width: calc( 100% - 218px );
+    margin: 0px;
+    padding: 5px;
+    font-size: 18px;
+}
+#form_search #show, #hide {
+    position: absolute;
+    right: 10px;
+    width: 128px;
+    z-index: 1;
+}
+#form_search #hide { opacity: 0; z-index: 0 }
+
+#advanced_search {
+    width: 100%;
+    height: 0px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0px;
+}
+
+.select {
+    font-family: CaviarDreams;
+    width: 15%;
+    float: left;
+    margin: 15px 0px 15px 15px;
+    border-radius: 5px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+}
+.select #all { color: #2ECCFA; background-color: white; }
+.select div {
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 6px 0px;
+    transition: .1s;
+}
+.select div:hover{ color: #2ECCFA; }
+
+#select_gender {
+
+}
+#select_status {
+
+}
+
+#list_countries, #list_cityes {
+    padding: 5px;
+    font-family: CaviarDreams;
+    font-size: 15px;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+
+    width: 62%;
+
+
+    
+    margin-left: 15px;
+}
+
+#list_countries { margin-top: 25px; }
+#list_cityes { margin-top: 12px; }
+
+.div_user {
+    background-color: rgba(255,255,255,.9);
+    width: calc( 100% - 24px);
+    height: 80px;
+    margin: 12px;
+}
+.div_user:hover {
+    cursor: pointer;
+
+}
+.div_user img {
+    margin: 10px;
+    width: 60px;
+    height: 60px;
+}
+#full_name {
+    position: relative;
+    top: -37px;
+    left: 15px;
+    font-family: Expand;
+    font-size: 18px;
+    font-weight: bold;
+}
+#live {
+    position: relative;
+    top: -38px;
+    left: 35px;
+    font-family: Expand;
+    font-size: 16px;
+}
+
+.shape {
+    position: relative;
+    top: -62px;
+    left: 70px;
+    height: 30px;
+    width: 95px;
+
+}
+.shape p {
+    font-family: CaviarDreams;
+    padding: 4px;
+    color: rgba(0,0,0,.7);
+
+    text-shadow: 0 0 3px white;
+}
+.shape_status {
+    width: 12px;
+    height: 12px;
+    margin: 9px 4px 9px 9px;
+    border-radius: 100px;
+}
+#shape_status_online {
+    background-color: #2ECCFA;
+    box-shadow: 0 0 5px #2ECCFA;
+}
+#shape_status_offline {
+    background-color: grey;
+    box-shadow: 0 0 5px grey;
+}

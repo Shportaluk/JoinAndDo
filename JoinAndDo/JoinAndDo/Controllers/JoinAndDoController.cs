@@ -147,6 +147,15 @@ namespace JoinAndDo.Controllers
             ViewBag.listDealsAccession = sqlRepository.GetAllFromDealsAccession();
             return View();
         }
+        public ActionResult search_people(string name)
+        {
+            ViewBag.listUser = sqlRepository.GetUsers( name );
+            return View();
+        }
+
+
+
+
         public ActionResult test()
         {
             return View();

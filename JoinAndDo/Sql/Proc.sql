@@ -151,6 +151,28 @@ GO
 EXEC NewJoin @login = '', @hash = '', @title = '', @text = '', @category = '', @needPeople = 0
 SELECT * FROM Joins
 
+
+CREATE PROC GetUserByName
+	@name NVARCHAR(20)
+AS
+	SELECT Id, FirstName, LastName, Hash FROM Users WHERE FirstName LIKE @name + '%'
+	UNION ALL
+	SELECT Id, FirstName, LastName, Hash FROM Users WHERE LastName LIKE @name + '%'
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+DROP PROC GetUserByName
 DROP PROC NewJoin
 DROP PROC GetAccessions
 DROP PROC GetInterlocutor

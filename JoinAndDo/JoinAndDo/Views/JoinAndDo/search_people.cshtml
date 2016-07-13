@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using JoinAndDo.Entities
+@{
+    List<User> Users = ViewBag.listUser;
+}
+
+<link href="~/Styles/style_search_people.css" rel="stylesheet" />
+<script src="~/Scripts/js_search_people.js"></script>
+
+<div id="blocks">
+    <div id="form_search">
+        <input type="text" name="name" />
+        <button onclick="SearchUser()">Search</button>
+
+        <button id="show" onclick="ShowAdvanced()">Show Advanced</button>
+        <button id="hide" onclick="HideAdvanced()">Hide Advanced</button>
+        <div id="advanced_search">
+            <div class="select" id="select_gender">
+                <div id="online">Male</div>
+                <div id="famele">Famele</div>
+                <div id="all">All</div>
+            </div>
+            <div class="select" id="select_status">
+                <div id="online">Online</div>
+                <div id="offline">Offline</div>
+                <div id="all">All</div>
+            </div>
+            <select id="list_countries">
+                <option value="">Select Countrie</option>
+            </select>
+            <select id="list_cityes">
+                <option value="">Select Sityes</option>
+            </select>
+            
+        </div>
+    </div>
+    @foreach ( User user in Users )
+    {
+    <div class="div_user" onclick="OpenUser(@user.id)">
+        <img src="~/Styles/images/profile.png"/>
+        <span id="full_name">@user.lastName @user.firstName</span>
+        <span id="live">Ukraine</span>
+
+        <div class="shape">
+            @if (user.isOnline)
+            {
+                <div class="shape_status" id="shape_status_online"></div>
+            }
+            else
+            {
+                <div class="shape_status" id="shape_status_offline"></div>
+            }
+        </div>
+    </div>
+    }
+</div>
