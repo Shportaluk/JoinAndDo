@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace JoinAndDo.Entities
 {
@@ -10,9 +6,9 @@ namespace JoinAndDo.Entities
     {
         public string login;
         public List<Message> dialog;
-
+        
         public Interlocutor() { }
-        public Interlocutor( string login, List<Message> dialog)
+        public Interlocutor( string login, List<Message> dialog )
         {
             this.login = login;
             this.dialog = dialog;

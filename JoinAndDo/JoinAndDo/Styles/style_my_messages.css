@@ -41,6 +41,7 @@
 #message {
     width: 100%;
     overflow: hidden;
+    background-color: transparent;
 }
 
 .sender_name

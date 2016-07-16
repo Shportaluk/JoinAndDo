@@ -205,10 +205,10 @@ namespace JoinAndDo.Repositoryes
             while (reader.Read())
             {
                 Message msg = new Message();
-                msg.Login = reader[0].ToString();
-                msg.Text = reader[1].ToString();
-                msg.LoginInterlocutor = reader[2].ToString();
-                msg.Date = reader[3].ToString();
+                msg.login = reader[0].ToString();
+                msg.text = reader[1].ToString();
+                msg.loginInterlocutor = reader[2].ToString();
+                msg.date = reader[3].ToString();
                 dialog.Add( msg );
             }
 
@@ -235,7 +235,7 @@ namespace JoinAndDo.Repositoryes
         public string GetCountMessages(string login, string hash)
         {
             string count = "-";
-            _cmdGetCountMessages = new SqlCommand("DECLARE @res INT EXEC GetCountMessages @login = '" + login + "', @hash = '" + hash + "', @res = @res OUTPUT SELECT @res");
+            _cmdGetCountMessages = new SqlCommand("EXEC GetCountMessages @login = '" + login + "', @hash = '" + hash + "'");
             _cmdGetCountMessages.Connection = _con;
             _con.Open();
 
@@ -315,11 +315,11 @@ namespace JoinAndDo.Repositoryes
             while (reader.Read())
             {
                 MyAccession accession = new MyAccession();
-                accession.Title = reader[0].ToString();
-                accession.Text = reader[1].ToString();
+                accession.title = reader[0].ToString();
+                accession.text = reader[1].ToString();
                 accession.People = int.Parse(reader[2].ToString());
                 accession.AllPeople = int.Parse(reader[3].ToString());
-                accession.IsComplete = Boolean.Parse( reader[4].ToString() );
+                accession.isComplete = Boolean.Parse( reader[4].ToString() );
                 listMyAccession.Add(accession);
             }
 

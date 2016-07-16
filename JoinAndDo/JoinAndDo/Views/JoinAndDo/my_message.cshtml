@@ -20,14 +20,14 @@
             @foreach (var msg in @Interlocutor.dialog)
             {
                 <div id="message">
-                    @if (@msg.Login != @Interlocutor.login)
+                    @if (@msg.login != @Interlocutor.login)
                     {
-                    <div class="list_message" id="my_message">@msg.Text</div>
+                    <div class="list_message" id="my_message">@msg.text</div>
                     }
                     else
                     {
 
-                    <div class="list_message" id="him_message">@msg.Text</div>
+                    <div class="list_message" id="him_message">@msg.text</div>
                     }
                 </div>
             }

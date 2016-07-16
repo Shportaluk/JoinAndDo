@@ -1,6 +1,8 @@
 ﻿using JoinAndDo.Entities;
 using JoinAndDo.Repositoryes;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -12,7 +14,6 @@ namespace JoinAndDo.Controllers
         // GET: JoinAndDo
         public ActionResult Index()
         {
-            ViewBag.listJoinsEntity = sqlRepository.GetAllFromJoins();
             return View();
         }
 
@@ -24,13 +25,13 @@ namespace JoinAndDo.Controllers
         public ActionResult Login( string login, string pass )
         {
             string res = "OK";
-            User user = sqlRepository.Authentication( login, pass );
+            User user = sqlRepository.Authentication( login, CalculateMD5Hash(pass) );
             if (user.login == null)
             {
                 res = "Invalid name or password";
                 return Content(res);
             }
-            user.hash = sqlRepository.SetHash( login, pass );
+            user.hash = sqlRepository.SetHash( login, CalculateMD5Hash(pass) );
             #region cookies
             var cookieId = new HttpCookie("cookieId")
             {
@@ -56,7 +57,7 @@ namespace JoinAndDo.Controllers
         [HttpPost]
         public ActionResult Registration( string login, string pass, string firstName, string lastName )
         {
-            string res = sqlRepository.Registration( login, pass, firstName, lastName );
+            string res = sqlRepository.Registration( login, CalculateMD5Hash( pass ), firstName, lastName );
             return Content(res);
         }
         public ActionResult Logout( string login, string hash )
@@ -180,6 +181,20 @@ namespace JoinAndDo.Controllers
         public string SendMsg(string login, string hash, string to, string text)
         {
             return sqlRepository.SendMsg( login, hash, to, text );
+        }
+
+        public string CalculateMD5Hash(string input)
+        {
+            MD5 md5 = System.Security.Cryptography.MD5.Create();
+            byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+            byte[] hash = md5.ComputeHash(inputBytes);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+            return sb.ToString();
+
         }
     }
 }

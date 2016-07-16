@@ -16,12 +16,12 @@
     @foreach ( var join in listDealsAccession )
     {
         <div class="block">
-            <div class="name">@join.Title</div>
+            <div class="name">@join.title</div>
             <div class="rating">
                 <p class="number_of_people">@join.People/@join.AllPeople</p>
             </div>
-            <div class="name_Invitor">@join.User</div>
-            <div class="description">@join.Text</div>
+            <div class="name_Invitor">@join.user</div>
+            <div class="description">@join.text</div>
             <button class="btn_join">Reject</button>
             <button class="btn_join">Accept</button>
         </div>

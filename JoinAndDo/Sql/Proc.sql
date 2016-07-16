@@ -1,9 +1,9 @@
 USE JoinAndDo
 
-
+GO
 CREATE PROC Registration
   @login NVARCHAR(20),
-  @pass NVARCHAR(20),
+  @pass NVARCHAR(150),
   @firstName NVARCHAR(20),
   @lastName NVARCHAR(20),
   @res NVARCHAR(30) OUTPUT
@@ -18,37 +18,19 @@ ELSE
 	SELECT @res = 'user is already registered'
 GO
 
-DECLARE @res NVARCHAR(30)
-EXEC Registration @login = 'Anonymus', @pass = '123456', @firstName = 'Andriy', @lastName = 'Shportaluk', @res = @res OUTPUT
-SELECT @res
-
-
-
 
 
 CREATE PROC GetCountMessages
   @login NVARCHAR(20),
-  @hash NVARCHAR(100),
-  @res INT OUTPUT
+  @hash NVARCHAR(100)
 AS
-SELECT @res = 0
-
 IF (( SELECT COUNT(*) FROM Users WHERE Login = @login and Hash = @hash ) = 1 )
 BEGIN
-	SET @res = ( SELECT count(*) FROM Messages WHERE toLogin = @login );
+	SELECT count(*) FROM Messages WHERE toLogin = @login
 END
-SELECT @res
 GO
 
-
-SELECT COUNT(*) FROM Users WHERE Login = 'asd' and Hash = 'GPYymdpnnkue8JfzY/lVCg'
-	SELECT count(*) FROM Messages WHERE Login = 'asd'
-
-DECLARE @res INT
-EXEC GetCountMessages @login = 'asd', @hash = 'GPYymdpnnkue8JfzY/lVCg', @res = @res OUTPUT
-SELECT @res
-
-
+GO
 CREATE PROC SendMsg
   @login NVARCHAR(20),
   @hash NVARCHAR(100),
@@ -65,19 +47,9 @@ ELSE
 	SELECT @res = 'Error !!!'
 GO
 
-SELECT * FROM Users
-SELECT * FROM Messages WHERE Id_user = 2
-
-DECLARE @res NVARCHAR(20)
-EXEC SendMsg @login = 'asd', @hash = 'GPYymdpnnkue8JfzY/lVCg', @to = 'Anonymus', @text = 'hey i am ASD', @res = @res OUTPUT
-SELECT @res
-
-
-SELECT TOP 1 Login, Text  FROM Messages WHERE ToLogin = ( SELECT Login FROM Users WHERE Login = 'asd' and Hash = 'GPYymdpnnkue8JfzY/lVCg' ) ORDER BY Id DESC;
-
-
 
 -- GetDialog     Login, Hash, LoginInterlocutor
+GO
 CREATE PROC  GetDialog
 	@login NVARCHAR(20),
 	@hash NVARCHAR(100),
@@ -95,13 +67,10 @@ END
 GO
 
 
-EXEC GetDialog @login = 'asd', @hash = 'GPYymdpnnkue8JfzY/lVCg', @loginInterlocutor = 'Anonymus' 
-
-
+GO
 CREATE PROC GetInterlocutor 
 	@login NVARCHAR(20)
 AS
-
 SELECT  DISTINCT * FROM 
 (
 	SELECT ToLogin FROM Messages WHERE Login = @login
@@ -111,10 +80,8 @@ SELECT  DISTINCT * FROM
 GO
 
 
-EXEC GetInterlocutor @login = 'asd'
 
-
-
+GO
 CREATE PROC GetAccessions
 	@login NVARCHAR(20),
 	@hash NVARCHAR(100)
@@ -125,15 +92,9 @@ BEGIN
 END
 GO
 
-SELECT * FROM Users
-EXEC GetAccessions @login = 'admin', @hash = 'xR2sWR5wIUq8vsjoisq0w'
 
 
-
-
-
-
-
+GO
 CREATE PROC NewJoin
 	@login NVARCHAR(20),
 	@hash NVARCHAR(100),
@@ -146,12 +107,9 @@ IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
 	INSERT INTO Joins VALUES ( @login, @title, @text, @category, 0, @needPeople )
 END
+GO 
+
 GO
-
-EXEC NewJoin @login = '', @hash = '', @title = '', @text = '', @category = '', @needPeople = 0
-SELECT * FROM Joins
-
-
 CREATE PROC GetUserByName
 	@name NVARCHAR(20)
 AS
@@ -159,24 +117,3 @@ AS
 	UNION ALL
 	SELECT Id, FirstName, LastName, Hash FROM Users WHERE LastName LIKE @name + '%'
 GO
-
-
-
-
-
-
-
-
-
-
-
-
-
-DROP PROC GetUserByName
-DROP PROC NewJoin
-DROP PROC GetAccessions
-DROP PROC GetInterlocutor
-DROP PROC SendMsg
-DROP PROC Registration
-DROP PROC GetCountMessages
-DROP PROC GetDialog

@@ -15,12 +15,12 @@
     @foreach (var join in listMyAccession)
     {
         <div class="block">
-            <div class="name">@join.Title</div>
+            <div class="name">@join.title</div>
             <div class="rating">
                 <p class="number_of_people">@join.People/@join.AllPeople</p>
             </div>
-            <div class="description">@join.Text</div>
-            @if( @join.IsComplete )
+            <div class="description">@join.text</div>
+            @if( @join.isComplete )
             {
                 <div id="done"></div>
             }

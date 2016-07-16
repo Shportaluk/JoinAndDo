@@ -20,7 +20,7 @@ namespace JoinAndDo.Entities
 
         public User()
         {
-            isOnline = false;
+            
         }
     }
 }

@@ -1,32 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JoinAndDo.Entities
+﻿namespace JoinAndDo.Entities
 {
-    public class JoinsEntity
+    public abstract class JoinsEntity
     {
-        public string Title { get; set; }
-        public string Text { get; set; }
-        public int People { get; set; }
-        public int AllPeople { get; set; }
+        public string title;
+        public string text;
+
+        private int _people;
+        private int _allPeople;
+
+        public int People
+        {
+            get
+            {
+                return _people;
+            }
+            set
+            {
+                if( value >= 0 )
+                {
+                    _people = value;
+                }
+                else
+                {
+                    _people = 0;
+                }
+            }
+        }
+        public int AllPeople
+        {
+            get
+            {
+                return _allPeople;
+            }
+            set
+            {
+                if( value > 0 )
+                {
+                    _allPeople = value;
+                }
+                else
+                {
+                    _allPeople = 1;
+                }
+            }
+        }
+
 
         public JoinsEntity(  )
         {
-            this.Title = "";
-            this.Text = "";
-            this.People = 0;
-            this.AllPeople = 0;
-        }
-
-        public JoinsEntity( string title, string text, int people, int allPeople )
-        {
-            this.Title = title;
-            this.Text = text;
-            this.People = people;
-            this.AllPeople = allPeople;
+            title = "";
+            text = "";
+            _people = 0;
+            _allPeople = 1;
         }
     }
 }
