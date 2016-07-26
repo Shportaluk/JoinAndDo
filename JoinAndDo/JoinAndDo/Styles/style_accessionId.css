@@ -1,0 +1,94 @@
+﻿#blocks {
+    width: calc( 100% - 280px );
+    padding: 10px;
+    background-color: rgba(0,0,0,0.5)
+}
+
+#title {
+    width: calc( 100% - 18px );
+    text-align: center;
+    padding: 10px;
+
+    color: Black;
+    text-shadow: 0 0 5px;
+    font-family: Caviar_Dreams_Bold;
+    font-size: 27px;
+    
+    background-color: white;
+}
+#description {
+    margin: 5px;
+    padding: 17px;
+    color: white;
+    font-family: CaviarDreams;
+    font-size: 20px;
+
+    background-color: rgba(0,0,0,0.5)
+}
+
+#users_and_information {
+    background-color: transparent;
+    margin: 5px;
+    overflow: hidden;
+}
+
+#users {
+    background-color: white;
+    overflow: hidden;
+    width: 250px;
+    float: left;
+}
+.user {
+    font-family: Expand;
+    text-decoration: none;
+    padding: 15px 25px;
+}
+.user:hover {
+    cursor: pointer;
+}
+
+#div_informations {
+    height: 100%;
+    min-height: 200px;
+    
+    overflow: hidden;
+
+}
+.information {
+    position: absolute;
+    left: 265px;
+    width: calc( 100% - 281px );
+    background-color: white;
+    height: 235px;
+
+    border-left: 1px solid black;
+
+    display: none;
+    opacity: 0;
+}
+.information .specialty {
+    text-align: center;
+    padding: 12px 0px 0px;
+
+    color: white;
+    font-family: Basic;
+    font-size: 35px;
+
+    background-color: #2ECCFA;
+}
+.information button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 250px;
+    height: 50px;
+    margin-left: -125px;
+    margin-top: -25px;
+    font-size: 35px;
+}
+
+.information button:hover {
+    font-size: 35px;
+    color: white;
+    background-color: rgba(0,0,0,0.8);
+}

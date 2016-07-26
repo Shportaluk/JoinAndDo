@@ -5,6 +5,8 @@ DROP TABLE Joins
 DROP TABLE My_accession
 DROP TABLE Deals_accession
 DROP TABLE Users
+DROP TABLE Accession
+DROP TABLE Role
 
 DROP PROC Registration
 DROP PROC GetCountMessages

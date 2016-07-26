@@ -96,11 +96,11 @@ namespace JoinAndDo.Repositoryes
 
                 while (reader.Read())
                 {
-                    user.id = reader[0].ToString();
-                    user.login = reader[1].ToString();
-                    user.firstName = reader[2].ToString();
-                    user.lastName = reader[3].ToString();
-                    user.hash = reader[4].ToString();
+                    user.Id = reader[0].ToString();
+                    user.Login = reader[1].ToString();
+                    user.FirstName = reader[2].ToString();
+                    user.LastName = reader[3].ToString();
+                    user.Hash = reader[4].ToString();
                 }
                 _con.Close();
                 return user;
@@ -163,12 +163,12 @@ namespace JoinAndDo.Repositoryes
             while (reader.Read())
             {
                 User user = new User();
-                user.id = reader[0].ToString();
-                user.firstName = reader[1].ToString();
-                user.lastName = reader[2].ToString();
+                user.Id = reader[0].ToString();
+                user.FirstName = reader[1].ToString();
+                user.LastName = reader[2].ToString();
                 if (!String.IsNullOrEmpty(reader[3].ToString()))
                 {
-                    user.isOnline = true;
+                    user.IsOnline = true;
                 }
                 listUser.Add(user);
             }
@@ -249,7 +249,7 @@ namespace JoinAndDo.Repositoryes
 
             return count;
         }
-        public User GetUserById(string iD)
+        public User GetUserById(int? iD)
         {
             User user = null;
             using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, Hash, FulfillmentAccession, AcceptedConnections, TimeWorking FROM Users where Id = " + iD))
@@ -261,21 +261,63 @@ namespace JoinAndDo.Repositoryes
                 while (reader.Read())
                 {
                     user = new User();
-                    user.login = reader[0].ToString();
-                    user.firstName = reader[1].ToString();
-                    user.lastName = reader[2].ToString();
+                    user.Login = reader[0].ToString();
+                    user.FirstName = reader[1].ToString();
+                    user.LastName = reader[2].ToString();
                     if (!String.IsNullOrEmpty(reader[3].ToString()))
                     {
-                        user.isOnline = true;
+                        user.IsOnline = true;
                     }
-                    user.fulfillmentAccession = reader[4].ToString();
-                    user.acceptedConnections = reader[5].ToString();
-                    user.timeWorking = reader[6].ToString();
+                    user.FulfillmentAccession = reader[4].ToString();
+                    user.AcceptedConnections = reader[5].ToString();
+                    user.TimeWorking = reader[6].ToString();
                 }
 
                 _con.Close();
             }
             return user;
+        }
+        public User GetUserByLogin(string login)
+        {
+            User user = null;
+            using (SqlCommand sqlComm = new SqlCommand( "SELECT Id, FirstName, LastName FROM Users where Login = '" + login + "'" ))
+            {
+                sqlComm.Connection = _con;
+                _con.Open();
+                SqlDataReader reader = sqlComm.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    user = new User();
+                    user.Id = reader[0].ToString();
+                    user.FirstName = reader[1].ToString();
+                    user.LastName = reader[2].ToString();
+                }
+
+                _con.Close();
+            }
+            return user;
+        }
+        public List<User> GetUsersByIdOfAccession( int? id )
+        {
+            List<User> users = new List<User>();
+
+            SqlCommand sqlComm = new SqlCommand( "SELECT Login, RoleName FROM Role WHERE IdAccession = " + id );
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                User user = new User();
+                user.Login = reader[0].ToString();
+                user.Role = reader[1].ToString();
+                users.Add(user);
+            }
+
+            _con.Close();
+            return users;
         }
         public List<JoinsEntity> GetAllFromJoins(  )
         {
@@ -303,7 +345,7 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return listJoins;
         }
-        public List<MyAccession> GetAccessions( string login, string hash )
+        public List<MyAccession> GetMyAccessions( string login, string hash )
         {
             List<MyAccession> listMyAccession = new List<MyAccession>();
             _cmdMyAccession = new SqlCommand( "EXEC GetAccessions @login = '"+login+"', @hash = '"+hash+"'" );
@@ -334,26 +376,70 @@ namespace JoinAndDo.Repositoryes
             _con.Open();
             SqlDataReader reader = _cmdDealsAccession.ExecuteReader();
 
-
-            //string title;
-            //string text;
-            //string user;
-            //int people;
-            //int allPeople;
-            //
-            //
-            //while (reader.Read())
-            //{
-            //    title = reader[1].ToString();
-            //    text = reader[2].ToString();
-            //    user = reader[3].ToString();
-            //    people = int.Parse(reader[4].ToString());
-            //    allPeople = int.Parse(reader[5].ToString());
-            //    listDealsAccession.Add( new DealsAccession( title, text, user, people, allPeople ) );
-            //}
+            
+            while (reader.Read())
+            {
+                DealsAccession dealsAccession = new DealsAccession();
+                dealsAccession.title = reader[1].ToString();
+                dealsAccession.text = reader[2].ToString();
+                dealsAccession.user = reader[3].ToString();
+                dealsAccession.People = int.Parse(reader[4].ToString());
+                dealsAccession.AllPeople = int.Parse(reader[5].ToString());
+                listDealsAccession.Add( dealsAccession );
+            }
 
             _con.Close();
             return listDealsAccession;
+        }
+        public List<Accession> GetAccessions( string text )
+        {
+            List < Accession > listAccession = new List < Accession >();
+
+            SqlCommand sqlComm = new SqlCommand( "SELECT * FROM Accession WHERE Text LIKE '%"+text+"%'" );
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Accession accession = new Accession();
+                accession.Id = int.Parse(reader[0].ToString());
+                accession.Title = reader[1].ToString();
+                accession.Text = reader[2].ToString();
+                accession.Category = reader[3].ToString();
+                accession.Creator = reader[4].ToString();
+                accession.People = int.Parse(reader[5].ToString());
+                accession.AllPeople = int.Parse(reader[6].ToString());
+                listAccession.Add(accession);
+            }
+
+            _con.Close();
+            return listAccession;
+        }
+        public Accession GetAccessionById(int? id)
+        {
+            Accession accession = null;
+            SqlCommand sqlComm = new SqlCommand( "SELECT * FROM Accession WHERE Id = " + id );
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                accession = new Accession();
+                accession.Id = int.Parse(reader[0].ToString());
+                accession.Title = reader[1].ToString();
+                accession.Text = reader[2].ToString();
+                accession.Category = reader[3].ToString();
+                accession.Creator = reader[4].ToString();
+                accession.People = int.Parse(reader[5].ToString());
+                accession.AllPeople = int.Parse(reader[6].ToString());
+            }
+
+            _con.Close();
+            return accession;
         }
     }
 }

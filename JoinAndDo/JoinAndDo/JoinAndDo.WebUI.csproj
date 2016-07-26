@@ -83,9 +83,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Scripts\js_accessionId.js" />
     <Content Include="Scripts\js_draggble_settings.js" />
     <Content Include="Scripts\js_my_messages_sms.js" />
     <Content Include="Scripts\js_new_join.js" />
+    <Content Include="Scripts\js_search_accession.js" />
     <Content Include="Scripts\js_search_people.js" />
     <Content Include="Scripts\js_singl_page_move.js" />
     <Content Include="Scripts\js_sms.js" />
@@ -116,12 +118,14 @@
     <Content Include="Styles\images\tick_orange.png" />
     <Content Include="Styles\images\tick_orange_hover.png" />
     <Content Include="Styles\style.css" />
+    <Content Include="Styles\style_accessionId.css" />
     <Content Include="Styles\style_deals_accession.css" />
     <Content Include="Styles\style_index.css" />
     <Content Include="Styles\style_my_accession.css" />
     <Content Include="Styles\style_my_messages.css" />
     <Content Include="Styles\style_my_profile.css" />
     <Content Include="Styles\style_new_join.css" />
+    <Content Include="Styles\style_search_accession.css" />
     <Content Include="Styles\style_search_people.css" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -154,6 +158,10 @@
     <Content Include="Scripts\new_msg_in_dialog.ogg" />
     <Content Include="Views\JoinAndDo\new_join.cshtml" />
     <Content Include="Views\JoinAndDo\search_people.cshtml" />
+    <Content Include="Views\JoinAndDo\search_accession.cshtml" />
+    <Content Include="Views\JoinAndDo\AdminPanel.cshtml" />
+    <Content Include="Views\JoinAndDo\AccessionId.cshtml" />
+    <Content Include="Views\JoinAndDo\NoAccession.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

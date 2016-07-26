@@ -1,0 +1,19 @@
+﻿#blocks {
+    min-width: calc( 100% - 550px );
+    height: calc( 100% - 100px );
+}
+
+#form_search input[name="name"] {
+    width: calc( 100% - 87px );
+    margin: 0px;
+    padding: 5px;
+    font-size: 18px;
+}
+
+.block:hover {
+    cursor: pointer;
+}
+
+.description{
+    margin: 15px 20px 20px;
+}

@@ -8,15 +8,16 @@ namespace JoinAndDo.Entities
 {
     public class User
     {
-        public string id;
-        public string login;
-        public string firstName;
-        public string lastName;
-        public bool isOnline;
-        public string hash;
-        public string fulfillmentAccession;
-        public string acceptedConnections;
-        public string timeWorking;
+        public string Id { get; set; }
+        public string Login { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public bool IsOnline { get; set; }
+        public string Hash { get; set; }
+        public string FulfillmentAccession { get; set; }
+        public string AcceptedConnections { get; set; }
+        public string TimeWorking { get; set; }
+        public string Role { get; set; }
 
         public User()
         {

@@ -6,6 +6,7 @@
     List<User> Users = ViewBag.listUser;
 }
 
+<script src="~/Scripts/js_sms.js"></script>
 <link href="~/Styles/style_search_people.css" rel="stylesheet" />
 <script src="~/Scripts/js_search_people.js"></script>
 
@@ -38,13 +39,13 @@
     </div>
     @foreach ( User user in Users )
     {
-    <div class="div_user" onclick="OpenUser(@user.id)">
+    <div class="div_user" onclick="OpenUser(@user.Id)">
         <img src="~/Styles/images/profile.png"/>
-        <span id="full_name">@user.lastName @user.firstName</span>
+        <span id="full_name">@user.LastName @user.FirstName</span>
         <span id="live">Ukraine</span>
 
         <div class="shape">
-            @if (user.isOnline)
+            @if (user.IsOnline)
             {
                 <div class="shape_status" id="shape_status_online"></div>
             }

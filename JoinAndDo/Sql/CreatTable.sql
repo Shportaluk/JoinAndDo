@@ -65,3 +65,40 @@ CREATE TABLE Deals_accession
 	
 	CONSTRAINT fk_deals_Accession FOREIGN KEY ( Login ) REFERENCES Users( Login )
 );
+
+CREATE TABLE Accession
+(
+	Id INT IDENTITY( 1, 1 ),
+	Title NVARCHAR( 20 ),
+	Text NVARCHAR( 1500 ),
+	Category NVARCHAR(100),
+	Login NVARCHAR( 20 ),
+	People INT,
+	AllPeople INT,
+	
+	PRIMARY KEY(Id),
+	CONSTRAINT fk_Accession FOREIGN KEY ( Login ) REFERENCES Users( Login )
+);
+
+CREATE TABLE ListUsersInAccession
+(
+	Id INT IDENTITY( 1, 1 ),
+	Login NVARCHAR(20),
+	IdAccession INT
+	
+	PRIMARY KEY(Id),
+	CONSTRAINT fk_ListUsersInAccession_Login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
+	CONSTRAINT fk_ListUsersInAccession_IdAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id ),
+);
+
+CREATE TABLE Role
+(
+	Id INT IDENTITY( 1, 1 ),
+	Login NVARCHAR( 20 ),
+	RoleName NVARCHAR( 20 ),
+	IdAccession INT,
+	
+	
+	CONSTRAINT fk_Role_Login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
+	CONSTRAINT fk_Role_IdAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
+);

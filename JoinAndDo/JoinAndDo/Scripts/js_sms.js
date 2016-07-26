@@ -31,6 +31,7 @@ function ShowMsg( res )
     var div_Text = document.createElement('p');
 
     div_SMS.className = "sms";
+    div_SMS.onclick = function () { window.location.href = '/JoinAndDo/my_message'; }
     div_NameSender.className = "name_sender";
     div_Text.className = "text";
 
@@ -68,6 +69,7 @@ $(document).ready(function () {
     //setTimeout(function () {
     //    ShowMsg("SDS:SD2222");
     //}, 1500)
+
 
     var count;
     var n;

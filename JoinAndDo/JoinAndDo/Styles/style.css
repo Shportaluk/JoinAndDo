@@ -179,6 +179,10 @@ button:hover {
     border-radius: 7px;
     background-color: rgba(0,0,0,0.5);
     box-shadow: 0 0 5px;
+
+    z-index: 999;
+
+    cursor: pointer;
 }
 .sms .name_sender{
     color: white;
@@ -359,12 +363,18 @@ button:hover {
 {
  font-weight: bold;
  margin: -5px 15px 0px 0px;
- color: black;
+ color: white;
 }
 .description
 {
     float: left;
-    margin: 20px;
+    width: calc( 100% - 40px );
+    margin: 0 20px 20px;
+    font-family: CaviarDreams;
+}
+.creator {
+    text-align: center;
+    
 }
 
 .btn_join

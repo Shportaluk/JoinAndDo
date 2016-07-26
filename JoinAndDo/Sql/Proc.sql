@@ -95,19 +95,44 @@ GO
 
 
 GO
+CREATE PROC GetDealsAccessions
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	SELECT * FROM Deals_accession WHERE Login = @login
+END
+GO
+
+
+
+GO
+CREATE PROC FindAccessions
+	@text NVARCHAR(255)
+AS
+	SELECT * FROM Accession WHERE Text LIKE '%' + @text + '%'
+GO
+
+
+SELECT * FROM Accession WHERE Text LIKE '%L%'
+
+
+GO
 CREATE PROC NewJoin
 	@login NVARCHAR(20),
 	@hash NVARCHAR(100),
 	@title NVARCHAR(20),
-	@text NVARCHAR(100),
+	@text NVARCHAR(1500),
 	@category NVARCHAR(20),
 	@needPeople INT
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
-	INSERT INTO Joins VALUES ( @login, @title, @text, @category, 0, @needPeople )
+	INSERT INTO Accession VALUES ( @title, @text, @category, @login, 0, @needPeople )
 END
 GO 
+
 
 GO
 CREATE PROC GetUserByName

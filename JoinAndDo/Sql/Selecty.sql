@@ -6,6 +6,11 @@ SELECT * FROM Joins
 SELECT * FROM Messages
 SELECT * FROM My_accession
 SELECT * FROM Deals_accession
+SELECT * FROM Accession
+SELECT * FROM Role
+SELECT * FROM ListUsersInAccession
+
+SELECT Login, RoleName FROM Role WHERE IdAccession = 1
 
 SELECT * FROM Messages
 SELECT LastName, FirstName FROM Users

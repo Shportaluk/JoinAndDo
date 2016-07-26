@@ -1,0 +1,45 @@
+﻿@using JoinAndDo.Entities
+@{
+    Accession accession = ViewBag.Accession;
+    List<User> listUsers = ViewBag.ListUsers;
+}
+
+@{
+    ViewBag.Title = @accession.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/js_sms.js"></script>
+<script src="~/Scripts/js_accessionId.js"></script>
+<link href="~/Styles/style_accessionId.css" rel="stylesheet" />
+
+<div id="blocks">
+    <div id="title">@accession.Title</div>
+
+    <div id="description">
+        @accession.Text
+    </div>
+
+    <div id="users_and_information">
+        <div id="users">
+            @for (int i = 0; i < listUsers.Count; i++ )
+            {
+                <div class="user" id="user_@i" onclick="OpenUser(@i)">@listUsers[@i].FirstName @listUsers[@i].LastName</div>
+            }
+        </div>
+
+        <div id="div_informations">
+            @for (int i = 0; i < listUsers.Count; i++)
+            {
+                <div class="information" id="info_@i">
+                    <div class="specialty">
+                        @listUsers[@i].Role
+                    </div>
+                    <button>Write Message</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+

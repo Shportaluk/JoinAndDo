@@ -10,13 +10,12 @@ namespace JoinAndDo.Controllers
 {
     public class JoinAndDoController : Controller
     {
-        private SqlRepository sqlRepository = new SqlRepository();
+        private SqlRepository _sqlRepository = new SqlRepository();
         // GET: JoinAndDo
         public ActionResult Index()
         {
             return View();
         }
-
         public ActionResult new_join()
         {
             return View();
@@ -25,18 +24,18 @@ namespace JoinAndDo.Controllers
         public ActionResult Login( string login, string pass )
         {
             string res = "OK";
-            User user = sqlRepository.Authentication( login, CalculateMD5Hash(pass) );
-            if (user.login == null)
+            User user = _sqlRepository.Authentication( login, CalculateMD5Hash(pass) );
+            if (user.Login == null)
             {
                 res = "Invalid name or password";
                 return Content(res);
             }
-            user.hash = sqlRepository.SetHash( login, CalculateMD5Hash(pass) );
+            user.Hash = _sqlRepository.SetHash( login, CalculateMD5Hash(pass) );
             #region cookies
             var cookieId = new HttpCookie("cookieId")
             {
                 Name = "id",
-                Value = user.id
+                Value = user.Id
             };
             var cookieLogin = new HttpCookie("cookieLogin")
             {
@@ -46,7 +45,7 @@ namespace JoinAndDo.Controllers
             var cookieHash = new HttpCookie( "cookieHash" )
             {
                 Name = "hash",
-                Value = user.hash
+                Value = user.Hash
             };
             Response.SetCookie(cookieId);
             Response.SetCookie(cookieLogin);
@@ -57,7 +56,7 @@ namespace JoinAndDo.Controllers
         [HttpPost]
         public ActionResult Registration( string login, string pass, string firstName, string lastName )
         {
-            string res = sqlRepository.Registration( login, CalculateMD5Hash( pass ), firstName, lastName );
+            string res = _sqlRepository.Registration( login, CalculateMD5Hash( pass ), firstName, lastName );
             return Content(res);
         }
         public ActionResult Logout( string login, string hash )
@@ -73,7 +72,7 @@ namespace JoinAndDo.Controllers
                 Name = "hash",
                 Value = ""
             };
-            sqlRepository.DeleteHash( login, hash );
+            _sqlRepository.DeleteHash( login, hash );
 
             cookieLogin.Value = "";
             cookieHash.Value = "";
@@ -89,7 +88,7 @@ namespace JoinAndDo.Controllers
             {
                 string login = Request.Cookies["login"].Value;
                 string hash = Request.Cookies["hash"].Value;
-                ViewBag.listMyAccession = sqlRepository.GetAccessions(login, hash);
+                ViewBag.listMyAccession = _sqlRepository.GetMyAccessions(login, hash);
                 return View();
             }
             catch
@@ -104,12 +103,12 @@ namespace JoinAndDo.Controllers
                 string cookieLogin = HttpContext.Request.Cookies["login"].Value;
                 string cookieHash = HttpContext.Request.Cookies["hash"].Value;
 
-                List<string> interlocutors = sqlRepository.GetInterlocutors(cookieLogin);
+                List<string> interlocutors = _sqlRepository.GetInterlocutors(cookieLogin);
                 List<Interlocutor> listInterlocutors = new List<Interlocutor>();
 
                 foreach (string login in interlocutors)
                 {
-                    listInterlocutors.Add(new Interlocutor(login, sqlRepository.GetDialog(cookieLogin, cookieHash, login)));
+                    listInterlocutors.Add(new Interlocutor(login, _sqlRepository.GetDialog(cookieLogin, cookieHash, login)));
                 }
                 ViewBag.listInterlocutors = listInterlocutors;
                 return View();
@@ -128,7 +127,7 @@ namespace JoinAndDo.Controllers
             }
 
             
-            User user = sqlRepository.GetUserById( id.ToString() );
+            User user = _sqlRepository.GetUserById( id );
             if( user != null )
             {
                 ViewBag.user = user;
@@ -145,16 +144,54 @@ namespace JoinAndDo.Controllers
         }
         public ActionResult deals_accession()
         {
-            ViewBag.listDealsAccession = sqlRepository.GetAllFromDealsAccession();
+            ViewBag.listDealsAccession = _sqlRepository.GetAllFromDealsAccession();
             return View();
         }
         public ActionResult search_people(string name)
         {
-            ViewBag.listUser = sqlRepository.GetUsers( name );
+            ViewBag.listUser = _sqlRepository.GetUsers( name );
             return View();
         }
+        public ActionResult search_accession(string text)
+        {
+            ViewBag.listAccession = _sqlRepository.GetAccessions( text );
+            return View();
+        }
+        public ActionResult AdminPanel()
+        {
+            return View();
+        }
+        public ActionResult AccessionId( int? id )
+        {
+            if (id == null)
+            {
+                return RedirectToAction("/NoAccession");
+            }
 
+            Accession accession = _sqlRepository.GetAccessionById( id );
+            if (accession != null)
+            {
+                ViewBag.Accession = accession;
+                List<User> users = _sqlRepository.GetUsersByIdOfAccession(id);
+                for ( int i = 0; i < users.Count; i++ )
+                {
+                    string role = users[i].Role;
+                    users[i] = _sqlRepository.GetUserByLogin( users[i].Login );
+                    users[i].Role = role;
+                }
+                ViewBag.ListUsers = users;
+            }
+            else
+            {
+                return RedirectToAction("/NoAccession");
+            }
 
+            return View();
+        }
+        public ActionResult NoAccession()
+        {
+            return View();
+        }
 
 
         public ActionResult test()
@@ -168,22 +205,22 @@ namespace JoinAndDo.Controllers
 
         public void NewJoin(string login, string hash, string name, string text, string category, string needPeople)
         {
-            sqlRepository.NewJoin(login, hash, name, text, category, needPeople);
+            _sqlRepository.NewJoin(login, hash, name, text, category, needPeople);
         }
         public string GetLastMessages(string login, string hash)
         {
-            return sqlRepository.GetLastMessages(login, hash);
+            return _sqlRepository.GetLastMessages(login, hash);
         }
         public string CheckSms(string login, string hash)
         {
-            return sqlRepository.GetCountMessages(login, hash);
+            return _sqlRepository.GetCountMessages(login, hash);
         }
         public string SendMsg(string login, string hash, string to, string text)
         {
-            return sqlRepository.SendMsg( login, hash, to, text );
+            return _sqlRepository.SendMsg( login, hash, to, text );
         }
 
-        public string CalculateMD5Hash(string input)
+        private string CalculateMD5Hash(string input)
         {
             MD5 md5 = System.Security.Cryptography.MD5.Create();
             byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
