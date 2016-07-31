@@ -2,6 +2,7 @@
 @{
     Accession accession = ViewBag.Accession;
     List<User> listUsers = ViewBag.ListUsers;
+    List<RequestJoinToAccession> listRequestsAdditionOf = ViewBag.ListRequestsAdditionOf;
 }
 
 @{
@@ -12,30 +13,105 @@
 <script src="~/Scripts/js_sms.js"></script>
 <script src="~/Scripts/js_accessionId.js"></script>
 <link href="~/Styles/style_accessionId.css" rel="stylesheet" />
+<link href="~/Styles/style_search_people.css" rel="stylesheet" />
 
 <div id="blocks">
     <div id="title">@accession.Title</div>
-
+    <div style="display: none" id="id_accession" >@accession.Id</div>
+    <div style="display: none" id="creator_accession">@accession.Creator</div>
     <div id="description">
         @accession.Text
     </div>
 
-    <div id="users_and_information">
+    <div class="users_and_information">
         <div id="users">
+            <div class="user" id="user1_join">Join Now</div>
+            <div class="user" id="user1_invite">++ Invite User ++</div>
+            <strong style="text-align: center">Customers</strong>
             @for (int i = 0; i < listUsers.Count; i++ )
             {
-                <div class="user" id="user_@i" onclick="OpenUser(@i)">@listUsers[@i].FirstName @listUsers[@i].LastName</div>
+                <div class="user" id="user1_@i" onclick="OpenUser(@listUsers[@i].Id)">@listUsers[@i].FirstName @listUsers[@i].LastName</div>
             }
         </div>
 
         <div id="div_informations">
+            <div class="information" id="info1_join">
+                <p>
+                    <strong>My name:</strong>
+                    <strong id="my_name">Andrey</strong>
+                    <select>
+                        <option>Gamer</option>
+                        <option>Seo</option>
+                    </select>
+                    <strong id="error" ></strong>
+                </p>
+
+                <p>
+                    <strong>Message</strong>
+                </p>
+                <textarea id="text"> </textarea>
+                <button id="btn_send_request_to_accession" onclick="SendRequestToAccession()">Send</button>
+            </div>
+            <div id="info1_invite">
+                <div id="form_search">
+                    <input type="text" name="name" />
+                    <button onclick="SearchUser()">Search</button>
+
+                    <button id="show" onclick="ShowAdvanced()">Show Advanced</button>
+                    <button id="hide" onclick="HideAdvanced()">Hide Advanced</button>
+                    <div id="advanced_search">
+                        <div class="select" id="select_gender">
+                            <div id="online">Male</div>
+                            <div id="famele">Famele</div>
+                            <div id="all">All</div>
+                        </div>
+                        <div class="select" id="select_status">
+                            <div id="online">Online</div>
+                            <div id="offline">Offline</div>
+                            <div id="all">All</div>
+                        </div>
+                        <select id="list_countries">
+                            <option value="">Select Countrie</option>
+                        </select>
+                        <select id="list_cityes">
+                            <option value="">Select Sityes</option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
             @for (int i = 0; i < listUsers.Count; i++)
             {
-                <div class="information" id="info_@i">
+                <div class="information" id="info1_@i">
                     <div class="specialty">
                         @listUsers[@i].Role
                     </div>
                     <button>Write Message</button>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="users_and_information" id="div_requests">
+        <div id="users">
+            <strong style="text-align: center">Requests Addition Of</strong>
+            @for (int i = 0; i < listRequestsAdditionOf.Count; i++)
+            {
+                <div class="user" id="user2_@i" onclick="OpenUser(@listRequestsAdditionOf[@i].Id)">@listRequestsAdditionOf[@i].Login</div>
+            }
+        </div>
+
+        <div id="div_informations">
+            @for (int i = 0; i < listRequestsAdditionOf.Count; i++)
+            {
+                <div class="information" id="info2_@i">
+                    <div class="specialty">
+                        @listRequestsAdditionOf[@i].Category
+                    </div>
+                    <div id="request_text">@listRequestsAdditionOf[@i].Text</div>
+                    <button id="btn_WriteMsg">Write Message</button>
+                    <button id="btn_accept">Accept</button>
+                    <button id="btn_reject">Reject</button>
                 </div>
             }
         </div>

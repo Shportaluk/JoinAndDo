@@ -91,6 +91,7 @@
     <Content Include="Scripts\js_search_people.js" />
     <Content Include="Scripts\js_singl_page_move.js" />
     <Content Include="Scripts\js_sms.js" />
+    <Content Include="Scripts\js_top_message.js" />
     <Content Include="Scripts\new_msg.mp3" />
     <Content Include="Scripts\sc_my_messages.js" />
     <Content Include="Scripts\sc_my_profile.js" />
@@ -162,6 +163,7 @@
     <Content Include="Views\JoinAndDo\AdminPanel.cshtml" />
     <Content Include="Views\JoinAndDo\AccessionId.cshtml" />
     <Content Include="Views\JoinAndDo\NoAccession.cshtml" />
+    <Content Include="Views\JoinAndDo\MyInvitation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

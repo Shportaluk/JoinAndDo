@@ -333,6 +333,7 @@ button:hover {
  font-family: Arial;
  box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
  transition: 0.75s;
+ cursor: pointer;
 }
 .block:hover
 {
@@ -436,4 +437,13 @@ button:hover {
 
 ::-webkit-scrollbar{
     
+}
+
+select {
+    font-family: Caviar_Dreams_Bold;
+    margin: 5px;
+    
+    border: none;
+    padding: 5px;
+    outline: none;
 }

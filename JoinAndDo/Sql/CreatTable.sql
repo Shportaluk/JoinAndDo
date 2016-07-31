@@ -80,15 +80,18 @@ CREATE TABLE Accession
 	CONSTRAINT fk_Accession FOREIGN KEY ( Login ) REFERENCES Users( Login )
 );
 
-CREATE TABLE ListUsersInAccession
-(
+
+CREATE TABLE RequestJoinToAccession (
 	Id INT IDENTITY( 1, 1 ),
-	Login NVARCHAR(20),
-	IdAccession INT
+	Login NVARCHAR ( 20 ),
+	Text NVARCHAR ( 1000 ),
+	Category NVARCHAR ( 100 ),
+	ToIdAccession INT,
+	Status NVARCHAR (10),
 	
-	PRIMARY KEY(Id),
-	CONSTRAINT fk_ListUsersInAccession_Login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
-	CONSTRAINT fk_ListUsersInAccession_IdAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id ),
+	PRIMARY KEY ( Id ),
+	CONSTRAINT fk_request_join_to_accession_login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
+	CONSTRAINT fk_request_join_to_accession_idAccession FOREIGN KEY ( ToIdAccession ) REFERENCES Accession( Id )
 );
 
 CREATE TABLE Role

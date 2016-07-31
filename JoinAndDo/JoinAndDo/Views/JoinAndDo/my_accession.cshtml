@@ -1,6 +1,6 @@
 ﻿@using JoinAndDo.Entities
 @{
-    List<MyAccession> listMyAccession = ViewBag.listMyAccession;
+    List<Accession> listMyAccession = ViewBag.listMyAccession;
 }
 
 @{
@@ -11,23 +11,29 @@
 <script src="~/Scripts/js_sms.js"></script>
 <link href="~/Styles/style_my_accession.css" rel="stylesheet" />
 
+<script>
+    function OpenAccession(id) {
+        window.location.href = "/JoinAndDo/AccessionId/" + id;
+    }
+</script>
+
 <div id="blocks">
-    @foreach (var join in listMyAccession)
+    @foreach (var accession in listMyAccession)
     {
-        <div class="block">
-            <div class="name">@join.title</div>
+        <div class="block" onclick="OpenAccession(@accession.Id)">
+            <div class="name">@accession.Title</div>
             <div class="rating">
-                <p class="number_of_people">@join.People/@join.AllPeople</p>
+                <p class="number_of_people">@accession.People/@accession.AllPeople</p>
             </div>
-            <div class="description">@join.text</div>
-            @if( @join.isComplete )
+            <div class="description">@accession.Text</div>
+            @*@if(@accession.isComplete )
             {
                 <div id="done"></div>
             }
             else
             {
                 <div id="fail"></div>
-            }
+            }*@
         </div>
     }
 </div>

@@ -52,14 +52,7 @@ p {
     font-size: 25px;
     outline: none;
 }
-#category_select {
-    font-family: Caviar_Dreams_Bold;
-    margin: 5px;
-    
-    border: none;
-    padding: 5px;
-    outline: none;
-}
+
 
 #btn_new_join {
     position: absolute;

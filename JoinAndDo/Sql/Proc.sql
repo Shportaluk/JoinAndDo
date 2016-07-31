@@ -19,7 +19,7 @@ ELSE
 GO
 
 
-
+GO
 CREATE PROC GetCountMessages
   @login NVARCHAR(20),
   @hash NVARCHAR(100)
@@ -48,7 +48,7 @@ ELSE
 GO
 
 
--- GetDialog     Login, Hash, LoginInterlocutor
+
 GO
 CREATE PROC  GetDialog
 	@login NVARCHAR(20),
@@ -115,9 +115,6 @@ AS
 GO
 
 
-SELECT * FROM Accession WHERE Text LIKE '%L%'
-
-
 GO
 CREATE PROC NewJoin
 	@login NVARCHAR(20),
@@ -129,7 +126,7 @@ CREATE PROC NewJoin
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
-	INSERT INTO Accession VALUES ( @title, @text, @category, @login, 0, @needPeople )
+	INSERT INTO Accession OUTPUT Inserted.ID VALUES ( @title, @text, @category, @login, 0, @needPeople )
 END
 GO 
 
@@ -142,3 +139,74 @@ AS
 	UNION ALL
 	SELECT Id, FirstName, LastName, Hash FROM Users WHERE LastName LIKE @name + '%'
 GO
+
+
+GO
+CREATE PROC GetMyAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	SELECT * FROM Accession WHERE Login = @login
+END
+GO 
+
+
+GO
+CREATE PROC SendRequestToAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@text NVARCHAR(1000),
+	@category NVARCHAR(100),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF ( (SELECT COUNT(*) FROM RequestJoinToAccession WHERE Login = @login and ToIdAccession = @idAccession ) = 0 )
+	BEGIN
+		INSERT INTO RequestJoinToAccession VALUES ( @login, @text, @category, @idAccession, 'Waiting' );
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have sent a request'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO 
+
+
+GO
+CREATE PROC AddUserToAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@loginUserAdded NVARCHAR(20),
+	@role NVARCHAR(100),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF ( (SELECT RoleName FROM Role WHERE Login = @login and IdAccession = @idAccession ) = 'Creator' or ( SELECT Login FROM Accession WHERE Id = @idAccession ) = @login )
+	BEGIN
+		INSERT INTO Role VALUES ( @login, @role, @idAccession )
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'you have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO 
+
+
+
+GO
+CREATE PROC GetMyInvitation
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	SELECT Text, Category, ToIdAccession, Status FROM RequestJoinToAccession WHERE Login = @login
+END
+GO 

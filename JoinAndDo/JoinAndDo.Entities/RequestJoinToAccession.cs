@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace JoinAndDo.Entities
 {
-    public class Accession
+    public class RequestJoinToAccession
     {
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string Login { get; set; }
         public string Text { get; set; }
         public string Category { get; set; }
-        public string Creator { get; set; }
+        public string ToIdAccession { get; set; }
         public string Status { get; set; }
-        public int People { get; set; }
-        public int AllPeople { get; set; }
 
-        public Accession() { }
+        public RequestJoinToAccession() { }
     }
 }

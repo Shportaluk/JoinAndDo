@@ -173,6 +173,7 @@ namespace JoinAndDo.Controllers
             {
                 ViewBag.Accession = accession;
                 List<User> users = _sqlRepository.GetUsersByIdOfAccession(id);
+                List<RequestJoinToAccession> listRequestsAdditionOf = _sqlRepository.GetRequestsAdditionToAccession(id);
                 for ( int i = 0; i < users.Count; i++ )
                 {
                     string role = users[i].Role;
@@ -180,6 +181,8 @@ namespace JoinAndDo.Controllers
                     users[i].Role = role;
                 }
                 ViewBag.ListUsers = users;
+
+                ViewBag.ListRequestsAdditionOf = listRequestsAdditionOf;
             }
             else
             {
@@ -193,6 +196,25 @@ namespace JoinAndDo.Controllers
             return View();
         }
 
+        public ActionResult MyInvitation()
+        {
+            try
+            {
+                string login = Request.Cookies["login"].Value;
+                string hash = Request.Cookies["hash"].Value;
+                ViewBag.listAccession = _sqlRepository.GetMyInvitation(login, hash);
+                return View();
+            }
+            catch
+            {
+                return RedirectToAction("/Index");
+            }
+        }
+
+        public string SendRequestToAccession(string login, string hash, string text, string category, int idAccession)
+        {
+            return _sqlRepository.SendRequestToAccession( login, hash, text, category, idAccession );
+        }
 
         public ActionResult test()
         {

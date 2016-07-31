@@ -39,14 +39,64 @@ namespace JoinAndDo.Repositoryes
             _con = new SqlConnection( _conStr );
         }
 
+        public List<Accession> GetMyInvitation(string login, string hash)
+        {
+            List<Accession> listInvitation = new List<Accession>();
+            string comm = String.Format("EXEC GetMyInvitation @login = '{0}', @hash = '{1}'", login, hash);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Accession accession = new Accession();
+                accession.Text = reader[0].ToString();
+                accession.Category = reader[1].ToString();
+                accession.Id = int.Parse(reader[2].ToString());
+                accession.Status = reader[3].ToString();
+                listInvitation.Add(accession);
+            }
+
+            _con.Close();
+            return listInvitation;
+        }
+        public string AddUserToAccession(string login, string hash, string loginUserAdded, string role, int idAccession)
+        {
+            string res = null;
+            string comm = String.Format("EXEC AddUserToAccession @login = '{0}', @hash = '{1}', @loginUserAdded = '{2}', @role = '{3}', @idAccession = {4}", login, hash, loginUserAdded, role, idAccession);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+
+            _con.Close();
+            return res;
+        }
         public void NewJoin( string login, string hash, string title, string text, string category, string needPeople)
         {
             string comm = "EXEC NewJoin @login = '"+login+"', @hash = '"+hash+"', @title = '"+title+"', @text = '"+text+"', @category = '"+category+"', @needPeople = " + needPeople;
+            string idAccession = null;
             _cmdNewJoin = new SqlCommand(comm);
             _cmdNewJoin.Connection = _con;
             _con.Open();
             SqlDataReader reader = _cmdNewJoin.ExecuteReader();
+            while (reader.Read())
+            {
+                idAccession = reader[0].ToString(); 
+            }
             _con.Close();
+            if (!string.IsNullOrWhiteSpace(idAccession))
+            {
+                AddUserToAccession(login, hash, login, "Creator", int.Parse(idAccession));
+            }
         }
 
         public string Registration( string login, string pass, string firstName, string lastName )
@@ -345,10 +395,11 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return listJoins;
         }
-        public List<MyAccession> GetMyAccessions( string login, string hash )
+        // Отримання приєднання якими я керую
+        public List<Accession> GetMyAccessions( string login, string hash )
         {
-            List<MyAccession> listMyAccession = new List<MyAccession>();
-            _cmdMyAccession = new SqlCommand( "EXEC GetAccessions @login = '"+login+"', @hash = '"+hash+"'" );
+            List<Accession> listMyAccession = new List<Accession>();
+            _cmdMyAccession = new SqlCommand( "EXEC GetMyAccession @login = '"+login+"', @hash = '"+hash+"'" );
             _cmdMyAccession.Connection = _con;
 
             _con.Open();
@@ -356,12 +407,14 @@ namespace JoinAndDo.Repositoryes
 
             while (reader.Read())
             {
-                MyAccession accession = new MyAccession();
-                accession.title = reader[0].ToString();
-                accession.text = reader[1].ToString();
-                accession.People = int.Parse(reader[2].ToString());
-                accession.AllPeople = int.Parse(reader[3].ToString());
-                accession.isComplete = Boolean.Parse( reader[4].ToString() );
+                Accession accession = new Accession();
+                accession.Id = int.Parse(reader[0].ToString());
+                accession.Title = reader[1].ToString();
+                accession.Text = reader[2].ToString();
+                accession.Category = reader[3].ToString();
+                accession.Creator = reader[4].ToString();
+                accession.People = int.Parse(reader[5].ToString());
+                accession.AllPeople = int.Parse(reader[6].ToString());
                 listMyAccession.Add(accession);
             }
 
@@ -440,6 +493,52 @@ namespace JoinAndDo.Repositoryes
 
             _con.Close();
             return accession;
+        }
+        // Отримання заявок приєднання до Accession
+        public List<RequestJoinToAccession> GetRequestsAdditionToAccession( int? id )
+        {
+            List<RequestJoinToAccession> listRequest = new List<RequestJoinToAccession>();
+
+            SqlCommand sqlComm = new SqlCommand( "SELECT * FROM RequestJoinToAccession WHERE ToIdAccession = '" + id + "'" );
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                RequestJoinToAccession requestToAccession = new RequestJoinToAccession();
+                requestToAccession.Id = int.Parse(reader[0].ToString());
+                requestToAccession.Login = reader[1].ToString();
+                requestToAccession.Text = reader[2].ToString();
+                requestToAccession.Category = reader[3].ToString();
+                requestToAccession.ToIdAccession = reader[4].ToString();
+                requestToAccession.Status = reader[5].ToString();
+                listRequest.Add(requestToAccession);
+            }
+
+            _con.Close();
+            return listRequest;
+        }
+        // Користувач надсилає заявку на приєднання до Accession
+        public string SendRequestToAccession(string login, string hash, string text, string category, int idAccession)
+        {
+            string res = "";
+            string command = String.Format("EXEC SendRequestToAccession @login = '{0}', @hash = '{1}', @text = '{2}', @category = '{3}', @idAccession = '{4}'", login, hash, text, category, idAccession );
+            SqlCommand sqlComm = new SqlCommand( command );
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+
+            _con.Close();
+
+            return res;
         }
     }
 }

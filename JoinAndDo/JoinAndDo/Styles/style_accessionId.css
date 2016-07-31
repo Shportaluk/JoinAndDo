@@ -25,14 +25,14 @@
 
     background-color: rgba(0,0,0,0.5)
 }
-
-#users_and_information {
+.users_and_information {
     background-color: transparent;
     margin: 5px;
     overflow: hidden;
 }
 
 #users {
+    text-align: center;
     background-color: white;
     overflow: hidden;
     width: 250px;
@@ -47,10 +47,8 @@
     cursor: pointer;
 }
 
+
 #div_informations {
-    height: 100%;
-    min-height: 200px;
-    
     overflow: hidden;
 
 }
@@ -58,7 +56,7 @@
     position: absolute;
     left: 265px;
     width: calc( 100% - 281px );
-    background-color: white;
+    background-color: rgba(0,0,0,0.5);
     height: 235px;
 
     border-left: 1px solid black;
@@ -78,17 +76,101 @@
 }
 .information button {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 250px;
+    width: 150px;
     height: 50px;
-    margin-left: -125px;
-    margin-top: -25px;
-    font-size: 35px;
+    font-size: 17px;
+}
+.information button:hover {
+    color: black;
+    background-color: white;
+}
+#div_requests { display: none; }
+#btn_send_request_to_accession { left: 50%; }
+#btn_WriteMsg { left: 5px; }
+#btn_accept { right: 160px; }
+#btn_reject { right: 5px; }
+
+.information #request_text {
+    position: relative;
+    margin: 5px;
+    padding: 17px;
+    color: white;
+    font-family: CaviarDreams;
+    font-size: 20px;
+    background-color: rgba(0,0,0,0.5)
 }
 
-.information button:hover {
-    font-size: 35px;
+#user1_invite { display: none; }
+#info1_invite {
+    position: absolute;
+    left: 265px;
+    width: calc( 100% - 291px );
+    background-color: rgba(0,0,0,0.5);
+    height: 235px;
+
+    border-left: 1px solid black;
+
+    display: none;
+    opacity: 0;
+
+    padding: 5px;
+}
+
+
+/* Join Info (Form) */
+#info1_join{
+    background-color: rgba(0,0,0,0.5);
+    height: 275px;
+}
+#info1_join strong{
+    font-family: CaviarDreams;
+    margin-left: 15px;
+    font-size: 15px;
+}
+#info1_join #error{
+    color: red;
+    margin-left: 50px;
+    text-shadow: 0 0 3px red;
+    border: 1px solid red;
+    padding: 9px 20px;
+    opacity: 0;
+}
+#info1_join  #my_name {
     color: white;
-    background-color: rgba(0,0,0,0.8);
+    border: 1px solid white;
+    padding: 10px;
+    cursor: pointer;
+}
+#info1_join select {
+    margin: 0px;
+    margin-left: 25px;
+}
+#info1_join textarea {
+    min-width: calc( 100% - 16px );
+    max-width: calc( 100% - 16px );
+
+    min-height: 100px;
+    max-height: 100px;
+    text-align: left;
+    color: black;
+    margin: 0px;
+    padding: 7px;
+}
+#info1_join button {
+    position: relative;
+    font-size: 20px;
+    padding: 5px;
+
+    margin-left: -100px;
+    width: 200px;
+    top: 19px;
+    
+    text-shadow: none;
+
+    color: black;
+    background-color: white;
+}
+#info1_join button:hover {
+    color: white;
+    background-color: black;
 }
