@@ -188,7 +188,7 @@ IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
 	IF ( (SELECT RoleName FROM Role WHERE Login = @login and IdAccession = @idAccession ) = 'Creator' or ( SELECT Login FROM Accession WHERE Id = @idAccession ) = @login )
 	BEGIN
-		INSERT INTO Role VALUES ( @login, @role, @idAccession )
+		INSERT INTO Role VALUES ( @loginUserAdded, @role, @idAccession )
 		SELECT 'Ok'
 	END
 	ELSE
@@ -210,3 +210,74 @@ BEGIN
 	SELECT Text, Category, ToIdAccession, Status FROM RequestJoinToAccession WHERE Login = @login
 END
 GO 
+
+
+GO 
+CREATE PROC DeleteJoin
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF((SELECT COUNT(*) FROM Accession WHERE Id = @idAccession and Login = @login) = 1 )
+	BEGIN
+		DELETE FROM RequestJoinToAccession WHERE ToIdAccession = @idAccession
+		DELETE FROM Role WHERE IdAccession = @idAccession
+		DELETE FROM Accession WHERE Id = @idAccession and Login = @login
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
+
+
+GO
+CREATE PROC AcceptRequestOfUserToAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@user NVARCHAR(20),
+	@role NVARCHAR(100),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF ((SELECT COUNT(*) FROM Accession WHERE Login = @login and Id = @idAccession ) >= 1)
+	BEGIN
+		UPDATE RequestJoinToAccession SET Status = 'Accepted' WHERE ToIdAccession = @idAccession and Login = @user
+		EXEC AddUserToAccession @login = @login, @hash = @hash, @loginUserAdded = @user, @role = @role, @idAccession = @idAccession
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
+
+
+GO
+CREATE PROC RejectRequestOfUserToAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@user NVARCHAR(20),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF ((SELECT COUNT(*) FROM Accession WHERE Login = @login and Id = @idAccession ) >= 1)
+	BEGIN
+		UPDATE RequestJoinToAccession SET Status = 'Rejected' WHERE ToIdAccession = @idAccession and Login = @login
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO

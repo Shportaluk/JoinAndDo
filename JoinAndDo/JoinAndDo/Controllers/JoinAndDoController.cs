@@ -195,7 +195,6 @@ namespace JoinAndDo.Controllers
         {
             return View();
         }
-
         public ActionResult MyInvitation()
         {
             try
@@ -215,16 +214,14 @@ namespace JoinAndDo.Controllers
         {
             return _sqlRepository.SendRequestToAccession( login, hash, text, category, idAccession );
         }
-
-        public ActionResult test()
+        public string AcceptRequestOfUserToAccession(string login, string hash, string user, string role, string idAccession)
         {
-            return View();
+            return _sqlRepository.AcceptRequestOfUserToAccession(login, hash, user, role, idAccession);
         }
-        public ActionResult layout()
+        public string DeleteJoin( string login, string hash, int idAccession )
         {
-            return View();
+            return _sqlRepository.DeleteJoin( login, hash, idAccession );
         }
-
         public void NewJoin(string login, string hash, string name, string text, string category, string needPeople)
         {
             _sqlRepository.NewJoin(login, hash, name, text, category, needPeople);

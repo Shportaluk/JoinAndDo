@@ -164,6 +164,43 @@ namespace JoinAndDo.Repositoryes
             SqlDataReader reader = _cmdDeleteHash.ExecuteReader();
             _con.Close();
         }
+        public string DeleteJoin(string login, string hash, int idAccession)
+        {
+            string res = null;
+            string comm = String.Format("EXEC DeleteJoin @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+            _con.Close();
+
+            return res;
+        }
+
+        public string AcceptRequestOfUserToAccession(string login, string hash, string user, string role, string idAccession)
+        {
+            string res = null;
+            string comm = String.Format("EXEC AcceptRequestOfUserToAccession @login = '{0}', @hash = '{1}', @user = '{2}', @role = '{3}', @idAccession = {4}", login, hash, user, role, idAccession);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+            _con.Close();
+
+            return res;
+        }
 
         public string SetHash( string login, string pass )
         {
@@ -499,7 +536,7 @@ namespace JoinAndDo.Repositoryes
         {
             List<RequestJoinToAccession> listRequest = new List<RequestJoinToAccession>();
 
-            SqlCommand sqlComm = new SqlCommand( "SELECT * FROM RequestJoinToAccession WHERE ToIdAccession = '" + id + "'" );
+            SqlCommand sqlComm = new SqlCommand( "SELECT * FROM RequestJoinToAccession WHERE ToIdAccession = '" + id + "' and Status = 'Waiting'" );
             sqlComm.Connection = _con;
 
             _con.Open();

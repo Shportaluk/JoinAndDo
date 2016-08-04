@@ -23,17 +23,18 @@
     font-family: CaviarDreams;
     font-size: 20px;
 
-    background-color: rgba(0,0,0,0.5)
+    background-color: rgba(0,0,0,0.5);
 }
+
 .users_and_information {
     background-color: transparent;
     margin: 5px;
     overflow: hidden;
 }
-
 #users {
     text-align: center;
-    background-color: white;
+    color: white;
+    background-color: transparent;
     overflow: hidden;
     width: 250px;
     float: left;
@@ -42,15 +43,25 @@
     font-family: Expand;
     text-decoration: none;
     padding: 15px 25px;
+    border-bottom: 1px solid black;
+    background-color: rgba(0,0,0,0.5);
 }
 .user:hover {
     cursor: pointer;
 }
 
+#users p {
+    color: black;
+    padding: 5px;
+    background-color: white;
+    text-align: center;
+    margin: 0px;
+    font-family: Caviar_Dreams_Bold;
+    box-shadow: 0 0 40px black;
+}
 
 #div_informations {
     overflow: hidden;
-
 }
 .information {
     position: absolute;
@@ -90,6 +101,7 @@
 #btn_accept { right: 160px; }
 #btn_reject { right: 5px; }
 
+
 .information #request_text {
     position: relative;
     margin: 5px;
@@ -100,6 +112,7 @@
     background-color: rgba(0,0,0,0.5)
 }
 
+#user1_delete_join { display: none }
 #user1_invite { display: none; }
 #info1_invite {
     position: absolute;

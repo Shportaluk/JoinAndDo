@@ -33,3 +33,6 @@ DROP PROC GetMyAccession
 DROP PROC SendRequestToAccession
 DROP PROC AddUserToAccession
 DROP PROC GetMyInvitation
+DROP PROC DeleteJoin
+DROP PROC AcceptRequestOfUserToAccession
+DROP PROC RejectRequestOfUserToAccession
