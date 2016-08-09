@@ -19,6 +19,7 @@ USE JoinAndDo
 --INSERT INTO Accession VALUES ( 'Test Title #1', '2', 'Game', 'qwe', 3, 5 );
 --INSERT INTO Accession VALUES ( 'Test Title #1', 'Test all', 'Game', 'qwe', 3, 5 );
 
+INSERT INTO Role VALUES ( NULL, '{2}', 24 )
 INSERT INTO Role VALUES ( 'admin', 'Creator', 1 )
 INSERT INTO Role VALUES ( 'qqq', 'Gamer', 6 )
 

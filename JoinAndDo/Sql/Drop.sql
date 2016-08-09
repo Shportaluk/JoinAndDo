@@ -10,6 +10,7 @@ DROP TABLE My_accession
 DROP TABLE Deals_accession
 DROP TABLE Role
 DROP TABLE RequestJoinToAccession
+DROP TABLE RolesOfHumanInAccession
 
 ALTER TABLE dbo.[Accession] DROP CONSTRAINT fk_Accession
 
@@ -36,3 +37,6 @@ DROP PROC GetMyInvitation
 DROP PROC DeleteJoin
 DROP PROC AcceptRequestOfUserToAccession
 DROP PROC RejectRequestOfUserToAccession
+DROP PROC EditDescriptionOfAccession
+DROP PROC EditTitleOfAccession
+

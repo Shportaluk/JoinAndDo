@@ -20,32 +20,9 @@
     
     
     if ( cookieLogin != "" && cookieHash != "" ) {
-        // if log in
         $("#name").text(cookieLogin);
-        $("#name").attr( "href", "/JoinAndDo/peopleId/" + cookieId );
-        //$( "#logout" ).css( "display", "block" );
-        //$( "#registration" ).css( "display", "none" );
-        //$( "#login" ).css( "display", "none" );
-        //localStorage.setItem("leftBoxes_Y", "20");
-        //if ( GetStatus( rightBoxes ) == "left" ) {
-        //localStorage.setItem("rightBoxes_Y", "190");
-        //    localStorage.setItem("rightBoxes_X", "20");
-        //}
-    } else {
-        // if log out
-        //$( "#logout" ).css( "display", "none" );
-        //$( "#registration" ).css( "display", "block" );
-        //$( "#login" ).css( "display", "block" );
-    
-        //boxesLeft_show.css("display", "none");
-        //localStorage.setItem("leftBoxesStatus", "show");
-        //localStorage.setItem( "leftBoxes_X", "-500" );
-        //if( GetStatus( rightBoxes ) == "left" )
-        //{
-        //    localStorage.setItem("rightBoxes_Y", "20");
-        //    blocks.css("marginRight", "10px");
-        //}
-    }
+        $("#name").attr("href", "/JoinAndDo/peopleId/" + cookieId);
+    } 
     
     SetLocalStorage();
     
@@ -133,30 +110,25 @@ function CheckPosition()
     {
         blocks.css("marginLeft", "25px");
         blocks.css("marginRight", "25px");
+        blocks.css("width", "calc( 100% - 70px )");
     }
     else if( statusLeft == "left" && statusRight == "left" )
     {
         blocks.css( "marginLeft", "260px");
         blocks.css( "marginRight", "10px");
+        blocks.css( "width", "calc( 100% - 280px )");
     }
     else if (statusLeft == "right" && statusRight == "right") {
         blocks.css("marginLeft", "10px");
         blocks.css("marginRight", "260px");
+        blocks.css("width", "calc( 100% - 280px )");
     }
     else {
-        if ( statusRight == "right" || statusLeft == "right" ) {
-            blocks.css("marginRight", "260px");
-        }
-        if (statusRight == "left" || statusLeft == "left") {
+        if ( ( statusLeft == "left" && statusRight == "right" ) ||
+            (statusLeft == "right" && statusRight == "left")) {
             blocks.css("marginLeft", "260px");
-        }
-        if( statusLeft == "hide" && statusRight == "right" )
-        {
-            blocks.css("marginLeft", "25px");
-        }
-        else if(statusRight == "hide" && statusLeft == "right")
-        {
-            blocks.css( "marginLeft", "25px" );
+            blocks.css("marginRight", "260px");
+            blocks.css("width", "calc( 100% - 540px )");
         }
     }
     

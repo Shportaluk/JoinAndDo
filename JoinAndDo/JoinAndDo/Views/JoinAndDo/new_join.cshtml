@@ -11,7 +11,7 @@
         <p data-target="name">Name</p>
         <input type="text" id="name_join"/>
         <p data-target="text">Text</p>
-        <textarea id="txt_join">Looking started he up perhaps against. How remainder all additions get elsewhere resources. One missed shy wishes supply design answer formed. Prevent on present hastily passage an subject in be. Be happiness arranging so newspaper defective affection ye. Families blessing he in to no daughter.Families blessing he in to no daughter.Families blessing he in to no daughter.</textarea>
+        <textarea id="txt_join"></textarea>
         <p data-target="select">Select Category</p>
         <select id="category_select">
             <option>Development</option>
@@ -20,7 +20,13 @@
             <option>Game</option>
         </select>
         <p>Need people</p>
-        <input type="number" id="needPeople"/>
+        <div id="list_roles">
+            <button id="add_role" onclick="AddNewRole()">Add new Role</button>
+            <div class="role">
+                <input type="text" class="name_role" />
+                <div class="delete_role"></div>
+            </div>
+        </div>
         <button id="btn_new_join" onclick="NewJoin()">New Join</button>
 
     </div>

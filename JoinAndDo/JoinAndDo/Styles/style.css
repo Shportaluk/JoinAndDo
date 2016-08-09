@@ -231,8 +231,8 @@ body
  background-color: white;
  box-shadow: 0px 0px 10px rgba( 255, 255, 255, 0.9 );
 }
-#left_boxes { top: 70px; left: 20px; }
-#right_boxes {  top: 250px; left: 20px; }
+#left_boxes { top: 60px; left: 20px; }
+#right_boxes {  top: 329px; left: 20px; }
 
 #left_boxes:hover ,#right_boxes:hover {  }
 #left_boxes>a:link,#right_boxes>a:link
@@ -297,7 +297,6 @@ body
  opacity: 1;
  padding-left: 10px;
  padding-right: 10px;
- background-color: transparent;
 }
 .block
 {
@@ -445,5 +444,9 @@ select {
     
     border: none;
     padding: 5px;
+    outline: none;
+}
+
+textarea:focus, input:focus{
     outline: none;
 }

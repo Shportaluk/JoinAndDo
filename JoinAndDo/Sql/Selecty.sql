@@ -8,6 +8,8 @@ SELECT * FROM My_accession
 SELECT * FROM Deals_accession
 SELECT * FROM Accession
 SELECT * FROM Role
+SELECT Login, RoleName FROM Role WHERE IdAccession = 45 and Login IS NOT NULL
+SELECT * FROM RolesOfHumanInAccession
 SELECT * FROM ListUsersInAccession
 SELECT * FROM RequestJoinToAccession
 

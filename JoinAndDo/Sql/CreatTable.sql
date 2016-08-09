@@ -69,7 +69,7 @@ CREATE TABLE Deals_accession
 CREATE TABLE Accession
 (
 	Id INT IDENTITY( 1, 1 ),
-	Title NVARCHAR( 20 ),
+	Title NVARCHAR( 100 ),
 	Text NVARCHAR( 1500 ),
 	Category NVARCHAR(100),
 	Login NVARCHAR( 20 ),
@@ -78,6 +78,16 @@ CREATE TABLE Accession
 	
 	PRIMARY KEY(Id),
 	CONSTRAINT fk_Accession FOREIGN KEY ( Login ) REFERENCES Users( Login )
+);
+
+CREATE TABLE RolesOfHumanInAccession
+(
+	Id INT IDENTITY( 1, 1 ),
+	Category NVARCHAR(100),
+	IdAccession INT,
+	
+	PRIMARY KEY(Id),
+	CONSTRAINT fk_NeedPeople FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
 );
 
 
@@ -97,7 +107,7 @@ CREATE TABLE RequestJoinToAccession (
 CREATE TABLE Role
 (
 	Id INT IDENTITY( 1, 1 ),
-	Login NVARCHAR( 20 ),
+	Login NVARCHAR( 20 ) NULL,
 	RoleName NVARCHAR( 20 ),
 	IdAccession INT,
 	

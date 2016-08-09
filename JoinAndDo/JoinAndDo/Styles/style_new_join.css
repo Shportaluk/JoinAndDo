@@ -1,39 +1,28 @@
 ﻿#form_new_join {
     position: relative;
-    width: 650px;
+    width: calc( 100% - 40px );
     top: 5px;
     padding: 20px 20px 20px 20px;
     background-color: rgba(0,0,0,0.5);
 }
-
 p {
     margin: 5px;
     color: white;
 }
-
-#form_new_join p[data-target="name"] {
-    
-}
-#form_new_join p[data-target="text"] {
-    
-}
-
 #name_join {
     color: white;
 
     width: calc( 100% - 6px );
     padding: 3px;
     
-    border: 1px solid white;
+    border: none;
     border-radius: 5px;
 
     
     background-color: rgba(0,0,0,0.5);
-    box-shadow: 0 0 1px white;
     
     outline: none;
 }
-
 #txt_join {
     color: white;
 
@@ -41,22 +30,50 @@ p {
     max-width: calc( 100% - 20px );
     height: 200px;
     
-    border: 1px solid white;
+    border: none;
     border-radius: 5px;
-
     padding: 5px 10px 5px 10px;
 
     background-color: rgba(0,0,0,0.5);
-    box-shadow: 0 0 1px white;
 
     font-size: 25px;
     outline: none;
 }
-
-
 #btn_new_join {
     position: absolute;
     padding: 15px 55px 15px 55px;
     bottom: 20px;
     right: 25px;
+}
+#list_roles {
+    width: 250px;
+    padding: 7px;
+    overflow: hidden;
+    background-color: rgba(0,0,0,.5);
+}
+.role {
+    position: relative;
+    background-color: transparent;
+    padding: 2px;
+}
+.name_role {
+    font-family: CaviarDreams;
+    font-weight: 900;
+    font-size: 17px;
+    width: calc( 100% - 32px );
+    
+}
+.delete_role {
+    position: absolute;
+    right: 0px;
+    top: 2px;
+    width: 26px;
+    height: 26px;
+    margin: 0px;
+    background-color: red;
+}
+#add_role {
+    margin-bottom: 3px;
+    margin-left: 65px;
+    box-shadow: 0 0 5px ;
 }

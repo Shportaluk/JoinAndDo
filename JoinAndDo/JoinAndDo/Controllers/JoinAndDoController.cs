@@ -210,6 +210,14 @@ namespace JoinAndDo.Controllers
             }
         }
 
+        public string EditTitleOfAccession(string login, string hash, int idAccession, string title)
+        {
+            return _sqlRepository.EditTitleOfAccession(login, hash, idAccession, title);
+        }
+        public string EditDescriptionOfAccession(string login, string hash, int idAccession, string description)
+        {
+            return _sqlRepository.EditDescriptionOfAccession( login, hash, idAccession, description );
+        }
         public string SendRequestToAccession(string login, string hash, string text, string category, int idAccession)
         {
             return _sqlRepository.SendRequestToAccession( login, hash, text, category, idAccession );
@@ -222,9 +230,9 @@ namespace JoinAndDo.Controllers
         {
             return _sqlRepository.DeleteJoin( login, hash, idAccession );
         }
-        public void NewJoin(string login, string hash, string name, string text, string category, string needPeople)
+        public string NewJoin(string login, string hash, string name, string text, string category, string needPeople, string listRoles)
         {
-            _sqlRepository.NewJoin(login, hash, name, text, category, needPeople);
+            return _sqlRepository.NewJoin(login, hash, name, text, category, needPeople, listRoles);
         }
         public string GetLastMessages(string login, string hash)
         {

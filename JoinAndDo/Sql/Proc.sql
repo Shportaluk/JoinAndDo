@@ -122,13 +122,15 @@ CREATE PROC NewJoin
 	@title NVARCHAR(20),
 	@text NVARCHAR(1500),
 	@category NVARCHAR(20),
-	@needPeople INT
+	@needPeople INT,
+	@arrayCategory NVARCHAR(4000)
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
 	INSERT INTO Accession OUTPUT Inserted.ID VALUES ( @title, @text, @category, @login, 0, @needPeople )
 END
 GO 
+
 
 
 GO
@@ -281,3 +283,49 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
+
+
+GO
+CREATE PROC EditDescriptionOfAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@idAccession INT,
+	@description NVARCHAR(1500)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF( (SELECT COUNT(*) FROM Accession WHERE Id = @idAccession and Login = @login) = 1 )
+	BEGIN
+		UPDATE Accession SET Text = @description WHERE Id = @idAccession and Login = @login
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
+
+GO
+CREATE PROC EditTitleOfAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@idAccession INT,
+	@title NVARCHAR(100)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF( (SELECT COUNT(*) FROM Accession WHERE Id = @idAccession and Login = @login) = 1 )
+	BEGIN
+		UPDATE Accession SET Title = @title WHERE Id = @idAccession and Login = @login
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
+

@@ -80,24 +80,6 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return res;
         }
-        public void NewJoin( string login, string hash, string title, string text, string category, string needPeople)
-        {
-            string comm = "EXEC NewJoin @login = '"+login+"', @hash = '"+hash+"', @title = '"+title+"', @text = '"+text+"', @category = '"+category+"', @needPeople = " + needPeople;
-            string idAccession = null;
-            _cmdNewJoin = new SqlCommand(comm);
-            _cmdNewJoin.Connection = _con;
-            _con.Open();
-            SqlDataReader reader = _cmdNewJoin.ExecuteReader();
-            while (reader.Read())
-            {
-                idAccession = reader[0].ToString(); 
-            }
-            _con.Close();
-            if (!string.IsNullOrWhiteSpace(idAccession))
-            {
-                AddUserToAccession(login, hash, login, "Creator", int.Parse(idAccession));
-            }
-        }
 
         public string Registration( string login, string pass, string firstName, string lastName )
         {
@@ -389,7 +371,7 @@ namespace JoinAndDo.Repositoryes
         {
             List<User> users = new List<User>();
 
-            SqlCommand sqlComm = new SqlCommand( "SELECT Login, RoleName FROM Role WHERE IdAccession = " + id );
+            SqlCommand sqlComm = new SqlCommand( "SELECT Login, RoleName FROM Role WHERE IdAccession = " + id + " and Login IS NOT NULL");
             sqlComm.Connection = _con;
 
             _con.Open();
@@ -576,6 +558,81 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
 
             return res;
+        }
+        public string EditTitleOfAccession(string login, string hash, int idAccession, string title)
+        {
+            string res = null;
+
+            string command = String.Format("EXEC EditTitleOfAccession @login = '{0}', @hash = '{1}', @idAccession = {2}, @title = '{3}'", login, hash, idAccession, title);
+            SqlCommand sqlComm = new SqlCommand(command);
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+
+            _con.Close();
+            return res;
+        }
+        public string EditDescriptionOfAccession(string login, string hash, int idAccession, string description)
+        {
+            string res = null;
+
+            string command = String.Format("EXEC EditDescriptionOfAccession @login = '{0}', @hash = '{1}', @idAccession = {2}, @description = '{3}'", login, hash, idAccession, description);
+            SqlCommand sqlComm = new SqlCommand(command);
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+
+            _con.Close();
+            return res;
+        }
+        public string NewJoin(string login, string hash, string title, string text, string category, string needPeople, string arrayRoles)
+        {
+            string comm = "EXEC NewJoin @login = '" + login + "', @hash = '" + hash + "', @title = '" + title + "', @text = '" + text + "', @category = '" + category + "', @needPeople = " + needPeople;
+            string idAccession = null;
+            _cmdNewJoin = new SqlCommand(comm);
+            _cmdNewJoin.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = _cmdNewJoin.ExecuteReader();
+            while (reader.Read())
+            {
+                idAccession = reader[0].ToString();
+            }
+            _con.Close();
+            if (!string.IsNullOrWhiteSpace(idAccession))
+            {
+                AddUserToAccession(login, hash, login, "Creator", int.Parse(idAccession));
+                InsertRoleOfHumanInAccession(arrayRoles, idAccession);
+            }
+
+            return idAccession;
+        }
+        public void InsertRoleOfHumanInAccession( string arrayRoles, string idAccession )
+        {
+            string command = "";
+            string[] separator = { "," };
+            string[] listRoles = arrayRoles.Split( separator, StringSplitOptions.RemoveEmptyEntries );
+            foreach( string role in listRoles )
+            {
+                command += String.Format("INSERT INTO Role VALUES ( NULL, '{0}', '{1}' )\n", role, idAccession );
+            }
+           SqlCommand sqlComm = new SqlCommand(command);
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+            _con.Close();
         }
     }
 }

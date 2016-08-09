@@ -16,14 +16,22 @@
 <link href="~/Styles/style_search_people.css" rel="stylesheet" />
 
 <div id="blocks">
-    <div id="title">@accession.Title</div>
+    <div id="title">
+        <strong>@accession.Title</strong>
+        <textarea id="title_edit"></textarea>
+        <div class="edit"><img src="~/Styles/images/edit.png" /></div>
+        <div class="edit_ok"><img src="~/Styles/images/ok.png" /></div>
+    </div>
     <div style="display: none" id="id_accession" >@accession.Id</div>
     <div style="display: none" id="creator_accession">@accession.Creator</div>
     <div id="description">
-        @accession.Text
+        <strong>@accession.Text</strong>
+        <textarea id="description_edit"></textarea>
+        <div class="edit"><img src="~/Styles/images/edit.png"/></div>
+        <div class="edit_ok"><img src="~/Styles/images/ok.png" /></div>
     </div>
 
-    <div class="users_and_information">
+    <div class="users_and_information" id="users_and_information">
         <div id="users">
             <p>Management</p>
             <div class="user" id="user1_join">Join Now</div>
@@ -35,7 +43,6 @@
                 <div class="user" id="user1_@i" onclick="OpenUser(@listUsers[@i].Id)">@listUsers[@i].FirstName @listUsers[@i].LastName</div>
             }
         </div>
-
         <div id="div_informations">
             <div class="information" id="info1_join">
                 <p>
@@ -101,7 +108,6 @@
                 <div class="user" id="user2_@i" onclick="OpenUser(@listRequestsAdditionOf[@i].Id)">@listRequestsAdditionOf[@i].Login</div>
             }
         </div>
-
         <div id="div_informations">
             @for (int i = 0; i < listRequestsAdditionOf.Count; i++)
             {
