@@ -36,10 +36,12 @@ function AddFuncDeleteRole(div) {
 function AddNewRole() {
     div_Role = document.createElement('div');
     input_NameRole = document.createElement('input');
-    div_DeleteRole = document.createElement('div');
+    div_DeleteRole = document.createElement('img');
+
     div_Role.className = "role";
     input_NameRole.className = "name_role";
     div_DeleteRole.className = "delete_role";
+    div_DeleteRole.src = "/Styles/images/remove.png";
     AddFuncDeleteRole($(div_DeleteRole));
 
     div_Role.appendChild(input_NameRole);

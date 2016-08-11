@@ -65,7 +65,7 @@ namespace JoinAndDo.Repositoryes
         public string AddUserToAccession(string login, string hash, string loginUserAdded, string role, int idAccession)
         {
             string res = null;
-            string comm = String.Format("EXEC AddUserToAccession @login = '{0}', @hash = '{1}', @loginUserAdded = '{2}', @role = '{3}', @idAccession = {4}", login, hash, loginUserAdded, role, idAccession);
+            string comm = String.Format("DECLARE @res NVARCHAR(255) EXEC AddUserToAccession @login = '{0}', @hash = '{1}', @loginUserAdded = '{2}', @role = '{3}', @idAccession = {4}, @res = @res OUTPUT", login, hash, loginUserAdded, role, idAccession);
 
             SqlCommand sqlComm = new SqlCommand(comm);
             sqlComm.Connection = _con;
@@ -80,7 +80,6 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return res;
         }
-
         public string Registration( string login, string pass, string firstName, string lastName )
         {
             _cmdRegistration = new SqlCommand("DECLARE @res NVARCHAR(30) EXEC Registration @login = '" + login + "', @pass = '" + pass + "', @firstName = '"+ firstName +"', @lastName = '" + lastName + "', @res = @res OUTPUT SELECT @res");
@@ -145,43 +144,6 @@ namespace JoinAndDo.Repositoryes
             _con.Open();
             SqlDataReader reader = _cmdDeleteHash.ExecuteReader();
             _con.Close();
-        }
-        public string DeleteJoin(string login, string hash, int idAccession)
-        {
-            string res = null;
-            string comm = String.Format("EXEC DeleteJoin @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
-
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
-            _con.Open();
-            SqlDataReader reader = sqlComm.ExecuteReader();
-
-            while (reader.Read())
-            {
-                res = reader[0].ToString();
-            }
-            _con.Close();
-
-            return res;
-        }
-
-        public string AcceptRequestOfUserToAccession(string login, string hash, string user, string role, string idAccession)
-        {
-            string res = null;
-            string comm = String.Format("EXEC AcceptRequestOfUserToAccession @login = '{0}', @hash = '{1}', @user = '{2}', @role = '{3}', @idAccession = {4}", login, hash, user, role, idAccession);
-
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
-            _con.Open();
-            SqlDataReader reader = sqlComm.ExecuteReader();
-
-            while (reader.Read())
-            {
-                res = reader[0].ToString();
-            }
-            _con.Close();
-
-            return res;
         }
 
         public string SetHash( string login, string pass )
@@ -414,6 +376,8 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return listJoins;
         }
+
+    
         // Отримання приєднання якими я керую
         public List<Accession> GetMyAccessions( string login, string hash )
         {
@@ -489,6 +453,23 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return listAccession;
         }
+        public List<string> GetListAvailableRolesOfAccessionById(int? id)
+        {
+            List<string> listRoles = new List<string>();
+            SqlCommand sqlComm = new SqlCommand("SELECT RoleName FROM Role WHERE IdAccession = "+id+" and Login IS NULL");
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                listRoles.Add( reader[0].ToString() );
+            }
+
+            _con.Close();
+            return listRoles;
+        }
         public Accession GetAccessionById(int? id)
         {
             Accession accession = null;
@@ -513,6 +494,8 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return accession;
         }
+
+
         // Отримання заявок приєднання до Accession
         public List<RequestJoinToAccession> GetRequestsAdditionToAccession( int? id )
         {
@@ -612,15 +595,15 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             if (!string.IsNullOrWhiteSpace(idAccession))
             {
-                AddUserToAccession(login, hash, login, "Creator", int.Parse(idAccession));
-                InsertRoleOfHumanInAccession(arrayRoles, idAccession);
+                InsertRoleOfHumanInAccession( login, arrayRoles, idAccession);
+                //AddUserToAccession(login, hash, login, "Creator", int.Parse(idAccession));
             }
 
             return idAccession;
         }
-        public void InsertRoleOfHumanInAccession( string arrayRoles, string idAccession )
+        public void InsertRoleOfHumanInAccession( string creator, string arrayRoles, string idAccession )
         {
-            string command = "";
+            string command = "INSERT INTO Role VALUES ( '"+creator+"', 'Creator', "+idAccession+" )\n";
             string[] separator = { "," };
             string[] listRoles = arrayRoles.Split( separator, StringSplitOptions.RemoveEmptyEntries );
             foreach( string role in listRoles )
@@ -634,5 +617,42 @@ namespace JoinAndDo.Repositoryes
             SqlDataReader reader = sqlComm.ExecuteReader();
             _con.Close();
         }
+        public string DeleteJoin(string login, string hash, int idAccession)
+        {
+            string res = null;
+            string comm = String.Format("EXEC DeleteJoin @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+            _con.Close();
+
+            return res;
+        }
+        public string AcceptRequestOfUserToAccession(string login, string hash, string user, string role, string idAccession)
+        {
+            string res = null;
+            string comm = String.Format("EXEC AcceptRequestOfUserToAccession @login = '{0}', @hash = '{1}', @user = '{2}', @role = '{3}', @idAccession = {4}", login, hash, user, role, idAccession);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+            _con.Close();
+
+            return res;
+        }
+
     }
 }

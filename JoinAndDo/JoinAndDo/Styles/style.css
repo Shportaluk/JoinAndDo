@@ -1,6 +1,6 @@
 body
 {
- min-width: 1080px;
+ min-width: 1030px;
  min-height: 600px;
  
  margin: 0px;
@@ -276,6 +276,8 @@ body
 
 
 #layout {
+    
+    min-width: 750px;
  background-color: transparent;
  position: absolute;
  top: 50px;
@@ -290,13 +292,14 @@ body
 
 #blocks
 {
- position: absolute;
- top: 10px;
- margin: auto;
- float: none;
- opacity: 1;
- padding-left: 10px;
- padding-right: 10px;
+     min-width: 750px;
+    position: absolute;
+    top: 10px;
+    margin: auto;
+    float: none;
+    opacity: 1;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .block
 {

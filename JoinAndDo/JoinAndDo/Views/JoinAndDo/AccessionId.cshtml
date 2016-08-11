@@ -31,14 +31,97 @@
         <div class="edit_ok"><img src="~/Styles/images/ok.png" /></div>
     </div>
 
+    <div id="messages">
+        <p id="header_messages" >Messages</p>
+        <div id="list_messages">
+            <div class="div_message">
+                <div class="message">
+                    <p>
+                        <strong class="name_sender">Andrew Shportaluk</strong>
+                        <strong class="text">Hello guys</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="div_message">
+                <div class="message">
+                    <p>
+                        <strong class="name_sender">Andrew Shportaluk</strong>
+                        <strong class="text">Hello guys</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="div_message">
+                <div class="message">
+                    <p>
+                        <strong class="name_sender">Andrew Shportaluk</strong>
+                        <strong class="text"></strong>
+                    </p>
+                </div>
+            </div>
+            <div class="div_message">
+                <div class="message">
+                    <p>
+                        <strong class="name_sender">Andrew Shportaluk</strong>
+                        <strong class="text">Hello guys</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="div_message">
+                <div class="message">
+                    <p>
+                        <strong class="name_sender">Andrew Shportaluk</strong>
+                        <strong class="text">                            Him rendered may attended concerns jennings reserved now.</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="div_message">
+                <div class="message">
+                    <p>
+                        <strong class="name_sender">Andrew Shportaluk</strong>
+                        <strong class="text">Written enquire painful ye to offices forming it. Then so does over sent dull on. Likewise offended humoured mrs fat trifling answered. On ye position greatest so desirous. So wound stood guest weeks no terms up ought. By so these am so rapid blush songs begin. Nor but mean time one over.</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="div_message">
+                <div class="message">
+                    <p>
+                        <strong class="name_sender">Andrew Shportaluk</strong>
+                        <strong class="text">Hello guys</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="div_send_msg">
+            <textarea class="txt_msg"> </textarea>
+            <button class="btn_send_msg">Send</button>
+        </div>
+    </div>
+
     <div class="users_and_information" id="users_and_information">
         <div id="users">
             <p>Management</p>
-            <div class="user" id="user1_join">Join Now</div>
-            <div class="user" id="user1_invite">Invite User</div>
-            <div class="user" id="user1_delete_join" onclick="DeleteJoin()">Delete Join</div>
+            <div class="user" id="user1_join">
+                <img src="~/Styles/images/arrow_right.png" />
+                Join Now
+            </div>
+            <div class="user" id="user1_invite">
+                <img src="~/Styles/images/invite.png" />
+                Invite User
+            </div>
+            <div class="user" id="user1_delete_join" onclick="DeleteJoin()">
+                    <img src="~/Styles/images/remove2.png" />
+                    Delete Join
+            </div>
+            @if( accession.ListAvailableRoles.Count > 0 )
+            { 
+                <p>Need people</p>
+                foreach ( string role in accession.ListAvailableRoles )
+                {
+                    <div class="need_people">@role</div>
+                }
+            }
             <p>Customers</p>
-            @for (int i = 0; i < listUsers.Count; i++ )
+            @for (int i = 0; i < listUsers.Count; i++)
             {
                 <div class="user" id="user1_@i" onclick="OpenUser(@listUsers[@i].Id)">@listUsers[@i].FirstName @listUsers[@i].LastName</div>
             }
@@ -47,10 +130,12 @@
             <div class="information" id="info1_join">
                 <p>
                     <strong>My name:</strong>
-                    <strong id="my_name">Andrey</strong>
+                    <strong id="my_name">-</strong>
                     <select>
-                        <option>Gamer</option>
-                        <option>Seo</option>
+                        @foreach (string role in accession.ListAvailableRoles)
+                        {
+                            <option>@role</option>
+                        }
                     </select>
                     <strong id="error" ></strong>
                 </p>
@@ -102,10 +187,16 @@
     </div>
     <div class="users_and_information" id="div_requests">
         <div id="users">
-            <p>Requests Addition Of</p>
-            @for (int i = 0; i < listRequestsAdditionOf.Count; i++)
-            {
-                <div class="user" id="user2_@i" onclick="OpenUser(@listRequestsAdditionOf[@i].Id)">@listRequestsAdditionOf[@i].Login</div>
+            @if(listRequestsAdditionOf.Count > 0)
+            { 
+                <p>Requests Addition Of</p>
+                for (int i = 0; i < listRequestsAdditionOf.Count; i++)
+                {
+                    <div class="user" id="user2_@i" onclick="OpenUser(@listRequestsAdditionOf[@i].Id)">
+                        <img src="~/Styles/images/arrow_right.png" />
+                        @listRequestsAdditionOf[@i].Login
+                    </div>
+                }
             }
         </div>
         <div id="div_informations">

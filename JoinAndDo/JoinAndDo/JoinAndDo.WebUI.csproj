@@ -98,6 +98,7 @@
     <Content Include="Styles\adapt.css" />
     <Content Include="Styles\adapt_phone.css" />
     <Content Include="Styles\adapt_phone_vertical.css" />
+    <Content Include="Styles\images\arrow_right.png" />
     <Content Include="Styles\images\background1.jpg" />
     <Content Include="Styles\images\background2.jpg" />
     <Content Include="Styles\images\close.png" />
@@ -109,12 +110,15 @@
     <Content Include="Styles\images\Done.png" />
     <Content Include="Styles\images\edit.png" />
     <Content Include="Styles\images\Fail.png" />
+    <Content Include="Styles\images\invite.png" />
     <Content Include="Styles\images\like.png" />
     <Content Include="Styles\images\like_.png" />
     <Content Include="Styles\images\man_right.png" />
     <Content Include="Styles\images\man_right2.png" />
     <Content Include="Styles\images\ok.png" />
     <Content Include="Styles\images\profile.png" />
+    <Content Include="Styles\images\remove.png" />
+    <Content Include="Styles\images\remove2.png" />
     <Content Include="Styles\images\search.png" />
     <Content Include="Styles\images\tick.png" />
     <Content Include="Styles\images\tick_hover.png" />

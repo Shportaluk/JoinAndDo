@@ -65,12 +65,11 @@ p {
 }
 .delete_role {
     position: absolute;
-    right: 0px;
-    top: 2px;
-    width: 26px;
-    height: 26px;
+    right: 2px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
     margin: 0px;
-    background-color: red;
 }
 #add_role {
     margin-bottom: 3px;

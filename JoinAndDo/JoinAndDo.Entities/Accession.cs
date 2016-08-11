@@ -16,6 +16,7 @@ namespace JoinAndDo.Entities
         public string Status { get; set; }
         public int People { get; set; }
         public int AllPeople { get; set; }
+        public List<string> ListAvailableRoles { get; set; }
 
         public Accession() { }
     }

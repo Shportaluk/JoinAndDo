@@ -184,21 +184,34 @@ CREATE PROC AddUserToAccession
 	@hash NVARCHAR(100),
 	@loginUserAdded NVARCHAR(20),
 	@role NVARCHAR(100),
-	@idAccession INT
+	@idAccession INT,
+	@res NVARCHAR(255) OUTPUT
 AS
-IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+IF (( SELECT COUNT(*) FROM Users WHERE Login = @login and Hash = @hash ) = 1)
 BEGIN
-	IF ( (SELECT RoleName FROM Role WHERE Login = @login and IdAccession = @idAccession ) = 'Creator' or ( SELECT Login FROM Accession WHERE Id = @idAccession ) = @login )
+	IF (( SELECT Login FROM Accession WHERE Id = @idAccession) = @login )
 	BEGIN
-		INSERT INTO Role VALUES ( @loginUserAdded, @role, @idAccession )
-		SELECT 'Ok'
+		IF(( SELECT COUNT(*) FROM Role WHERE IdAccession = @idAccession and RoleName = @role ) >= 1 )
+		BEGIN
+			IF(( SELECT People FROM Accession WHERE Id = @idAccession ) < ( SELECT AllPeople FROM Accession WHERE Id = @idAccession ))
+			BEGIN
+				UPDATE Role SET Login = @loginUserAdded WHERE IdAccession = @idAccession and RoleName = @role
+				UPDATE Accession SET People = People + 1 WHERE Id = @idAccession
+				SELECT @res = 'Ok'
+			END
+			ELSE
+				SELECT @res = 'No free places'
+		END
+		ELSE
+			SELECT @res = 'This role does not exist'
 	END
 	ELSE
-		SELECT 'you have not access'
+		SELECT @res = 'You have not access'
 END
 ELSE
-	SELECT 'You are not registered or do not have entrance to the site'
+	SELECT @res = 'You are not registered or do not have entrance to the site'
 GO 
+
 
 
 
@@ -250,9 +263,15 @@ IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
 	IF ((SELECT COUNT(*) FROM Accession WHERE Login = @login and Id = @idAccession ) >= 1)
 	BEGIN
-		UPDATE RequestJoinToAccession SET Status = 'Accepted' WHERE ToIdAccession = @idAccession and Login = @user
-		EXEC AddUserToAccession @login = @login, @hash = @hash, @loginUserAdded = @user, @role = @role, @idAccession = @idAccession
-		SELECT 'Ok'
+		DECLARE @res NVARCHAR(255)
+		EXEC AddUserToAccession @login = @login, @hash = @hash, @loginUserAdded = @user, @role = @role, @idAccession = @idAccession, @res = @res OUTPUT
+		IF(@res = 'Ok')
+		BEGIN
+			UPDATE RequestJoinToAccession SET Status = 'Accepted' WHERE ToIdAccession = @idAccession and Login = @user
+			SELECT 'Ok'
+		END
+		ELSE
+			SELECT 'Error'
 	END
 	ELSE
 		SELECT 'You have not access'
@@ -260,7 +279,6 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
-
 
 
 GO
@@ -329,3 +347,8 @@ ELSE
 GO
 
 
+GO
+SELECT * FROM Accession WHERE Id = 46
+SELECT * FROM Role WHERE IdAccession = 46
+SELECT RoleName FROM Role WHERE IdAccession = 46 and Login IS NULL
+GO

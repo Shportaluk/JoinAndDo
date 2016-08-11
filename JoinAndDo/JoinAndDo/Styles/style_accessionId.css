@@ -76,6 +76,85 @@
 }
 
 
+#messages {
+    position: absolute;
+    margin: 7px;
+    left: 270px;
+    width: calc( 100% - 292px );
+    height: 300px;
+
+    background-color: rgba(255,255,255,0.1);
+}
+#messages #header_messages {
+    color: black;
+    padding: 5px;
+    background-color: white;
+    text-align: center;
+    margin: 0px;
+    font-family: Caviar_Dreams_Bold;
+    box-shadow: 0 0 10px white;
+}
+#list_messages {
+    overflow-y: scroll;
+    max-height: 270px;
+}
+.div_message {
+    width: 100%;
+}
+.message {
+    display: inline-block;
+    background-color: rgba(0,0,0,0.5);
+
+    border-radius: 3px;
+    padding: 5px;
+    margin: 3px;
+    margin-left: 10px;
+}
+.message p {
+    font-family: CaviarDreams;
+    color: white;
+    margin: 0px;
+}
+.name_sender {
+    color: rgba(0,191,255,0.7);
+    padding: 4px;
+    margin: 10px;
+}
+
+.div_send_msg {
+    padding: 3px;
+}
+.txt_msg {
+    width: calc( 100% - 63px );
+    min-height: 30px;
+    max-width: calc( 100% - 150px );
+    height: 23px;
+
+    position: relative;
+    bottom: -8px;
+}
+
+.btn_send_msg {
+    position: relative;
+    top: -7px;
+    padding: 11px 53px;
+
+}
+
+#list_messages::-webkit-scrollbar {
+    width: 12px;
+}
+#list_messages::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,100,0.4); 
+    border-radius: 10px;
+    border: 3px solid transparent;
+}
+#list_messages::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.9); 
+    border: 3px solid transparent;
+}
+
 .users_and_information {
     background-color: transparent;
     margin: 5px;
@@ -89,7 +168,7 @@
     width: 250px;
     float: left;
 }
-.user {
+.user, .need_people {
     font-family: Expand;
     text-decoration: none;
     padding: 15px 25px;
@@ -99,6 +178,17 @@
 .user:hover {
     cursor: pointer;
 }
+.user img {
+    position: relative;
+    top: -7px;
+    width: 32px;
+    height: 32px;
+    margin-bottom: -16px;
+}
+
+.need_people {
+
+}
 
 #users p {
     color: black;
@@ -106,8 +196,9 @@
     background-color: white;
     text-align: center;
     margin: 0px;
+    margin-top: 7px;
     font-family: Caviar_Dreams_Bold;
-    box-shadow: 0 0 40px black;
+    box-shadow: 0 0 10px white;
 }
 
 #div_informations {

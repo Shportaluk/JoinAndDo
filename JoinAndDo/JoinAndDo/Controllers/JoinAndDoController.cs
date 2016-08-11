@@ -171,6 +171,7 @@ namespace JoinAndDo.Controllers
             Accession accession = _sqlRepository.GetAccessionById( id );
             if (accession != null)
             {
+                accession.ListAvailableRoles = _sqlRepository.GetListAvailableRolesOfAccessionById(id);
                 ViewBag.Accession = accession;
                 List<User> users = _sqlRepository.GetUsersByIdOfAccession(id);
                 List<RequestJoinToAccession> listRequestsAdditionOf = _sqlRepository.GetRequestsAdditionToAccession(id);

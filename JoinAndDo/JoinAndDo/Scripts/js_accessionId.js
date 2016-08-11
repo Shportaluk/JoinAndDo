@@ -97,27 +97,20 @@ function AcceptUser(id) {
         contentType: 'application/json;',
         data: JSON.stringify({ login: l, hash: h, user: user, role: role, idAccession: idAccession }),
         success: function (res) {
-            if (res == "Ok")
-            {
-                var div_USER = document.createElement('div');
-                div_USER.className = "user";
-                div_USER.id = "user1_" + $(".user").length + 1;
-                div_USER.textContent = user;
-                $("#users_and_information #users").append(div_USER);
-
-                var div_INFORMATION = document.createElement('div');
-                var div_SPECIALITY = document.createElement('div');
-                div_INFORMATION.className = "information";
-                div_SPECIALITY.className = "specialty";
-                div_SPECIALITY.textContent = role;
-                div_INFORMATION.id = "info1_" + div_USER.id.slice(6, this.length);
-
-                div_INFORMATION.appendChild(div_SPECIALITY);
-                $("#users_and_information #div_informations").append(div_INFORMATION);
-
-                // REMOVE
-                $("#div_requests #users div").remove(':contains("' + user + '")');
+            if (res == "Ok") {
+                $("#users_and_information #users div").remove(':contains("' + role + '")');
+                $("#user2_" + id).appendTo("#users_and_information #users");
+                if ($(".need_people").length <= 0) {
+                    $("#users_and_information #users p").remove(':contains("Need people")');
+                }
+                if ($("#div_requests .user").length <= 0) {
+                    $("#div_requests p").remove();
+                }
+               
                 AddHoversToAllUsers();
+            }
+            else {
+                ShowMessage( res );
             }
         }
     });
@@ -165,7 +158,7 @@ function EditTitle(text)
     });
 }
 $(document).ready(function () {
-
+    
     var login = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     $("#info1_join #my_name").text(login);
 
