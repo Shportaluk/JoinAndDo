@@ -379,10 +379,35 @@ namespace JoinAndDo.Repositoryes
 
     
         // Отримання приєднання якими я керую
-        public List<Accession> GetMyAccessions( string login, string hash )
+        public List<Accession> GetMyAccessionsManagement( string login, string hash )
         {
             List<Accession> listMyAccession = new List<Accession>();
-            _cmdMyAccession = new SqlCommand( "EXEC GetMyAccession @login = '"+login+"', @hash = '"+hash+"'" );
+            _cmdMyAccession = new SqlCommand("EXEC GetMyAccessionsManagement @login = '" + login+"', @hash = '"+hash+"'" );
+            _cmdMyAccession.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = _cmdMyAccession.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Accession accession = new Accession();
+                accession.Id = int.Parse(reader[0].ToString());
+                accession.Title = reader[1].ToString();
+                accession.Text = reader[2].ToString();
+                accession.Category = reader[3].ToString();
+                accession.Creator = reader[4].ToString();
+                accession.People = int.Parse(reader[5].ToString());
+                accession.AllPeople = int.Parse(reader[6].ToString());
+                listMyAccession.Add(accession);
+            }
+
+            _con.Close();
+            return listMyAccession;
+        }
+        public List<Accession> GetMyAccessions(string login, string hash)
+        {
+            List<Accession> listMyAccession = new List<Accession>();
+            _cmdMyAccession = new SqlCommand("EXEC GetMyAccessions @login = '" + login + "', @hash = '" + hash + "'");
             _cmdMyAccession.Connection = _con;
 
             _con.Open();
@@ -653,6 +678,45 @@ namespace JoinAndDo.Repositoryes
 
             return res;
         }
+        public string SendMsgToAccession(string login, string hash, int idAccession, string text)
+        {
+            string res = null;
+            string comm = String.Format("EXEC SendMsgToAccession @login = '{0}', @hash = '{1}', @idAccession = {2}, @text = '{3}'", login, hash, idAccession, text);
 
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+            _con.Close();
+
+            return res;
+        }
+        public List<Message> GetDialogOfAccession(string login, string hash, int idAccession)
+        {
+            List<Message> dialog = new List<Message>();
+            
+            string comm = String.Format("EXEC GetDialogOfAccession @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Message msg = new Message();
+                msg.login = reader[0].ToString();
+                msg.text = reader[1].ToString();
+                dialog.Add(msg);
+            }
+            _con.Close();
+
+            return dialog;
+        }
     }
 }

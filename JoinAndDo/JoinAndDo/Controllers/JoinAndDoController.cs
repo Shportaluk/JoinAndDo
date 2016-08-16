@@ -88,7 +88,8 @@ namespace JoinAndDo.Controllers
             {
                 string login = Request.Cookies["login"].Value;
                 string hash = Request.Cookies["hash"].Value;
-                ViewBag.listMyAccession = _sqlRepository.GetMyAccessions(login, hash);
+                ViewBag.listMyAccessionsManagement = _sqlRepository.GetMyAccessionsManagement(login, hash);
+                ViewBag.listMyAccessions = _sqlRepository.GetMyAccessions(login, hash);
                 return View();
             }
             catch
@@ -171,9 +172,22 @@ namespace JoinAndDo.Controllers
             Accession accession = _sqlRepository.GetAccessionById( id );
             if (accession != null)
             {
+                string login = Request.Cookies["login"].Value;
+                string hash = Request.Cookies["hash"].Value;
+
                 accession.ListAvailableRoles = _sqlRepository.GetListAvailableRolesOfAccessionById(id);
                 ViewBag.Accession = accession;
+                ViewBag.IsInAccession = false;
+                ViewBag.DialogInAccession = null;
                 List<User> users = _sqlRepository.GetUsersByIdOfAccession(id);
+                foreach (User user in users)
+                {
+                    if (user.Login == login )
+                    {
+                        ViewBag.IsInAccession = true;
+                        ViewBag.DialogInAccession = GetDialogOfAccession( login, hash, accession.Id );
+                    }
+                }
                 List<RequestJoinToAccession> listRequestsAdditionOf = _sqlRepository.GetRequestsAdditionToAccession(id);
                 for ( int i = 0; i < users.Count; i++ )
                 {
@@ -182,7 +196,6 @@ namespace JoinAndDo.Controllers
                     users[i].Role = role;
                 }
                 ViewBag.ListUsers = users;
-
                 ViewBag.ListRequestsAdditionOf = listRequestsAdditionOf;
             }
             else
@@ -246,6 +259,14 @@ namespace JoinAndDo.Controllers
         public string SendMsg(string login, string hash, string to, string text)
         {
             return _sqlRepository.SendMsg( login, hash, to, text );
+        }
+        public string SendMsgToAccession(string login, string hash, int idAccession, string text)
+        {
+            return _sqlRepository.SendMsgToAccession(login, hash, idAccession, text);
+        }
+        public List<Message> GetDialogOfAccession(string login, string hash, int idAccession)
+        {
+            return _sqlRepository.GetDialogOfAccession(login, hash, idAccession);
         }
 
         private string CalculateMD5Hash(string input)

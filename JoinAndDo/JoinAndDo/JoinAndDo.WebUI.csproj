@@ -85,6 +85,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\js_accessionId.js" />
     <Content Include="Scripts\js_draggble_settings.js" />
+    <Content Include="Scripts\js_my_accessions.js" />
     <Content Include="Scripts\js_my_messages_sms.js" />
     <Content Include="Scripts\js_new_join.js" />
     <Content Include="Scripts\js_search_accession.js" />

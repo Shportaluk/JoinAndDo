@@ -81,8 +81,7 @@
     margin: 7px;
     left: 270px;
     width: calc( 100% - 292px );
-    height: 300px;
-
+    overflow: hidden;
     background-color: rgba(255,255,255,0.1);
 }
 #messages #header_messages {
@@ -96,7 +95,8 @@
 }
 #list_messages {
     overflow-y: scroll;
-    max-height: 270px;
+    min-height: 213px;
+    max-height: 213px;
 }
 .div_message {
     width: 100%;
@@ -122,22 +122,36 @@
 }
 
 .div_send_msg {
-    padding: 3px;
+    padding: 3px 10px;
 }
-.txt_msg {
+#txt_msg {
     width: calc( 100% - 63px );
     min-height: 30px;
-    max-width: calc( 100% - 150px );
+    max-width: calc( 100% - 160px );
     height: 23px;
 
     position: relative;
     bottom: -8px;
-}
 
-.btn_send_msg {
+    padding: 5px;
+
+    border: 1px solid white;
+    color: white;
+    text-shadow: 0 0 10px black;
+    font-family: CaviarDreams;
+    font-size: 17px;
+    background-color: rgba(255,255,255,0.1);
+}
+#txt_msg:focus {
+    box-shadow: 0 0 5px black;
+    background-color: transparent;
+    border: 1px solid transparent;
+
+}
+#btn_send_msg_to_accession {
     position: relative;
-    top: -7px;
-    padding: 11px 53px;
+    top: -10px;
+    padding: 13px 53px;
 
 }
 
@@ -207,8 +221,9 @@
 .information {
     position: absolute;
     left: 265px;
+    color: white;
     width: calc( 100% - 281px );
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0,0,0,0.7);
     height: 235px;
 
     border-left: 1px solid black;
@@ -258,7 +273,6 @@
     position: absolute;
     left: 265px;
     width: calc( 100% - 291px );
-    background-color: rgba(0,0,0,0.5);
     height: 235px;
 
     border-left: 1px solid black;
@@ -272,7 +286,6 @@
 
 /* Join Info (Form) */
 #info1_join{
-    background-color: rgba(0,0,0,0.5);
     height: 275px;
 }
 #info1_join strong{

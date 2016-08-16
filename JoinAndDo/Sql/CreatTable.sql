@@ -28,6 +28,19 @@ CREATE TABLE Messages (
 	CONSTRAINT fk_messages FOREIGN KEY ( Login ) REFERENCES Users( Login )
 );
 
+CREATE TABLE MessagesInAccession (
+	Id INT IDENTITY( 1, 1 ),
+	Login NVARCHAR ( 20 ),
+	Text NVARCHAR ( 1000 ),
+	IdAccession INT,
+	Date datetime,
+	
+	PRIMARY KEY ( Id ),
+	CONSTRAINT fk_messages_in_accession_login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
+	CONSTRAINT fk_messages_in_accession_IdAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
+);
+
+
 
 CREATE TABLE Joins
 (

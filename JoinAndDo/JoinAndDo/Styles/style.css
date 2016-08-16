@@ -306,9 +306,8 @@ body
  overflow: hidden;
  margin: auto;
  text-shadow: 0 0 1px #A9F5F2;
- margin-top: 10px;
+ margin-bottom: 10px;
  width: 95%;
- border: 1px solid transparent;
  border-radius: 5px;
  background-color: rgba(0, 0, 0, 0.4);
  /*color: #1C1C1C;*/
@@ -327,39 +326,47 @@ body
  transition: 0.2s;
 }
 
-.name,
-.rating
-{
+.top {
     position: relative;
-    top: 10px;
-}
-.name
-{
-    left: 15px;
+    top: 0px;
+    width: 100%;
     float: left;
     font-weight: bold;
+    padding: 7px;
+    background-color: white;
+    color: black;
+    height: 14px;
+    font-family: Basic;
 }
-.rating
-{
-    float: right;
-    right: 5px;
+.name {
+    position: absolute;
 }
-.number_of_people
-{
- font-weight: bold;
- margin: -5px 15px 0px 0px;
- color: white;
+.creator {
+    position: absolute;
+    left: 0px;
+    top: 8px;
+    width: 100%;
+    text-align: center;
+}
+.creator strong {
+    padding: 7px 7px 2px 7px;
+    border: 1px solid black;
+}
+.creator strong:hover {
+    background-color: black;
+    color: white;
+}
+.rating {
+    position: absolute;
+    top: -10px;
+    right: 25px;
 }
 .description
 {
     float: left;
     width: calc( 100% - 40px );
-    margin: 20px 20px 20px;
+    margin: 15px 20px 20px;
     font-family: CaviarDreams;
-}
-.creator {
-    text-align: center;
-    
 }
 
 .btn_join
@@ -453,3 +460,4 @@ select {
 textarea:focus, input:focus{
     outline: none;
 }
+button:focus { outline: none; }

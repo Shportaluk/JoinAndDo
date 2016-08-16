@@ -20,11 +20,18 @@
 @foreach (var join in listAccession)
 {
     <div class="block" onclick="OpenAccession(@join.Id)">
-        <div class="name">@join.Title</div>
-        <div class="rating">
-            <p class="number_of_people">@join.People/@join.AllPeople</p>
+        <div class="top">
+            <strong class="name">@join.Title</strong>
+            <div class="rating">
+                <p class="number_of_people">
+                    <strong>@join.People</strong>
+                    <strong>/ @join.AllPeople</strong>
+                </p>
+            </div>
+            <div class="creator">
+                <strong>@join.Creator</strong>
+            </div>
         </div>
-        <div class="creator">@join.Creator</div>
         <div class="description">@join.Text</div>
         <button class="btn_join">Join</button>
     </div>

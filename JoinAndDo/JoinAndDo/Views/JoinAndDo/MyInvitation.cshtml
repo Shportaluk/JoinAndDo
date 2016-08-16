@@ -11,7 +11,9 @@
     @foreach (Accession accession in listAccession)
     {
         <div class="block" onclick="OpenAccession(@accession.Id)">
-            <div class="name">@accession.Status</div>
+            <div class="top">
+                <strong class="name">@accession.Status</strong>
+            </div>
             <div class="description">@accession.Text</div>
         </div>
     }

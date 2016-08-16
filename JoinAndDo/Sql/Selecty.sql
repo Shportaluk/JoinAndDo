@@ -12,6 +12,7 @@ SELECT Login, RoleName FROM Role WHERE IdAccession = 45 and Login IS NOT NULL
 SELECT * FROM RolesOfHumanInAccession
 SELECT * FROM ListUsersInAccession
 SELECT * FROM RequestJoinToAccession
+SELECT * FROM MessagesInAccession
 
 SELECT Login, RoleName FROM Role WHERE IdAccession = 1
 

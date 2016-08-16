@@ -3,6 +3,8 @@
     Accession accession = ViewBag.Accession;
     List<User> listUsers = ViewBag.ListUsers;
     List<RequestJoinToAccession> listRequestsAdditionOf = ViewBag.ListRequestsAdditionOf;
+    List<Message> dialogInAccession = ViewBag.DialogInAccession;
+    bool isInAccession = ViewBag.IsInAccession;
 }
 
 @{
@@ -31,71 +33,32 @@
         <div class="edit_ok"><img src="~/Styles/images/ok.png" /></div>
     </div>
 
+    @if (isInAccession)
+    {
     <div id="messages">
         <p id="header_messages" >Messages</p>
-        <div id="list_messages">
-            <div class="div_message">
-                <div class="message">
-                    <p>
-                        <strong class="name_sender">Andrew Shportaluk</strong>
-                        <strong class="text">Hello guys</strong>
-                    </p>
-                </div>
+            <div id="list_messages">
+                @if (dialogInAccession != null)
+                {
+                    foreach (Message msg in dialogInAccession)
+                    {
+                        <div class="div_message">
+                            <div class="message">
+                                <p>
+                                    <strong class="name_sender">@msg.login</strong>
+                                    <strong class="text">@msg.text</strong>
+                                </p>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
-            <div class="div_message">
-                <div class="message">
-                    <p>
-                        <strong class="name_sender">Andrew Shportaluk</strong>
-                        <strong class="text">Hello guys</strong>
-                    </p>
-                </div>
-            </div>
-            <div class="div_message">
-                <div class="message">
-                    <p>
-                        <strong class="name_sender">Andrew Shportaluk</strong>
-                        <strong class="text"></strong>
-                    </p>
-                </div>
-            </div>
-            <div class="div_message">
-                <div class="message">
-                    <p>
-                        <strong class="name_sender">Andrew Shportaluk</strong>
-                        <strong class="text">Hello guys</strong>
-                    </p>
-                </div>
-            </div>
-            <div class="div_message">
-                <div class="message">
-                    <p>
-                        <strong class="name_sender">Andrew Shportaluk</strong>
-                        <strong class="text">                            Him rendered may attended concerns jennings reserved now.</strong>
-                    </p>
-                </div>
-            </div>
-            <div class="div_message">
-                <div class="message">
-                    <p>
-                        <strong class="name_sender">Andrew Shportaluk</strong>
-                        <strong class="text">Written enquire painful ye to offices forming it. Then so does over sent dull on. Likewise offended humoured mrs fat trifling answered. On ye position greatest so desirous. So wound stood guest weeks no terms up ought. By so these am so rapid blush songs begin. Nor but mean time one over.</strong>
-                    </p>
-                </div>
-            </div>
-            <div class="div_message">
-                <div class="message">
-                    <p>
-                        <strong class="name_sender">Andrew Shportaluk</strong>
-                        <strong class="text">Hello guys</strong>
-                    </p>
-                </div>
-            </div>
-        </div>
         <div class="div_send_msg">
-            <textarea class="txt_msg"> </textarea>
-            <button class="btn_send_msg">Send</button>
+            <textarea id="txt_msg"> </textarea>
+            <button id="btn_send_msg_to_accession" onclick="SendMessageToAccession()">Send</button>
         </div>
     </div>
+    }
 
     <div class="users_and_information" id="users_and_information">
         <div id="users">
@@ -146,7 +109,7 @@
                 <textarea id="text"> </textarea>
                 <button id="btn_send_request_to_accession" onclick="SendRequestToAccession()">Send</button>
             </div>
-            <div id="info1_invite">
+            <div id="info1_invite" class="information">
                 <div id="form_search">
                     <input type="text" name="name" />
                     <button onclick="SearchUser()">Search</button>

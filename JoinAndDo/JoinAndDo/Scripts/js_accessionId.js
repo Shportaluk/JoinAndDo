@@ -35,11 +35,13 @@ function AddHover( div ) {
             $("#user" + id).css("backgroundColor", "rgba(0,0,0,0.8)");
             $(this).css("opacity", "1");
             $(this).css("display", "block");
+            $("#messages").css("opacity", "0.2")
         }, function () {
             var id = $(this).attr('id').slice(4, this.length);
             $("#user" + id).css("backgroundColor", "rgba(0,0,0,0.5)");
             $(this).css("opacity", "0");
             $(this).css("display", "none");
+            $("#messages").css("opacity", "1")
         }
     );
 }
@@ -53,6 +55,7 @@ function AddHoversToAllUsers() {
                 $("#info" + id).css("display", "block");
 
                 $("#user" + id).css("backgroundColor", "rgba(0,0,0,0.8)");
+                $("#messages").css("opacity", "0.2")
             },
             function () {
                 var id = $(this).attr('id').slice(4, this.length);
@@ -61,6 +64,8 @@ function AddHoversToAllUsers() {
 
 
                 $("#user" + id).css("backgroundColor", "rgba(0,0,0,0.5)");
+
+                $("#messages").css("opacity", "1")
             }
     );
 }
@@ -111,6 +116,28 @@ function AcceptUser(id) {
             }
             else {
                 ShowMessage( res );
+            }
+        }
+    });
+}
+
+function SendMessageToAccession() {
+    var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var text = $("#txt_msg").val();
+    var idAccession = $("#id_accession").text();
+
+    $.ajax({
+        url: '/JoinAndDo/SendMsgToAccession',
+        type: 'POST',
+        contentType: 'application/json;',
+        data: JSON.stringify({ login: l, hash: h, idAccession: idAccession, text: text }),
+        success: function (res) {
+            if (res == "Ok") {
+                alert("Ok");
+            }
+            else {
+                ShowMessage(res);
             }
         }
     });
@@ -220,6 +247,7 @@ $(document).ready(function () {
             var id = $(this).attr('id').slice(4, this.length);
             //alert(id)
             $("#user" + id).css("backgroundColor", "rgba(0,0,0,0.8)");
+            $("#messages").css("opacity", "0.2")
         },
         function () {
             $(this).css("opacity", "0");
@@ -227,6 +255,7 @@ $(document).ready(function () {
 
             var id = $(this).attr('id').slice(4, this.length);
             $("#user" + id).css("backgroundColor", "rgba(0,0,0,0.5)");
+            $("#messages").css("opacity", "1")
         }
     );
 });

@@ -11,6 +11,7 @@ DROP TABLE Deals_accession
 DROP TABLE Role
 DROP TABLE RequestJoinToAccession
 DROP TABLE RolesOfHumanInAccession
+DROP TABLE MessagesInAccession
 
 ALTER TABLE dbo.[Accession] DROP CONSTRAINT fk_Accession
 
@@ -30,7 +31,8 @@ DROP PROC NewJoin
 DROP PROC GetUserByName
 DROP PROC GetDealsAccessions
 DROP PROC FindAccessions
-DROP PROC GetMyAccession
+DROP PROC GetMyAccessionsManagement
+DROP PROC GetMyAccessions
 DROP PROC SendRequestToAccession
 DROP PROC AddUserToAccession
 DROP PROC GetMyInvitation
@@ -39,4 +41,6 @@ DROP PROC AcceptRequestOfUserToAccession
 DROP PROC RejectRequestOfUserToAccession
 DROP PROC EditDescriptionOfAccession
 DROP PROC EditTitleOfAccession
+DROP PROC SendMsgToAccession
+DROP PROC GetDialogOfAccession
 

@@ -1,6 +1,7 @@
 ﻿@using JoinAndDo.Entities
 @{
-    List<Accession> listMyAccession = ViewBag.listMyAccession;
+    List<Accession> listMyAccessionsManagement = ViewBag.listMyAccessionsManagement;
+    List<Accession> listMyAccessions = ViewBag.listMyAccessions;
 }
 
 @{
@@ -10,6 +11,7 @@
 
 <script src="~/Scripts/js_sms.js"></script>
 <link href="~/Styles/style_my_accession.css" rel="stylesheet" />
+<script src="~/Scripts/js_my_accessions.js"></script>
 
 <script>
     function OpenAccession(id) {
@@ -18,22 +20,50 @@
 </script>
 
 <div id="blocks">
-    @foreach (var accession in listMyAccession)
-    {
-        <div class="block" onclick="OpenAccession(@accession.Id)">
-            <div class="name">@accession.Title</div>
-            <div class="rating">
-                <p class="number_of_people">@accession.People/@accession.AllPeople</p>
-            </div>
-            <div class="description">@accession.Text</div>
-            @*@if(@accession.isComplete )
+    <div id="select_accessions">
+        <button id="btn_AccessionsManagement" onclick="show_AccessionsManagement()">AccessionsManagement</button>
+        <button id="btn_Accessions" onclick="show_Accessions()">Accessions</button>
+    </div>
+    <div id="list_accessions">
+        <div id="list_AccessionsManagement">
+            @foreach (var accession in listMyAccessionsManagement)
             {
-                <div id="done"></div>
+                <div class="block" onclick="OpenAccession(@accession.Id)">
+                    <div class="top">
+                        <strong class="name">@accession.Title</strong>
+                        <div class="rating">
+                            <p class="number_of_people">
+                                <strong>@accession.People</strong>
+                                <strong>/ @accession.AllPeople</strong>
+                            </p>
+                        </div>
+                        <div class="creator">
+                            <strong>@accession.Creator</strong>
+                        </div>
+                    </div>
+                    <div class="description">@accession.Text</div>
+                </div>
             }
-            else
-            {
-                <div id="fail"></div>
-            }*@
         </div>
-    }
+        <div id="list_Accessions">
+            @foreach (var accession in listMyAccessions)
+            {
+                <div class="block" onclick="OpenAccession(@accession.Id)">
+                    <div class="top">
+                        <strong class="name">@accession.Title</strong>
+                        <div class="rating">
+                            <p class="number_of_people">
+                                <strong>@accession.People</strong>
+                                <strong>/ @accession.AllPeople</strong>
+                            </p>
+                        </div>
+                        <div class="creator">
+                            <strong>@accession.Creator</strong>
+                        </div>
+                    </div>
+                    <div class="description">@accession.Text</div>
+                </div>
+            }
+        </div>
+    </div>
 </div>

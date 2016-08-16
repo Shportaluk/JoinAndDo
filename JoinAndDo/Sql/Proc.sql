@@ -47,6 +47,27 @@ ELSE
 	SELECT @res = 'Error !!!'
 GO
 
+GO
+CREATE PROC SendMsgToAccession
+  @login NVARCHAR(20),
+  @hash NVARCHAR(100),
+  @idAccession INT,
+  @text NVARCHAR(1000)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF( (SELECT COUNT(*) FROM Role WHERE Login = @login) >= 1 )
+	BEGIN
+		INSERT INTO MessagesInAccession VALUES( @login, @text, @idAccession, GETDATE() );
+		SELECT 'Ok'
+	END
+	ELSE 
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
 
 
 GO
@@ -65,6 +86,27 @@ BEGIN
 	) Messages ORDER BY Date
 END
 GO
+
+GO
+CREATE PROC  GetDialogOfAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF( (SELECT COUNT(*) FROM Role WHERE Login = @login) >= 1 )
+	BEGIN
+		SELECT Login, Text FROM MessagesInAccession WHERE IdAccession = @idAccession ORDER BY Date
+		SELECT 'Ok'
+	END
+	ELSE 
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
 
 
 GO
@@ -144,7 +186,7 @@ GO
 
 
 GO
-CREATE PROC GetMyAccession
+CREATE PROC GetMyAccessionsManagement
 	@login NVARCHAR(20),
 	@hash NVARCHAR(100)
 AS
@@ -153,6 +195,30 @@ BEGIN
 	SELECT * FROM Accession WHERE Login = @login
 END
 GO 
+
+
+
+GO
+CREATE PROC GetMyAccessions
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	Select IdAccession Into #Temp From Role  WHERE Login = @login and RoleName != 'Creator'
+
+	WHILE (SELECT COUNT(*) FROM #Temp) > 0
+	BEGIN
+		Declare @IdAccession int
+		SET @IdAccession = ( SELECT TOP 1 IdAccession FROM #Temp )
+		SELECT * FROM Accession WHERE Id = @IdAccession
+		Delete #Temp Where IdAccession = @IdAccession
+	END
+
+	DROP TABLE #Temp
+END
+GO 
+
 
 
 GO
@@ -239,6 +305,7 @@ BEGIN
 	BEGIN
 		DELETE FROM RequestJoinToAccession WHERE ToIdAccession = @idAccession
 		DELETE FROM Role WHERE IdAccession = @idAccession
+		DELETE FROM MessagesInAccession WHERE IdAccession = @idAccession
 		DELETE FROM Accession WHERE Id = @idAccession and Login = @login
 		SELECT 'Ok'
 	END
