@@ -2,7 +2,6 @@ function ShowFormWriteMsg() {
     $("#form_write_msg").css("z-index", "999");
     $("#form_write_msg").animate({ opacity: 1 }, 200);
 }
-
 function HideFormWriteMsg()
 {
     $("#form_write_msg").css("z-index", "-1");
@@ -10,7 +9,6 @@ function HideFormWriteMsg()
 
     var text = $("#form_write_msg #txt_msg").val("");
 }
-
 function SendMsg()
 {
     var text = $("#form_write_msg #txt_msg").val();
@@ -31,6 +29,28 @@ function SendMsg()
     });
 
     HideFormWriteMsg();
+}
+function EditProfileImg() {
+    var formData = new FormData();
+    var file = document.getElementById("fileInput").files[0];
+    formData.append("fileInput", file);
+
+    $.ajax({
+        url: '/JoinAndDo/LoadProfileImg',
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (res) {
+            res = res.trim()
+            if (res != "Error" || res != "Error Load" || res != "You are not registered or do not have entrance to the site") {
+                $("#form_img_profile img").attr("src", "/Images/" + res)
+            }
+            else {
+                ShowMessage(res);
+            }
+        }
+    });
 }
 (function () {
     $(document).ready(function () {

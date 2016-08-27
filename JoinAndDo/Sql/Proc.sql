@@ -5,17 +5,15 @@ CREATE PROC Registration
   @login NVARCHAR(20),
   @pass NVARCHAR(150),
   @firstName NVARCHAR(20),
-  @lastName NVARCHAR(20),
-  @res NVARCHAR(30) OUTPUT
+  @lastName NVARCHAR(20)
 AS
-SELECT @res = 's'
 IF ((SELECT COUNT(*) FROM Users where Login = @login ) = 0)
 BEGIN
-	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null, 0, 0, 0 );
-	SELECT @res = 'OK'
+	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null, 'default.bmp', 0, 0, 0 );
+	SELECT 'OK'
 END
 ELSE
-	SELECT @res = 'user is already registered'
+	SELECT 'User is already registered'
 GO
 
 
@@ -56,7 +54,7 @@ CREATE PROC SendMsgToAccession
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
-	IF( (SELECT COUNT(*) FROM Role WHERE Login = @login) >= 1 )
+	IF( (SELECT COUNT(*) FROM RoleOfUserInAccession WHERE Login = @login) >= 1 )
 	BEGIN
 		INSERT INTO MessagesInAccession VALUES( @login, @text, @idAccession, GETDATE() );
 		SELECT 'Ok'
@@ -95,7 +93,7 @@ CREATE PROC  GetDialogOfAccession
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
-	IF( (SELECT COUNT(*) FROM Role WHERE Login = @login) >= 1 )
+	IF( (SELECT COUNT(*) FROM RoleOfUserInAccession WHERE Login = @login) >= 1 )
 	BEGIN
 		SELECT Login, Text FROM MessagesInAccession WHERE IdAccession = @idAccession ORDER BY Date
 		SELECT 'Ok'
@@ -164,8 +162,7 @@ CREATE PROC NewJoin
 	@title NVARCHAR(20),
 	@text NVARCHAR(1500),
 	@category NVARCHAR(20),
-	@needPeople INT,
-	@arrayCategory NVARCHAR(4000)
+	@needPeople INT
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
@@ -205,7 +202,7 @@ CREATE PROC GetMyAccessions
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
-	Select IdAccession Into #Temp From Role  WHERE Login = @login and RoleName != 'Creator'
+	Select IdAccession Into #Temp From RoleOfUserInAccession  WHERE Login = @login and RoleName != 'Creator'
 
 	WHILE (SELECT COUNT(*) FROM #Temp) > 0
 	BEGIN
@@ -257,11 +254,11 @@ IF (( SELECT COUNT(*) FROM Users WHERE Login = @login and Hash = @hash ) = 1)
 BEGIN
 	IF (( SELECT Login FROM Accession WHERE Id = @idAccession) = @login )
 	BEGIN
-		IF(( SELECT COUNT(*) FROM Role WHERE IdAccession = @idAccession and RoleName = @role ) >= 1 )
+		IF(( SELECT COUNT(*) FROM RoleOfUserInAccession WHERE IdAccession = @idAccession and RoleName = @role ) >= 1 )
 		BEGIN
 			IF(( SELECT People FROM Accession WHERE Id = @idAccession ) < ( SELECT AllPeople FROM Accession WHERE Id = @idAccession ))
 			BEGIN
-				UPDATE Role SET Login = @loginUserAdded WHERE IdAccession = @idAccession and RoleName = @role
+				UPDATE RoleOfUserInAccession SET Login = @loginUserAdded WHERE IdAccession = @idAccession and RoleName = @role
 				UPDATE Accession SET People = People + 1 WHERE Id = @idAccession
 				SELECT @res = 'Ok'
 			END
@@ -269,7 +266,7 @@ BEGIN
 				SELECT @res = 'No free places'
 		END
 		ELSE
-			SELECT @res = 'This role does not exist'
+			SELECT @res = 'This RoleOfUserInAccession does not exist'
 	END
 	ELSE
 		SELECT @res = 'You have not access'
@@ -304,7 +301,7 @@ BEGIN
 	IF((SELECT COUNT(*) FROM Accession WHERE Id = @idAccession and Login = @login) = 1 )
 	BEGIN
 		DELETE FROM RequestJoinToAccession WHERE ToIdAccession = @idAccession
-		DELETE FROM Role WHERE IdAccession = @idAccession
+		DELETE FROM RoleOfUserInAccession WHERE IdAccession = @idAccession
 		DELETE FROM MessagesInAccession WHERE IdAccession = @idAccession
 		DELETE FROM Accession WHERE Id = @idAccession and Login = @login
 		SELECT 'Ok'
@@ -415,7 +412,39 @@ GO
 
 
 GO
-SELECT * FROM Accession WHERE Id = 46
-SELECT * FROM Role WHERE IdAccession = 46
-SELECT RoleName FROM Role WHERE IdAccession = 46 and Login IS NULL
+CREATE PROC ExitWithAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF((SELECT COUNT(*) FROM RoleOfUserInAccession WHERE IdAccession = @idAccession and Login = @login and RoleName != 'Creator') = 1 )
+	BEGIN
+		UPDATE RoleOfUserInAccession SET Login = NULL WHERE IdAccession = @idAccession and Login = @login
+		DELETE RequestJoinToAccession WHERE ToIdAccession = @idAccession and Login = @login
+		UPDATE Accession SET People = People - 1 WHERE Id = @idAccession
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
+
+GO
+CREATE PROC LoadProfileImg
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@pathImg NVARCHAR(350)
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	UPDATE Users SET PathImg = @pathImg WHERE Login = @login
+	SELECT 'Ok'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
 GO

@@ -113,6 +113,7 @@ function AcceptUser(id) {
                 }
                
                 AddHoversToAllUsers();
+                ShowMessage( "User " + user + " was added" );
             }
             else {
                 ShowMessage( res );
@@ -120,7 +121,6 @@ function AcceptUser(id) {
         }
     });
 }
-
 function SendMessageToAccession() {
     var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -142,7 +142,6 @@ function SendMessageToAccession() {
         }
     });
 }
-
 function EditDescription(text) {
     var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -184,17 +183,24 @@ function EditTitle(text)
         }
     });
 }
+
 $(document).ready(function () {
     
     var login = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var hash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     $("#info1_join #my_name").text(login);
 
     var creator = $("#creator_accession").text();
-    if (creator == login) {
-        $("#user1_invite").css("display", "block");
+    if (login == "") {
+        $("#user1_join").css("display", "none");
+        $("#users_and_information #users p").remove(':contains("Management")'); 
+        $("#users_and_information #users p").remove(':contains("Customers")');
+    }
+    else if (creator == login) {
         $("#user1_delete_join").css("display", "block");
         $("#div_requests").css("display", "block");
         $("#user1_join").css("display", "none");
+        $("#user1_exit_from_the_accession").css("display", "none");
 
         $(".edit").css("display", "block");
         $("#title .edit").click(function () {
@@ -230,6 +236,26 @@ $(document).ready(function () {
 
             EditDescription( text );
         });
+    }
+    else {
+        $("#user1_exit_from_the_accession").click(function() {
+            var idAccession = $("#id_accession").text();
+
+            $.ajax({
+                url: '/JoinAndDo/ExitWithAccession',
+                type: 'POST',
+                contentType: 'application/json;',
+                data: JSON.stringify({ login: login, hash: hash, idAccession: idAccession }),
+                success: function (res) {
+                    if (res == "Ok") {
+                        location.reload();
+                    }
+                    else {
+                        ShowMessage(res);
+                    }
+                }
+            });
+        })
     }
 
 

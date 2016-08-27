@@ -8,6 +8,7 @@ CREATE TABLE Users
 	FirstName NVARCHAR( 20 ),
 	LastName NVARCHAR( 15 ),
 	Hash NVARCHAR( 100 ),
+	PathImg NVARCHAR( 100 ),
 	
 	FulfillmentAccession INT,
 	AcceptedConnections INT,
@@ -28,6 +29,20 @@ CREATE TABLE Messages (
 	CONSTRAINT fk_messages FOREIGN KEY ( Login ) REFERENCES Users( Login )
 );
 
+CREATE TABLE Accession
+(
+	Id INT IDENTITY( 1, 1 ),
+	Title NVARCHAR( 100 ),
+	Text NVARCHAR( 1500 ),
+	Category NVARCHAR(100),
+	Login NVARCHAR( 20 ),
+	People INT,
+	AllPeople INT,
+	
+	PRIMARY KEY(Id),
+	CONSTRAINT fk_Accession FOREIGN KEY ( Login ) REFERENCES Users( Login )
+);
+
 CREATE TABLE MessagesInAccession (
 	Id INT IDENTITY( 1, 1 ),
 	Login NVARCHAR ( 20 ),
@@ -40,18 +55,6 @@ CREATE TABLE MessagesInAccession (
 	CONSTRAINT fk_messages_in_accession_IdAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
 );
 
-
-
-CREATE TABLE Joins
-(
-	Id INT IDENTITY( 1, 1 ),
-	Creator NVARCHAR( 20 ),
-	Title NVARCHAR( 20 ),
-	Text NVARCHAR( 1000 ),
-	Category NVARCHAR( 100 ),
-	People INT,
-	AllPeople INT
-);
 
 CREATE TABLE My_accession
 (
@@ -79,30 +82,6 @@ CREATE TABLE Deals_accession
 	CONSTRAINT fk_deals_Accession FOREIGN KEY ( Login ) REFERENCES Users( Login )
 );
 
-CREATE TABLE Accession
-(
-	Id INT IDENTITY( 1, 1 ),
-	Title NVARCHAR( 100 ),
-	Text NVARCHAR( 1500 ),
-	Category NVARCHAR(100),
-	Login NVARCHAR( 20 ),
-	People INT,
-	AllPeople INT,
-	
-	PRIMARY KEY(Id),
-	CONSTRAINT fk_Accession FOREIGN KEY ( Login ) REFERENCES Users( Login )
-);
-
-CREATE TABLE RolesOfHumanInAccession
-(
-	Id INT IDENTITY( 1, 1 ),
-	Category NVARCHAR(100),
-	IdAccession INT,
-	
-	PRIMARY KEY(Id),
-	CONSTRAINT fk_NeedPeople FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
-);
-
 
 CREATE TABLE RequestJoinToAccession (
 	Id INT IDENTITY( 1, 1 ),
@@ -117,7 +96,7 @@ CREATE TABLE RequestJoinToAccession (
 	CONSTRAINT fk_request_join_to_accession_idAccession FOREIGN KEY ( ToIdAccession ) REFERENCES Accession( Id )
 );
 
-CREATE TABLE Role
+CREATE TABLE RoleOfUserInAccession
 (
 	Id INT IDENTITY( 1, 1 ),
 	Login NVARCHAR( 20 ) NULL,
@@ -125,6 +104,16 @@ CREATE TABLE Role
 	IdAccession INT,
 	
 	
-	CONSTRAINT fk_Role_Login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
-	CONSTRAINT fk_Role_IdAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
+	CONSTRAINT fk_RoleOfUserInAccession_Login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
+	CONSTRAINT fk_RoleOfUserInAccession_IdAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
+);
+
+CREATE TABLE RoleOfUsers
+(
+	Id INT IDENTITY( 1, 1 ),
+	Login NVARCHAR( 20 ),
+	RoleName NVARCHAR( 20 ),
+	
+	
+	CONSTRAINT fk_RoleOfUsers_Login FOREIGN KEY ( Login ) REFERENCES Users( Login )
 );

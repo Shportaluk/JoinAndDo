@@ -44,6 +44,7 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -110,6 +111,7 @@
     <Content Include="Styles\images\dislike_.png" />
     <Content Include="Styles\images\Done.png" />
     <Content Include="Styles\images\edit.png" />
+    <Content Include="Styles\images\exit.png" />
     <Content Include="Styles\images\Fail.png" />
     <Content Include="Styles\images\invite.png" />
     <Content Include="Styles\images\like.png" />

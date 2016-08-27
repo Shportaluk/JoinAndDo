@@ -1,6 +1,9 @@
 ﻿using JoinAndDo.Entities;
 using JoinAndDo.Repositoryes;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -129,13 +132,22 @@ namespace JoinAndDo.Controllers
 
             
             User user = _sqlRepository.GetUserById( id );
-            if( user != null )
+            ViewBag.IsMyProfile = false;
+            if (user != null)
             {
                 ViewBag.user = user;
+                try
+                {
+                    if (user.Login == Request.Cookies["login"].Value)
+                    {
+                        ViewBag.IsMyProfile = true;
+                    }
+                }
+                catch { }
             }
             else
             {
-                return RedirectToAction( "/NoUser" );
+                return RedirectToAction("/NoUser");
             }
             return View();
         }
@@ -172,31 +184,40 @@ namespace JoinAndDo.Controllers
             Accession accession = _sqlRepository.GetAccessionById( id );
             if (accession != null)
             {
-                string login = Request.Cookies["login"].Value;
-                string hash = Request.Cookies["hash"].Value;
-
-                accession.ListAvailableRoles = _sqlRepository.GetListAvailableRolesOfAccessionById(id);
-                ViewBag.Accession = accession;
                 ViewBag.IsInAccession = false;
                 ViewBag.DialogInAccession = null;
-                List<User> users = _sqlRepository.GetUsersByIdOfAccession(id);
-                foreach (User user in users)
+                accession.ListAvailableRoles = _sqlRepository.GetListAvailableRolesOfAccessionById(id);
+                ViewBag.Accession = accession;
+                try
                 {
-                    if (user.Login == login )
+                    string login = Request.Cookies["login"].Value;
+                    string hash = Request.Cookies["hash"].Value;
+
+                    List<User> users = _sqlRepository.GetUsersByIdOfAccession(id);
+                    foreach (User user in users)
                     {
-                        ViewBag.IsInAccession = true;
-                        ViewBag.DialogInAccession = GetDialogOfAccession( login, hash, accession.Id );
+                        if (user.Login == login )
+                        {
+                            ViewBag.IsInAccession = true;
+                            ViewBag.DialogInAccession = GetDialogOfAccession( login, hash, accession.Id );
+                        }
                     }
+                    List<RequestJoinToAccession> listRequestsAdditionOf = _sqlRepository.GetRequestsAdditionToAccession(id);
+                    for ( int i = 0; i < users.Count; i++ )
+                    {
+                        string role = users[i].Role;
+                        users[i] = _sqlRepository.GetUserByLogin( users[i].Login );
+                        users[i].Role = role;
+                    }
+                    ViewBag.ListUsers = users;
+                    ViewBag.ListRequestsAdditionOf = listRequestsAdditionOf;
                 }
-                List<RequestJoinToAccession> listRequestsAdditionOf = _sqlRepository.GetRequestsAdditionToAccession(id);
-                for ( int i = 0; i < users.Count; i++ )
+                catch
                 {
-                    string role = users[i].Role;
-                    users[i] = _sqlRepository.GetUserByLogin( users[i].Login );
-                    users[i].Role = role;
+                    ViewBag.ListUsers = new List<User>();
+                    ViewBag.ListRequestsAdditionOf = new List<RequestJoinToAccession>();
+                    return View();
                 }
-                ViewBag.ListUsers = users;
-                ViewBag.ListRequestsAdditionOf = listRequestsAdditionOf;
             }
             else
             {
@@ -224,6 +245,55 @@ namespace JoinAndDo.Controllers
             }
         }
 
+        public string LoadProfileImg( HttpPostedFileBase fileInput)
+        {
+            try
+            {
+                string login = Request.Cookies["login"].Value;
+                string hash = Request.Cookies["hash"].Value;
+
+                string fileName = CalculateMD5Hash(DateTime.Now.ToString()) + ".bmp";
+                var image = new Bitmap(fileInput.InputStream);
+                var imageMini = new Bitmap( image, new Size(64, 64) );
+                string pathFile = Path.Combine(HttpContext.Server.MapPath("/Images/"), fileName);
+                string pathFileMini = Path.Combine(HttpContext.Server.MapPath("/Images/"), "mini_" + fileName);
+                if (!System.IO.File.Exists(pathFile))
+                {
+                    image.Save(pathFile, System.Drawing.Imaging.ImageFormat.Bmp);
+                    imageMini.Save(pathFileMini, System.Drawing.Imaging.ImageFormat.Bmp);
+
+                    string res = _sqlRepository.LoadProfileImg(login, hash, fileName);
+                    if (res == "Ok")
+                    {
+                        return fileName;
+                    }
+                    else
+                    {
+                        return res;
+                    }
+                }
+                return "Error Load";
+            }
+            catch
+            {
+                return "Error";
+            }
+        }
+        public string ExitWithAccession( int idAccession )
+        {
+            try
+            {
+                string login = Request.Cookies["login"].Value;
+                string hash = Request.Cookies["hash"].Value;
+
+                return _sqlRepository.ExitWithAccession(login, hash, idAccession);
+            }
+            catch
+            {
+                return "Error";
+            }
+
+        }
         public string EditTitleOfAccession(string login, string hash, int idAccession, string title)
         {
             return _sqlRepository.EditTitleOfAccession(login, hash, idAccession, title);

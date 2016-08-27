@@ -268,7 +268,6 @@
 }
 
 #user1_delete_join { display: none }
-#user1_invite { display: none; }
 #info1_invite {
     position: absolute;
     left: 265px;

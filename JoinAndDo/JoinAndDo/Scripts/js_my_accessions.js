@@ -12,7 +12,6 @@ function show_AccessionsManagement() {
     $("#list_Accessions").css("display", "none");
     $("#list_AccessionsManagement").css("display", "block");
 }
-
 function show_Accessions() {
     $("#btn_AccessionsManagement").css("backgroundColor", "rgba(0,0,0,.7)");
     $("#btn_AccessionsManagement").css("color", "white");

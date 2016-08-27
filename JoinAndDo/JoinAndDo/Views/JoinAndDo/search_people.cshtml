@@ -40,7 +40,7 @@
     @foreach ( User user in Users )
     {
     <div class="div_user" onclick="OpenUser(@user.Id)">
-        <img src="~/Styles/images/profile.png"/>
+        <img src="~/Images/@user.PathImgMini">
         <span id="full_name">@user.LastName @user.FirstName</span>
         <span id="live">Ukraine</span>
 

@@ -18,6 +18,8 @@ namespace JoinAndDo.Entities
         public string AcceptedConnections { get; set; }
         public string TimeWorking { get; set; }
         public string Role { get; set; }
+        public string PathImg { get; set; }
+        public string PathImgMini { get; set; }
 
         public User()
         {

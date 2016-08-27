@@ -2,6 +2,7 @@
 @using JoinAndDo.Entities
 @{
     User user = ViewBag.User;
+    bool isMyProfile = ViewBag.IsMyProfile;
 }
 @{
     ViewBag.Title = @user.FirstName  + " " + @user.LastName;
@@ -14,7 +15,16 @@
 
 <div id="blocks">
     <div id="information">
-        <img src="~/Styles/images/profile.png" id="img_profile" alt="test" />
+        <div id="form_img_profile">
+            <img src="~/Images/@user.PathImg" id="img_profile" alt="test" />
+            @if (isMyProfile)
+            {
+                <div id="load_img">
+                    Change picture
+                    <input type="file" id="fileInput" accept="image/*" onchange="EditProfileImg();" />
+                </div>
+            }
+        </div>
         
         <div id="form_write_msg">
             <p>To:</p>

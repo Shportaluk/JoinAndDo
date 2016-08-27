@@ -63,18 +63,30 @@
     <div class="users_and_information" id="users_and_information">
         <div id="users">
             <p>Management</p>
-            <div class="user" id="user1_join">
-                <img src="~/Styles/images/arrow_right.png" />
-                Join Now
-            </div>
-            <div class="user" id="user1_invite">
-                <img src="~/Styles/images/invite.png" />
-                Invite User
-            </div>
-            <div class="user" id="user1_delete_join" onclick="DeleteJoin()">
+            @if (!isInAccession)
+            {
+                <div class="user" id="user1_join">
+                    <img src="~/Styles/images/arrow_right.png" />
+                    Join Now
+                </div>
+            }
+
+            @if (isInAccession)
+            {
+                <div class="user" id="user1_invite">
+                    <img src="~/Styles/images/invite.png" />
+                    Invite User
+                </div>
+                <div class="user" id="user1_exit_from_the_accession">
+                    <img src="~/Styles/images/exit.png" />
+                    Exit
+                </div>
+                <div class="user" id="user1_delete_join" onclick="DeleteJoin()">
                     <img src="~/Styles/images/remove2.png" />
                     Delete Join
-            </div>
+                </div>
+            }
+            
             @if( accession.ListAvailableRoles.Count > 0 )
             { 
                 <p>Need people</p>

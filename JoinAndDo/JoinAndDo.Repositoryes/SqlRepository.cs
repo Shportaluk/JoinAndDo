@@ -82,7 +82,7 @@ namespace JoinAndDo.Repositoryes
         }
         public string Registration( string login, string pass, string firstName, string lastName )
         {
-            _cmdRegistration = new SqlCommand("DECLARE @res NVARCHAR(30) EXEC Registration @login = '" + login + "', @pass = '" + pass + "', @firstName = '"+ firstName +"', @lastName = '" + lastName + "', @res = @res OUTPUT SELECT @res");
+            _cmdRegistration = new SqlCommand("EXEC Registration @login = '" + login + "', @pass = '" + pass + "', @firstName = '"+ firstName +"', @lastName = '" + lastName + "'");
             _cmdRegistration.Connection = _con;
             _con.Open();
             SqlDataReader reader = _cmdRegistration.ExecuteReader();
@@ -146,6 +146,24 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
         }
 
+        public string LoadProfileImg(string login, string hash, string pathImg)
+        {
+            string res = null;
+            string comm = String.Format("EXEC LoadProfileImg @login = '{0}', @hash = '{1}', @pathImg = '{2}'", login, hash, pathImg);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+            _con.Close();
+
+            return res;
+        }
         public string SetHash( string login, string pass )
         {
             Guid g = Guid.NewGuid();
@@ -180,7 +198,7 @@ namespace JoinAndDo.Repositoryes
             string comm;
             if (String.IsNullOrEmpty(full_name))
             {
-                comm = "SELECT Id, FirstName, LastName, Hash FROM Users";
+                comm = "SELECT Id, FirstName, LastName, Hash, PathImg FROM Users";
             }
             else
             {
@@ -201,6 +219,7 @@ namespace JoinAndDo.Repositoryes
                 {
                     user.IsOnline = true;
                 }
+                user.PathImgMini = "mini_" + reader[4].ToString();
                 listUser.Add(user);
             }
             _con.Close();
@@ -283,7 +302,7 @@ namespace JoinAndDo.Repositoryes
         public User GetUserById(int? iD)
         {
             User user = null;
-            using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, Hash, FulfillmentAccession, AcceptedConnections, TimeWorking FROM Users where Id = " + iD))
+            using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, Hash, PathImg, FulfillmentAccession, AcceptedConnections, TimeWorking FROM Users where Id = " + iD))
             {
                 _cmdGetUserById.Connection = _con;
                 _con.Open();
@@ -299,9 +318,10 @@ namespace JoinAndDo.Repositoryes
                     {
                         user.IsOnline = true;
                     }
-                    user.FulfillmentAccession = reader[4].ToString();
-                    user.AcceptedConnections = reader[5].ToString();
-                    user.TimeWorking = reader[6].ToString();
+                    user.PathImg = reader[4].ToString();
+                    user.FulfillmentAccession = reader[5].ToString();
+                    user.AcceptedConnections = reader[6].ToString();
+                    user.TimeWorking = reader[7].ToString();
                 }
 
                 _con.Close();
@@ -333,7 +353,7 @@ namespace JoinAndDo.Repositoryes
         {
             List<User> users = new List<User>();
 
-            SqlCommand sqlComm = new SqlCommand( "SELECT Login, RoleName FROM Role WHERE IdAccession = " + id + " and Login IS NOT NULL");
+            SqlCommand sqlComm = new SqlCommand( "SELECT Login, RoleName FROM RoleOfUserInAccession WHERE IdAccession = " + id + " and Login IS NOT NULL");
             sqlComm.Connection = _con;
 
             _con.Open();
@@ -481,7 +501,7 @@ namespace JoinAndDo.Repositoryes
         public List<string> GetListAvailableRolesOfAccessionById(int? id)
         {
             List<string> listRoles = new List<string>();
-            SqlCommand sqlComm = new SqlCommand("SELECT RoleName FROM Role WHERE IdAccession = "+id+" and Login IS NULL");
+            SqlCommand sqlComm = new SqlCommand("SELECT RoleName FROM RoleOfUserInAccession WHERE IdAccession = "+id+" and Login IS NULL");
             sqlComm.Connection = _con;
 
             _con.Open();
@@ -628,12 +648,12 @@ namespace JoinAndDo.Repositoryes
         }
         public void InsertRoleOfHumanInAccession( string creator, string arrayRoles, string idAccession )
         {
-            string command = "INSERT INTO Role VALUES ( '"+creator+"', 'Creator', "+idAccession+" )\n";
+            string command = "INSERT INTO RoleOfUserInAccession VALUES ( '"+creator+"', 'Creator', "+idAccession+" )\n";
             string[] separator = { "," };
             string[] listRoles = arrayRoles.Split( separator, StringSplitOptions.RemoveEmptyEntries );
             foreach( string role in listRoles )
             {
-                command += String.Format("INSERT INTO Role VALUES ( NULL, '{0}', '{1}' )\n", role, idAccession );
+                command += String.Format("INSERT INTO RoleOfUserInAccession VALUES ( NULL, '{0}', '{1}' )\n", role, idAccession );
             }
            SqlCommand sqlComm = new SqlCommand(command);
             sqlComm.Connection = _con;
@@ -717,6 +737,24 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
 
             return dialog;
+        }
+        public string ExitWithAccession(string login, string hash, int idAccession)
+        {
+            string res = null;
+            string comm = String.Format("EXEC ExitWithAccession @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+            _con.Close();
+
+            return res;
         }
     }
 }

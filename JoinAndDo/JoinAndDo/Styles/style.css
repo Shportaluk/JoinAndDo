@@ -457,7 +457,5 @@ select {
     outline: none;
 }
 
-textarea:focus, input:focus{
-    outline: none;
-}
+textarea:focus, input:focus{  outline: none; }
 button:focus { outline: none; }
