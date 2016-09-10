@@ -41,3 +41,4 @@ DROP PROC SendMsgToAccession
 DROP PROC GetDialogOfAccession
 DROP PROC ExitWithAccession
 DROP PROC LoadProfileImg
+DROP PROC GetUsersByIdOfAccession

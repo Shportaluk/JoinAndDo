@@ -353,7 +353,7 @@ namespace JoinAndDo.Repositoryes
         {
             List<User> users = new List<User>();
 
-            SqlCommand sqlComm = new SqlCommand( "SELECT Login, RoleName FROM RoleOfUserInAccession WHERE IdAccession = " + id + " and Login IS NOT NULL");
+            SqlCommand sqlComm = new SqlCommand( "EXEC GetUsersByIdOfAccession @idAccession = " + id);
             sqlComm.Connection = _con;
 
             _con.Open();
@@ -362,8 +362,17 @@ namespace JoinAndDo.Repositoryes
             while (reader.Read())
             {
                 User user = new User();
-                user.Login = reader[0].ToString();
-                user.Role = reader[1].ToString();
+                user.Id = reader[0].ToString();
+                user.Login = reader[1].ToString();
+                if (!String.IsNullOrEmpty(reader[2].ToString()))
+                {
+                    user.IsOnline = true;
+                }
+                user.PathImgMini = "mini_" + reader[3].ToString();
+                
+                user.FirstName = reader[4].ToString();
+                user.LastName = reader[5].ToString();
+                user.Role = reader[6].ToString();
                 users.Add(user);
             }
 

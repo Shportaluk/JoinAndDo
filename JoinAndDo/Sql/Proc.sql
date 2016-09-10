@@ -202,17 +202,17 @@ CREATE PROC GetMyAccessions
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
-	Select IdAccession Into #Temp From RoleOfUserInAccession  WHERE Login = @login and RoleName != 'Creator'
+	Select IdAccession Into #TempGetMyAccessions From RoleOfUserInAccession  WHERE Login = 'qwe' and RoleName != 'Creator'
 
-	WHILE (SELECT COUNT(*) FROM #Temp) > 0
+	WHILE (SELECT COUNT(*) FROM #TempGetMyAccessions) > 0
 	BEGIN
 		Declare @IdAccession int
-		SET @IdAccession = ( SELECT TOP 1 IdAccession FROM #Temp )
+		SET @IdAccession = ( SELECT TOP 1 IdAccession FROM #TempGetMyAccessions )
 		SELECT * FROM Accession WHERE Id = @IdAccession
-		Delete #Temp Where IdAccession = @IdAccession
+		Delete #TempGetMyAccessions Where IdAccession = @IdAccession
 	END
 
-	DROP TABLE #Temp
+	DROP TABLE #TempGetMyAccessions
 END
 GO 
 
@@ -448,3 +448,32 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
+
+
+GO
+CREATE PROC GetUsersByIdOfAccession
+	@idAccession INT
+AS
+	SELECT Login, RoleName Into #Temp From RoleOfUserInAccession  WHERE IdAccession = 1 and Login IS NOT NULL
+	CREATE TABLE #t
+	(
+		Id INT IDENTITY( 1, 1 ),
+		Login NVARCHAR( 20 ),
+		Hash NVARCHAR( 100 ),
+		PathImg NVARCHAR( 100 ),
+		FirstName NVARCHAR( 20 ),
+		LastName NVARCHAR( 15 ),
+		RoleName NVARCHAR( 20 )
+	)
+	WHILE (SELECT COUNT(*) FROM #Temp) > 0
+	BEGIN
+		Declare @login NVARCHAR( 20 )
+		SET @login = ( SELECT TOP 1 Login FROM #Temp )
+		INSERT INTO #t SELECT  Users.Login, Users.Hash, Users.PathImg, Users.FirstName, Users.LastName, #Temp.RoleName FROM Users, #Temp WHERE Users.Login = @login and #Temp.Login = @login
+		DELETE #Temp Where Login = @login
+	END
+	SELECT * FROM #t
+	DROP TABLE #t
+GO
+
+EXEC GetUsersByIdOfAccession @idAccession = 1

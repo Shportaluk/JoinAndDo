@@ -1,9 +1,8 @@
-﻿#blocks {
-    width: calc( 100% - 280px );
+﻿#form_accession {
     padding: 10px;
-    background-color: rgba(0,0,0,0.5)
+    background-color: rgba(0,0,0,0.5);
+    min-height: 490px;
 }
-
 #title {
     position: relative;
     width: calc( 100% - 18px );
@@ -79,8 +78,8 @@
 #messages {
     position: absolute;
     margin: 7px;
-    left: 270px;
-    width: calc( 100% - 292px );
+    left: 280px;
+    width: calc( 100% - 310px );
     overflow: hidden;
     background-color: rgba(255,255,255,0.1);
 }
@@ -220,7 +219,7 @@
 }
 .information {
     position: absolute;
-    left: 265px;
+    left: 275px;
     color: white;
     width: calc( 100% - 281px );
     background-color: rgba(0,0,0,0.7);
@@ -270,7 +269,7 @@
 #user1_delete_join { display: none }
 #info1_invite {
     position: absolute;
-    left: 265px;
+    left: 275px;
     width: calc( 100% - 291px );
     height: 235px;
 

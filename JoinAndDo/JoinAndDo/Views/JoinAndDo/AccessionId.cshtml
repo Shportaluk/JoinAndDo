@@ -18,178 +18,181 @@
 <link href="~/Styles/style_search_people.css" rel="stylesheet" />
 
 <div id="blocks">
-    <div id="title">
-        <strong>@accession.Title</strong>
-        <textarea id="title_edit"></textarea>
-        <div class="edit"><img src="~/Styles/images/edit.png" /></div>
-        <div class="edit_ok"><img src="~/Styles/images/ok.png" /></div>
-    </div>
-    <div style="display: none" id="id_accession" >@accession.Id</div>
-    <div style="display: none" id="creator_accession">@accession.Creator</div>
-    <div id="description">
-        <strong>@accession.Text</strong>
-        <textarea id="description_edit"></textarea>
-        <div class="edit"><img src="~/Styles/images/edit.png"/></div>
-        <div class="edit_ok"><img src="~/Styles/images/ok.png" /></div>
-    </div>
+    <div id="form_accession">
+        <div id="title">
+            <strong>@accession.Title</strong>
+            <textarea id="title_edit"></textarea>
+            <div class="edit"><img src="~/Styles/images/edit.png" /></div>
+            <div class="edit_ok"><img src="~/Styles/images/ok.png" /></div>
+        </div>
+        <div style="display: none" id="id_accession">@accession.Id</div>
+        <div style="display: none" id="creator_accession">@accession.Creator</div>
+        <div id="description">
+            <strong>@accession.Text</strong>
+            <textarea id="description_edit"></textarea>
+            <div class="edit"><img src="~/Styles/images/edit.png" /></div>
+            <div class="edit_ok"><img src="~/Styles/images/ok.png" /></div>
+        </div>
 
-    @if (isInAccession)
-    {
-    <div id="messages">
-        <p id="header_messages" >Messages</p>
-            <div id="list_messages">
-                @if (dialogInAccession != null)
+        @if (isInAccession)
+        {
+            <div id="messages">
+                <p id="header_messages">Messages</p>
+                <div id="list_messages">
+                    @if (dialogInAccession != null)
                 {
                     foreach (Message msg in dialogInAccession)
                     {
-                        <div class="div_message">
-                            <div class="message">
-                                <p>
-                                    <strong class="name_sender">@msg.login</strong>
-                                    <strong class="text">@msg.text</strong>
-                                </p>
-                            </div>
-                        </div>
+                <div class="div_message">
+                    <div class="message">
+                        <p>
+                            <strong class="name_sender">@msg.login</strong>
+                            <strong class="text">@msg.text</strong>
+                        </p>
+                    </div>
+                </div>
                     }
                 }
+                </div>
+                <div class="div_send_msg">
+                    <textarea id="txt_msg"> </textarea>
+                    <button id="btn_send_msg_to_accession" onclick="SendMessageToAccession()">Send</button>
+                </div>
             </div>
-        <div class="div_send_msg">
-            <textarea id="txt_msg"> </textarea>
-            <button id="btn_send_msg_to_accession" onclick="SendMessageToAccession()">Send</button>
-        </div>
-    </div>
-    }
+        }
 
-    <div class="users_and_information" id="users_and_information">
-        <div id="users">
-            <p>Management</p>
-            @if (!isInAccession)
+        <div class="users_and_information" id="users_and_information">
+            <div id="users">
+                <p>Management</p>
+                @if (!isInAccession)
             {
-                <div class="user" id="user1_join">
-                    <img src="~/Styles/images/arrow_right.png" />
-                    Join Now
-                </div>
+            <div class="user" id="user1_join">
+                <img src="~/Styles/images/arrow_right.png" />
+                Join Now
+            </div>
             }
 
-            @if (isInAccession)
+                @if (isInAccession)
             {
-                <div class="user" id="user1_invite">
-                    <img src="~/Styles/images/invite.png" />
-                    Invite User
-                </div>
-                <div class="user" id="user1_exit_from_the_accession">
-                    <img src="~/Styles/images/exit.png" />
-                    Exit
-                </div>
-                <div class="user" id="user1_delete_join" onclick="DeleteJoin()">
-                    <img src="~/Styles/images/remove2.png" />
-                    Delete Join
-                </div>
+            <div class="user" id="user1_invite">
+                <img src="~/Styles/images/invite.png" />
+                Invite User
+            </div>
+            <div class="user" id="user1_exit_from_the_accession">
+                <img src="~/Styles/images/exit.png" />
+                Exit
+            </div>
+            <div class="user" id="user1_delete_join" onclick="DeleteJoin()">
+                <img src="~/Styles/images/remove2.png" />
+                Delete Join
+            </div>
             }
-            
-            @if( accession.ListAvailableRoles.Count > 0 )
-            { 
-                <p>Need people</p>
+
+                @if( accession.ListAvailableRoles.Count > 0 )
+            {
+            <p>Need people</p>
                 foreach ( string role in accession.ListAvailableRoles )
                 {
-                    <div class="need_people">@role</div>
+            <div class="need_people">@role</div>
                 }
             }
-            <p>Customers</p>
-            @for (int i = 0; i < listUsers.Count; i++)
-            {
-                <div class="user" id="user1_@i" onclick="OpenUser(@listUsers[@i].Id)">@listUsers[@i].FirstName @listUsers[@i].LastName</div>
-            }
-        </div>
-        <div id="div_informations">
-            <div class="information" id="info1_join">
-                <p>
-                    <strong>My name:</strong>
-                    <strong id="my_name">-</strong>
-                    <select>
-                        @foreach (string role in accession.ListAvailableRoles)
+                <p>Customers</p>
+                @for (int i = 0; i < listUsers.Count; i++)
+                {
+                    <div class="user" id="user1_@i" onclick="OpenUser(@listUsers[@i].Id)">
+                    <img src="~/Images/@listUsers[@i].PathImgMini" /> @listUsers[@i].LastName</div>
+                }
+            </div>
+            <div id="div_informations">
+                <div class="information" id="info1_join">
+                    <p>
+                        <strong>My name:</strong>
+                        <strong id="my_name">-</strong>
+                        <select>
+                            @foreach (string role in accession.ListAvailableRoles)
                         {
-                            <option>@role</option>
+                        <option>@role</option>
                         }
-                    </select>
-                    <strong id="error" ></strong>
-                </p>
-
-                <p>
-                    <strong>Message</strong>
-                </p>
-                <textarea id="text"> </textarea>
-                <button id="btn_send_request_to_accession" onclick="SendRequestToAccession()">Send</button>
-            </div>
-            <div id="info1_invite" class="information">
-                <div id="form_search">
-                    <input type="text" name="name" />
-                    <button onclick="SearchUser()">Search</button>
-
-                    <button id="show" onclick="ShowAdvanced()">Show Advanced</button>
-                    <button id="hide" onclick="HideAdvanced()">Hide Advanced</button>
-                    <div id="advanced_search">
-                        <div class="select" id="select_gender">
-                            <div id="online">Male</div>
-                            <div id="famele">Famele</div>
-                            <div id="all">All</div>
-                        </div>
-                        <div class="select" id="select_status">
-                            <div id="online">Online</div>
-                            <div id="offline">Offline</div>
-                            <div id="all">All</div>
-                        </div>
-                        <select id="list_countries">
-                            <option value="">Select Countrie</option>
                         </select>
-                        <select id="list_cityes">
-                            <option value="">Select Sityes</option>
-                        </select>
+                        <strong id="error"></strong>
+                    </p>
 
+                    <p>
+                        <strong>Message</strong>
+                    </p>
+                    <textarea id="text"> </textarea>
+                    <button id="btn_send_request_to_accession" onclick="SendRequestToAccession()">Send</button>
+                </div>
+                <div id="info1_invite" class="information">
+                    <div id="form_search">
+                        <input type="text" name="name" />
+                        <button onclick="SearchUser()">Search</button>
+
+                        <button id="show" onclick="ShowAdvanced()">Show Advanced</button>
+                        <button id="hide" onclick="HideAdvanced()">Hide Advanced</button>
+                        <div id="advanced_search">
+                            <div class="select" id="select_gender">
+                                <div id="online">Male</div>
+                                <div id="famele">Famele</div>
+                                <div id="all">All</div>
+                            </div>
+                            <div class="select" id="select_status">
+                                <div id="online">Online</div>
+                                <div id="offline">Offline</div>
+                                <div id="all">All</div>
+                            </div>
+                            <select id="list_countries">
+                                <option value="">Select Countrie</option>
+                            </select>
+                            <select id="list_cityes">
+                                <option value="">Select Sityes</option>
+                            </select>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-            @for (int i = 0; i < listUsers.Count; i++)
+                @for (int i = 0; i < listUsers.Count; i++)
             {
-                <div class="information" id="info1_@i">
-                    <div class="specialty">
-                        @listUsers[@i].Role
-                    </div>
-                    <button>Write Message</button>
+            <div class="information" id="info1_@i">
+                <div class="specialty">
+                    @listUsers[@i].Role
                 </div>
+                <button>Write Message</button>
+            </div>
             }
+            </div>
         </div>
-    </div>
-    <div class="users_and_information" id="div_requests">
-        <div id="users">
-            @if(listRequestsAdditionOf.Count > 0)
-            { 
-                <p>Requests Addition Of</p>
+        <div class="users_and_information" id="div_requests">
+            <div id="users">
+                @if(listRequestsAdditionOf.Count > 0)
+            {
+            <p>Requests Addition Of</p>
                 for (int i = 0; i < listRequestsAdditionOf.Count; i++)
                 {
-                    <div class="user" id="user2_@i" onclick="OpenUser(@listRequestsAdditionOf[@i].Id)">
-                        <img src="~/Styles/images/arrow_right.png" />
-                        @listRequestsAdditionOf[@i].Login
-                    </div>
+            <div class="user" id="user2_@i" onclick="OpenUser(@listRequestsAdditionOf[@i].Id)">
+                <img src="~/Styles/images/arrow_right.png" />
+                @listRequestsAdditionOf[@i].Login
+            </div>
                 }
             }
-        </div>
-        <div id="div_informations">
-            @for (int i = 0; i < listRequestsAdditionOf.Count; i++)
+            </div>
+            <div id="div_informations">
+                @for (int i = 0; i < listRequestsAdditionOf.Count; i++)
             {
-                <div class="information" id="info2_@i">
-                    <div id="name" style="display: none">
-                        @listRequestsAdditionOf[@i].Login
-                    </div>
-                    <div class="specialty">
-                        @listRequestsAdditionOf[@i].Category
-                    </div>
-                    <div id="request_text">@listRequestsAdditionOf[@i].Text</div>
-                    <button id="btn_WriteMsg">Write Message</button>
-                    <button id="btn_accept" onclick="AcceptUser( @i )">Accept</button>
-                    <button id="btn_reject" onclick="RejectUser( @i )">Reject</button>
+            <div class="information" id="info2_@i">
+                <div id="name" style="display: none">
+                    @listRequestsAdditionOf[@i].Login
                 </div>
+                <div class="specialty">
+                    @listRequestsAdditionOf[@i].Category
+                </div>
+                <div id="request_text">@listRequestsAdditionOf[@i].Text</div>
+                <button id="btn_WriteMsg">Write Message</button>
+                <button id="btn_accept" onclick="AcceptUser( @i )">Accept</button>
+                <button id="btn_reject" onclick="RejectUser( @i )">Reject</button>
+            </div>
             }
+            </div>
         </div>
     </div>
 </div>

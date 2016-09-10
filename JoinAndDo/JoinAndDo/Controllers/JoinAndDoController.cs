@@ -203,12 +203,12 @@ namespace JoinAndDo.Controllers
                         }
                     }
                     List<RequestJoinToAccession> listRequestsAdditionOf = _sqlRepository.GetRequestsAdditionToAccession(id);
-                    for ( int i = 0; i < users.Count; i++ )
-                    {
-                        string role = users[i].Role;
-                        users[i] = _sqlRepository.GetUserByLogin( users[i].Login );
-                        users[i].Role = role;
-                    }
+                    //for ( int i = 0; i < users.Count; i++ )
+                    //{
+                    //    string role = users[i].Role;
+                    //    users[i] = _sqlRepository.GetUserByLogin( users[i].Login );
+                    //    users[i].Role = role;
+                    //}
                     ViewBag.ListUsers = users;
                     ViewBag.ListRequestsAdditionOf = listRequestsAdditionOf;
                 }
