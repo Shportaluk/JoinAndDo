@@ -100,6 +100,9 @@
     <Content Include="Styles\adapt.css" />
     <Content Include="Styles\adapt_phone.css" />
     <Content Include="Styles\adapt_phone_vertical.css" />
+    <Content Include="Styles\images\about_1.png" />
+    <Content Include="Styles\images\about_2.png" />
+    <Content Include="Styles\images\about_3.png" />
     <Content Include="Styles\images\arrow_right.png" />
     <Content Include="Styles\images\background1.jpg" />
     <Content Include="Styles\images\background2.jpg" />
@@ -119,6 +122,7 @@
     <Content Include="Styles\images\man_right.png" />
     <Content Include="Styles\images\man_right2.png" />
     <Content Include="Styles\images\ok.png" />
+    <Content Include="Styles\images\people.png" />
     <Content Include="Styles\images\profile.png" />
     <Content Include="Styles\images\remove.png" />
     <Content Include="Styles\images\remove2.png" />
