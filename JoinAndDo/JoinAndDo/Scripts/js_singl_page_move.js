@@ -274,22 +274,27 @@ function Login(l, p) {
     });
 };
 function Registration(l, p, fn, ln) {
-    $("#registration_error").text("");
-    $.ajax({
-        url: '/JoinAndDo/Registration',
-        type: 'POST',
-        contentType: 'application/json;',
-        data: JSON.stringify({ login: l, pass: p, firstName: fn, lastName: ln }),
-        success: function (res) {
-            if (res == "OK") {
-                ShowMessage("successfully registered")
-                Close();
+    if ( p.length < 6) {
+        $("#registration_error").text("Password short");
+    }
+    else {
+        $("#registration_error").text("");
+        $.ajax({
+            url: '/JoinAndDo/Registration',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ login: l, pass: p, firstName: fn, lastName: ln }),
+            success: function (res) {
+                if (res == "OK") {
+                    ShowMessage("successfully registered")
+                    Close();
+                }
+                else {
+                    $("#registration_error").text(res);
+                }
             }
-            else {
-                $("#registration_error").text(res);
-            }
-        }
-    });
+        });
+    }
 };
 function Close()
 {
