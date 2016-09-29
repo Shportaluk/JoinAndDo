@@ -454,7 +454,7 @@ GO
 CREATE PROC GetUsersByIdOfAccession
 	@idAccession INT
 AS
-	SELECT Login, RoleName Into #Temp From RoleOfUserInAccession  WHERE IdAccession = 1 and Login IS NOT NULL
+	SELECT Login, RoleName Into #Temp From RoleOfUserInAccession  WHERE IdAccession = @idAccession and Login IS NOT NULL
 	CREATE TABLE #t
 	(
 		Id INT IDENTITY( 1, 1 ),
@@ -475,5 +475,3 @@ AS
 	SELECT * FROM #t
 	DROP TABLE #t
 GO
-
-EXEC GetUsersByIdOfAccession @idAccession = 1
