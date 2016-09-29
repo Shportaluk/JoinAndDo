@@ -12,21 +12,33 @@
         needPeople++;
         listRoles += $(elem).val() + ",";
     })
+    if (needPeople == 0) {
+        ShowMessage("Can be 0 people in accession")
+    }
+    else if (name == "") {
+        ShowMessage("Write Name of accession")
+    }
+    else if (text == "") {
+        ShowMessage("Write Text of accession")
+    }
+    else{
+
     //alert(listRoles);
     //alert(name + ":" + text + ":" + category + ":" + needPeople);
 
-    $.ajax({
-        url: '/JoinAndDo/NewJoin',
-        type: 'POST',
-        contentType: 'application/json;',
-        data: JSON.stringify({ login: l, hash: h, name: name, text: text, category: category, needPeople: needPeople, listRoles: listRoles }),
-        success: function (res) {
-            if (res != "Error")
-            {
-                window.location.href = "/JoinAndDo/AccessionId/" + res;
+        $.ajax({
+            url: '/JoinAndDo/NewJoin',
+            type: 'POST',
+            contentType: 'application/json;',
+            data: JSON.stringify({ login: l, hash: h, name: name, text: text, category: category, needPeople: needPeople, listRoles: listRoles }),
+            success: function (res) {
+                if (res != "Error")
+                {
+                    window.location.href = "/JoinAndDo/AccessionId/" + res;
+                }
             }
-        }
-    });
+        });
+    }
 }
 function AddFuncDeleteRole(div) {
     div.click(function () {
