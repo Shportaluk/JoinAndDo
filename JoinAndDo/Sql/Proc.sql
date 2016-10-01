@@ -302,13 +302,22 @@ IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
 	IF((SELECT COUNT(*) FROM Accession WHERE Id = @idAccession and Login = @login) = 1 )
 	BEGIN
+		SELECT Login INTO #TempLoginsDeteteJoin FROM RoleOfUserInAccession WHERE IdAccession = @idAccession and Login IS NOT NULL
+		WHILE (SELECT COUNT(*) FROM #TempLoginsDeteteJoin) > 0
+			BEGIN
+				Declare @Login_ NVARCHAR(20)
+				SET @Login_ = ( SELECT TOP 1 Login FROM #TempLoginsDeteteJoin )
+				UPDATE Users SET CurrentlyAccessions = CurrentlyAccessions - 1 WHERE Login = @Login_
+				Delete #TempLoginsDeteteJoin WHERE Login = @Login_
+			END
+		DROP TABLE #TempLoginsDeteteJoin
+			
+		
 		DELETE FROM RequestJoinToAccession WHERE ToIdAccession = @idAccession
 		DELETE FROM RoleOfUserInAccession WHERE IdAccession = @idAccession
 		DELETE FROM MessagesInAccession WHERE IdAccession = @idAccession
-		DELETE FROM Accession WHERE Id = @idAccession
 		DELETE FROM RequestCompleteToAccession WHERE IdAccession = @idAccession
-		UPDATE Users SET AbandonedAccessions = AbandonedAccessions + 1 WHERE Login = @login
-		UPDATE Users SET CurrentlyAccessions = CurrentlyAccessions - 1 WHERE Login = @login
+		DELETE FROM Accession WHERE Id = @idAccession
 		SELECT 'Ok'
 	END
 	ELSE
@@ -499,22 +508,25 @@ BEGIN
 		INSERT INTO RequestCompleteToAccession VALUES( @login, @idAccession )
 		IF( ((SELECT COUNT(*) FROM RequestCompleteToAccession WHERE IdAccession = @idAccession)/((SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession)-1)) >= 0.7 )
 		BEGIN
-			UPDATE Accession SET Title = 'Complate' WHERE Id = @idAccession
 			
-			
-			SELECT Login INTO #TempLoginsRequestComplateAccession FROM RoleOfUserInAccession WHERE IdAccession = @idAccession
+			SELECT Login INTO #TempLoginsRequestComplateAccession FROM RoleOfUserInAccession WHERE IdAccession = @idAccession and Login IS NOT NULL
 			WHILE (SELECT COUNT(*) FROM #TempLoginsRequestComplateAccession) > 0
 			BEGIN
 				Declare @Login_ NVARCHAR(20)
 				SET @Login_ = ( SELECT TOP 1 Login FROM #TempLoginsRequestComplateAccession )
 				
 				UPDATE Users SET CompletedAccessions = CompletedAccessions + 1 WHERE Login = @Login_
-				UPDATE Users SET CurrentlyAccessions = CurrentlyAccessions - 1 WHERE Login = @Login_
 				
 				Delete #TempLoginsRequestComplateAccession WHERE Login = @Login_
 			END
 			DROP TABLE #TempLoginsRequestComplateAccession
 			
+			
+			DECLARE @Creator NVARCHAR(20)
+			DECLARE @HashOfCreator NVARCHAR(100)
+			SET @Creator = (SELECT Login FROM RoleOfUserInAccession WHERE RoleName = 'Creator' and IdAccession = @idAccession)
+			SET @HashOfCreator = ( SELECT Hash FROM Users WHERE Login = @Creator )
+			EXEC DeleteJoin @login = @Creator, @hash = @HashOfCreator, @idAccession = @idAccession
 			
 			SELECT 'Complated'
 		END
@@ -527,13 +539,3 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
-
-
-
-
-
-
-
-SELECT * FROM Users
-DELETE RequestCompleteToAccession WHERE Login = 'qweqwe'
-EXEC RequestComplateAccession @login = 'qweqwe', @hash = '3Uy5EALI0C/Ds4W53VaKg', @idAccession = 29
