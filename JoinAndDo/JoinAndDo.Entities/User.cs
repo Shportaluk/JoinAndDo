@@ -14,16 +14,24 @@ namespace JoinAndDo.Entities
         public string LastName { get; set; }
         public bool IsOnline { get; set; }
         public string Hash { get; set; }
-        public string FulfillmentAccession { get; set; }
-        public string AcceptedConnections { get; set; }
-        public string TimeWorking { get; set; }
         public string Role { get; set; }
         public string PathImg { get; set; }
         public string PathImgMini { get; set; }
 
+        public int CompletedAccessions { get; set; }
+        public int AbandonedAccessions { get; set; }
+        public int CurrentlyAccessions { get; set; }
+        public int AllAccessions { get; set; }
+
+        public int CompletedAccessionsPercent { get; set; }
+        public int AbandonedAccessionsPercent { get; set; }
+        public int CurrentlyAccessionsPercent { get; set; }
+
         public User()
         {
-            
+            CompletedAccessionsPercent = 0;
+            AbandonedAccessionsPercent = 0;
+            CurrentlyAccessionsPercent = 0;
         }
     }
 }

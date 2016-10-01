@@ -10,9 +10,10 @@ CREATE TABLE Users
 	Hash NVARCHAR( 100 ),
 	PathImg NVARCHAR( 100 ),
 	
-	FulfillmentAccession INT,
-	AcceptedConnections INT,
-	TimeWorking INT,
+	CompletedAccessions INT,
+	AbandonedAccessions INT,
+	CurrentlyAccessions INT,
+	AllAccessions INT,
 	
 	PRIMARY KEY ( Login )
 );
@@ -116,4 +117,15 @@ CREATE TABLE RoleOfUsers
 	
 	
 	CONSTRAINT fk_RoleOfUsers_Login FOREIGN KEY ( Login ) REFERENCES Users( Login )
+);
+
+CREATE TABLE RequestCompleteToAccession (
+	Id INT IDENTITY( 1, 1 ),
+	Login NVARCHAR ( 20 ),
+	IdAccession INT,
+	
+	
+	PRIMARY KEY ( Id ),
+	CONSTRAINT fk_request_complete_accession_login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
+	CONSTRAINT fk_request_complete_accession_idAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
 );

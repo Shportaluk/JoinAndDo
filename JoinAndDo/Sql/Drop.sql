@@ -10,6 +10,7 @@ DROP TABLE RoleOfUsers
 
 ALTER TABLE dbo.[Accession] DROP CONSTRAINT fk_Accession
 
+DROP TABLE RequestCompleteToAccession
 DROP TABLE RequestJoinToAccession
 DROP TABLE Accession
 DROP TABLE Users
@@ -42,3 +43,4 @@ DROP PROC GetDialogOfAccession
 DROP PROC ExitWithAccession
 DROP PROC LoadProfileImg
 DROP PROC GetUsersByIdOfAccession
+DROP PROC RequestComplateAccession

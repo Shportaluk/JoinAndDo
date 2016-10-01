@@ -245,6 +245,10 @@ namespace JoinAndDo.Controllers
             }
         }
 
+        public string SendRequestCompleteAccession(string login, string hash, int idAccession)
+        {
+            return _sqlRepository.SendRequestCompleteAccession(login,hash,idAccession);
+        }
         public string LoadProfileImg( HttpPostedFileBase fileInput)
         {
             try

@@ -184,15 +184,12 @@
     margin-right: 10px;
     background-color: rgba(0,0,0,0.5);
 }
-#completed_percentage_of_accessions,#percentage_of_accepted_connections, #percentage_of_time_working
+#line_in_statusbar
 {
     border-radius: 3px;
 	height: 100%;
     background-color: #2ECCFA;
 }
-#completed_percentage_of_accessions { width: 50%; }
-#percentage_of_accepted_connections { width: 25%; }
-#percentage_of_time_working { width: 98%; }
 
 
 

@@ -302,7 +302,7 @@ namespace JoinAndDo.Repositoryes
         public User GetUserById(int? iD)
         {
             User user = null;
-            using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, Hash, PathImg, FulfillmentAccession, AcceptedConnections, TimeWorking FROM Users where Id = " + iD))
+            using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, Hash, PathImg, CompletedAccessions, AbandonedAccessions, CurrentlyAccessions, AllAccessions FROM Users where Id = " + iD))
             {
                 _cmdGetUserById.Connection = _con;
                 _con.Open();
@@ -319,9 +319,18 @@ namespace JoinAndDo.Repositoryes
                         user.IsOnline = true;
                     }
                     user.PathImg = reader[4].ToString();
-                    user.FulfillmentAccession = reader[5].ToString();
-                    user.AcceptedConnections = reader[6].ToString();
-                    user.TimeWorking = reader[7].ToString();
+
+                    user.CompletedAccessions = int.Parse( reader[5].ToString() );
+                    user.AbandonedAccessions = int.Parse( reader[6].ToString()) ;
+                    user.CurrentlyAccessions = int.Parse( reader[7].ToString() );
+                    user.AllAccessions = int.Parse( reader[8].ToString() );
+
+                    if( user.AllAccessions != 0 )
+                    {
+                        user.CompletedAccessionsPercent = user.CompletedAccessions * 100 / user.AllAccessions;
+                        user.AbandonedAccessionsPercent = user.AbandonedAccessions * 100 / user.AllAccessions;
+                        user.CurrentlyAccessionsPercent = user.CurrentlyAccessions * 100 / user.AllAccessions;
+                    }
                 }
 
                 _con.Close();
@@ -582,6 +591,25 @@ namespace JoinAndDo.Repositoryes
             string res = "";
             string command = String.Format("EXEC SendRequestToAccession @login = '{0}', @hash = '{1}', @text = '{2}', @category = '{3}', @idAccession = '{4}'", login, hash, text, category, idAccession );
             SqlCommand sqlComm = new SqlCommand( command );
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+
+            _con.Close();
+
+            return res;
+        }
+        public string SendRequestCompleteAccession(string login, string hash, int idAccession)
+        {
+            string res = "";
+            string command = String.Format("EXEC RequestComplateAccession @login = '{0}', @hash = '{1}', @idAccession = '{2}'", login, hash, idAccession);
+            SqlCommand sqlComm = new SqlCommand(command);
             sqlComm.Connection = _con;
 
             _con.Open();

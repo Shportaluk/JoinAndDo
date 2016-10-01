@@ -9,7 +9,7 @@ CREATE PROC Registration
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login ) = 0)
 BEGIN
-	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null, 'default.bmp', 0, 0, 0 );
+	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null, 'default.bmp', 0, 0, 0, 0 );
 	SELECT 'OK'
 END
 ELSE
@@ -167,6 +167,8 @@ AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
 	INSERT INTO Accession OUTPUT Inserted.ID VALUES ( @title, @text, @category, @login, 0, @needPeople )
+	UPDATE Users SET AllAccessions = AllAccessions + 1 WHERE Login = @login
+	UPDATE Users SET CurrentlyAccessions = CurrentlyAccessions + 1 WHERE Login = @login
 END
 GO 
 
@@ -303,7 +305,10 @@ BEGIN
 		DELETE FROM RequestJoinToAccession WHERE ToIdAccession = @idAccession
 		DELETE FROM RoleOfUserInAccession WHERE IdAccession = @idAccession
 		DELETE FROM MessagesInAccession WHERE IdAccession = @idAccession
-		DELETE FROM Accession WHERE Id = @idAccession and Login = @login
+		DELETE FROM Accession WHERE Id = @idAccession
+		DELETE FROM RequestCompleteToAccession WHERE IdAccession = @idAccession
+		UPDATE Users SET AbandonedAccessions = AbandonedAccessions + 1 WHERE Login = @login
+		UPDATE Users SET CurrentlyAccessions = CurrentlyAccessions - 1 WHERE Login = @login
 		SELECT 'Ok'
 	END
 	ELSE
@@ -332,6 +337,8 @@ BEGIN
 		IF(@res = 'Ok')
 		BEGIN
 			UPDATE RequestJoinToAccession SET Status = 'Accepted' WHERE ToIdAccession = @idAccession and Login = @user
+			UPDATE Users SET AllAccessions = AllAccessions + 1 WHERE Login = @user
+			UPDATE Users SET CurrentlyAccessions = CurrentlyAccessions + 1 WHERE Login = @user
 			SELECT 'Ok'
 		END
 		ELSE
@@ -424,6 +431,8 @@ BEGIN
 		UPDATE RoleOfUserInAccession SET Login = NULL WHERE IdAccession = @idAccession and Login = @login
 		DELETE RequestJoinToAccession WHERE ToIdAccession = @idAccession and Login = @login
 		UPDATE Accession SET People = People - 1 WHERE Id = @idAccession
+		UPDATE Users SET AbandonedAccessions = AbandonedAccessions + 1 WHERE Login = @login
+		UPDATE Users SET CurrentlyAccessions = CurrentlyAccessions - 1 WHERE Login = @login
 		SELECT 'Ok'
 	END
 	ELSE
@@ -475,3 +484,56 @@ AS
 	SELECT * FROM #t
 	DROP TABLE #t
 GO
+
+
+GO
+CREATE PROC RequestComplateAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF ( (SELECT COUNT(*) FROM RequestCompleteToAccession WHERE Login = @login and IdAccession = @idAccession) = 0 )
+	BEGIN
+		INSERT INTO RequestCompleteToAccession VALUES( @login, @idAccession )
+		IF( ((SELECT COUNT(*) FROM RequestCompleteToAccession WHERE IdAccession = @idAccession)/((SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession)-1)) >= 0.7 )
+		BEGIN
+			UPDATE Accession SET Title = 'Complate' WHERE Id = @idAccession
+			
+			
+			SELECT Login INTO #TempLoginsRequestComplateAccession FROM RoleOfUserInAccession WHERE IdAccession = @idAccession
+			WHILE (SELECT COUNT(*) FROM #TempLoginsRequestComplateAccession) > 0
+			BEGIN
+				Declare @Login_ NVARCHAR(20)
+				SET @Login_ = ( SELECT TOP 1 Login FROM #TempLoginsRequestComplateAccession )
+				
+				UPDATE Users SET CompletedAccessions = CompletedAccessions + 1 WHERE Login = @Login_
+				UPDATE Users SET CurrentlyAccessions = CurrentlyAccessions - 1 WHERE Login = @Login_
+				
+				Delete #TempLoginsRequestComplateAccession WHERE Login = @Login_
+			END
+			DROP TABLE #TempLoginsRequestComplateAccession
+			
+			
+			SELECT 'Complated'
+		END
+		ELSE
+			SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have sent a request'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
+
+
+
+
+
+
+SELECT * FROM Users
+DELETE RequestCompleteToAccession WHERE Login = 'qweqwe'
+EXEC RequestComplateAccession @login = 'qweqwe', @hash = '3Uy5EALI0C/Ds4W53VaKg', @idAccession = 29

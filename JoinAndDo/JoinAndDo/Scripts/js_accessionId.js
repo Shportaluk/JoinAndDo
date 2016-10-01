@@ -142,6 +142,29 @@ function SendMessageToAccession() {
         }
     });
 }
+function SendRequestCompleteAccession() {
+    var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var idAccession = $("#id_accession").text();
+
+    $.ajax({
+        url: '/JoinAndDo/SendRequestCompleteAccession',
+        type: 'POST',
+        contentType: 'application/json;',
+        data: JSON.stringify({ login: l, hash: h, idAccession: idAccession }),
+        success: function (res) {
+            if (res == "Ok") {
+                alert("Ok");
+            }
+            else if (res == "Complated") {
+                window.location.href = "/JoinAndDo/my_accession/"
+            }
+            else {
+                ShowMessage(res);
+            }
+        }
+    });
+}
 function EditDescription(text) {
     var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");

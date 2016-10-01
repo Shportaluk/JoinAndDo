@@ -107,6 +107,7 @@
     <Content Include="Styles\images\background1.jpg" />
     <Content Include="Styles\images\background2.jpg" />
     <Content Include="Styles\images\close.png" />
+    <Content Include="Styles\images\complete.png" />
     <Content Include="Styles\images\dislike.png" />
     <Content Include="Styles\images\background.jpg" />
     <Content Include="Styles\images\background_phone.jpg" />

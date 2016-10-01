@@ -48,24 +48,24 @@
         </div>
         <div id="Statistics">
             <div class="statictic">
-                <p>Fulfillment accession</p>
+                <p>Completed projects (@user.CompletedAccessions/@user.AllAccessions)</p>
                 <div id="full_of_accession">
-                    <div id="completed_percentage_of_accessions" />
+                    <div id="line_in_statusbar" style="width: @user.CompletedAccessionsPercent%" />
                 </div>
             </div>
 
             <div class="statictic">
-                <p>Accepted connections</p>
+                <p>Abandoned projects (@user.AbandonedAccessions/@user.AllAccessions)</p>
                 <div id="full_of_accession">
-                    <div id="percentage_of_accepted_connections" />
+                    <div id="line_in_statusbar" style="width: @user.AbandonedAccessionsPercent%" />
                 </div>
             </div>
 
 
             <div class="statictic">
-                <p>Middle time working for project</p>
+                <p>Currently have projects (@user.CurrentlyAccessions/@user.AllAccessions)</p>
                 <div id="full_of_accession">
-                    <div id="percentage_of_time_working" />
+                    <div id="line_in_statusbar" style="width: @user.CurrentlyAccessionsPercent%" />
                 </div>
             </div>
         </div>
