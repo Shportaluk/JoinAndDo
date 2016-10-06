@@ -121,6 +121,34 @@ function AcceptUser(id) {
         }
     });
 }
+function RejectUser(id) {
+    var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var idAccession = $("#id_accession").text();
+    var user = $("#info2_" + id + " #name").text().replace(/^\s+/, "").replace(/\s+$/, "");
+
+    $.ajax({
+        url: '/JoinAndDo/RejectRequestOfUserToAccession',
+        type: 'POST',
+        contentType: 'application/json;',
+        data: JSON.stringify({ login: l, hash: h, user: user, idAccession: idAccession }),
+        success: function (res) {
+            if (res == "Ok") {
+                $("#div_requests .user").remove(':contains("'+user+'")');
+
+                if ($(".need_people").length <= 0) {
+                    $("#users_and_information #users p").remove(':contains("Need people")');
+                }
+                if ($("#div_requests .user").length <= 0) {
+                    $("#div_requests p").remove();
+                }
+            }
+            else {
+                ShowMessage(res);
+            }
+        }
+    });
+}
 function SendMessageToAccession() {
     var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -154,10 +182,10 @@ function SendRequestCompleteAccession() {
         data: JSON.stringify({ login: l, hash: h, idAccession: idAccession }),
         success: function (res) {
             if (res == "Ok") {
-                alert("Ok");
+                window.location.href = "/JoinAndDo/my_accession/";
             }
             else if (res == "Complated") {
-                window.location.href = "/JoinAndDo/my_accession/"
+                window.location.href = "/JoinAndDo/my_accession/";
             }
             else {
                 ShowMessage(res);

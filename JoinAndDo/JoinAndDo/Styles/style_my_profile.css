@@ -90,7 +90,6 @@
     overflow: hidden;
     width: 100%;
     background-color: rgba(129, 247, 243, 0.3);
-    height: 400px;
 }
 
 
@@ -192,32 +191,84 @@
 }
 
 
+#list_skills {
+    margin-top: 30px;
+}
+#list_skills strong {
+    font-family: Caviar_Dreams_Bold;
+    color: white;
+    font-size: 25px;
+}
 
-.like_or_dislike
-{
- width: 65px;
- padding: 4px;
- position: relative;
- top: -23px;
- right: 5px;
- margin: auto;
+#add_skill {
+    position: absolute;
+    top: 254px;
+    right: 36px;
+    cursor: pointer;
+    width: 150px;
+    height: 56px;
+    background-color: rgba(0,0,0,.3);
 }
-.like, .dislike
-{
-	width: 25px;
-	height: 25px;
-	border: none;
-	margin-left: 5px;
+#add_skill img {
+    width: 50px;
+    height: 50px;
+    margin: 3px;
 }
-.like, .like:active, .like:focus, .dislike, .dislike:active, .dislike:focus { outline: none; }
-.like
-{
-	background: url( images/like.png ) 100% 100% no-repeat;
-	transition: 0.75s;
+#add_skill strong {
+    position: absolute;
+    top: 16px;
+    font-size: 18px;
+    font-family: Caviar_Dreams_Bold;
 }
-.dislike
-{
-	background: url( images/dislike.png ) 100% 100% no-repeat;
-	transition: 0.75s;
+
+#form_add_skill {
+    position: relative;
+    top: -50px;
+    height: 36px;
+    width: calc( 100% - 20px );
+    padding: 10px;
+    margin-bottom: -50px;
+    background-color: rgba(0,0,0,.3);
+    opacity: 0;
+    display: none;
 }
-.like:focus, .dislike:focus { transition: 0.75s; }
+#form_add_skill strong {
+    font-family: Caviar_Dreams_Bold;
+    color: white;
+    font-size: 15px;
+}
+#form_add_skill select {
+    width: 120px;
+    margin-left: 50px;
+}
+#btn_add {
+    width: 100px;
+}
+#btn_close {
+    position: absolute;
+    width: 100px;
+    right: 10px;
+}
+
+
+.skill {
+    position: relative;
+    width: 270px;
+    height: 60px;
+    background-color: rgba(0,0,0,0.3);
+    margin: 5px;
+}
+.skill img {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+}
+.skill strong{
+    position: absolute;
+    top: 15px;
+    left: 75px;
+    text-align: center;
+    color: white;
+    font-size: 25px;
+    font-family: Caviar_Dreams_Bold;
+}

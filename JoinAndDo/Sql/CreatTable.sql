@@ -129,3 +129,15 @@ CREATE TABLE RequestCompleteToAccession (
 	CONSTRAINT fk_request_complete_accession_login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
 	CONSTRAINT fk_request_complete_accession_idAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
 );
+
+
+CREATE TABLE ListSkillsOfUsers (
+	Id INT IDENTITY( 1, 1 ),
+	PathImg NVARCHAR(100),
+	Name NVARCHAR ( 10 ),
+	Login NVARCHAR (20),
+	
+	
+	PRIMARY KEY ( Id ),
+	CONSTRAINT fk_Login_ListSkillsOfUsers FOREIGN KEY ( Login ) REFERENCES Users( Login )
+);

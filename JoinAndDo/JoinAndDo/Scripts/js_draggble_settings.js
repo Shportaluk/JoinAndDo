@@ -8,7 +8,8 @@
     var boxesRight_show = $('#boxesRight_show');
     var boxesRight_hide = $('#boxesRight_hide');
     
-    
+
+    boxesLeft_show.css("top", leftBoxes.position().top);
     boxesRight_show.css("top", rightBoxes.position().top);
     var cookieId = document.cookie.replace(/(?:(?:^|.*;\s*)id\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var cookieLogin = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -33,6 +34,7 @@
             boxesLeft_hide.css("display", "block");
             boxesLeft_hide.mousemove(function () {
                 leftBoxes.css("left", "-500px");
+                boxesLeft_show.css("top", leftBoxes.css("top"))
                 boxesLeft_show.css("display", "block");
                 localStorage.setItem("leftBoxesStatus", "hide");
             });
@@ -47,6 +49,7 @@
             boxesRight_hide.css("display", "block");
             boxesRight_hide.mousemove(function () {
                 rightBoxes.css("left", "-500px");
+                boxesRight_show.css("top", rightBoxes.css("top"))
                 boxesRight_show.css("display", "block");
                 localStorage.setItem("rightBoxesStatus", "hide");
             });
@@ -114,23 +117,32 @@ function CheckPosition()
     }
     else if( statusLeft == "left" && statusRight == "left" )
     {
-        blocks.css( "marginLeft", "260px");
+        blocks.css( "marginLeft", "210px");
         blocks.css( "marginRight", "10px");
-        blocks.css( "width", "calc( 100% - 280px )");
+        blocks.css( "width", "calc( 100% - 230px )");
     }
     else if (statusLeft == "right" && statusRight == "right") {
         blocks.css("marginLeft", "10px");
-        blocks.css("marginRight", "260px");
-        blocks.css("width", "calc( 100% - 280px )");
+        blocks.css("marginRight", "210px");
+        blocks.css("width", "calc( 100% - 230px )");
     }
-    else {
-        if ( ( statusLeft == "left" && statusRight == "right" ) ||
+    else if ( ( statusLeft == "left" && statusRight == "right" ) ||
             (statusLeft == "right" && statusRight == "left")) {
-            blocks.css("marginLeft", "260px");
-            blocks.css("marginRight", "260px");
-            blocks.css("width", "calc( 100% - 540px )");
-        }
+            blocks.css("marginLeft", "210px");
+            blocks.css("marginRight", "210px");
+            blocks.css("width", "calc( 100% - 440px )");
+    } else if ((statusLeft == "hide" && statusRight == "left") ||
+               (statusRight == "hide" && statusLeft == "left")) {
+        blocks.css("marginLeft", "210px");
+        blocks.css("marginRight", "10px");
+        blocks.css("width", "calc( 100% - 230px )");
+    } else if ((statusLeft == "hide" && statusRight == "right") ||
+               (statusRight == "hide" && statusLeft == "right")) {
+        blocks.css("marginLeft", "10px");
+        blocks.css("marginRight", "210px");
+        blocks.css("width", "calc( 100% - 230px )");
     }
+    
     
 }
 function GetStatus(boxes) {
@@ -143,7 +155,7 @@ function GetStatus(boxes) {
 function IsTouchLeft( boxes )
 {
     var boxesPosition = boxes.position();
-    if( boxesPosition.left == 0 )
+    if( boxesPosition.left <= 0 )
     { return true; }
     return false;
 }

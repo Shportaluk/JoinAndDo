@@ -1,13 +1,13 @@
 USE JoinAndDo
 
 
-DROP TABLE Messages
+--DROP TABLE Messages
 DROP TABLE My_accession
 DROP TABLE Deals_accession
 DROP TABLE RoleOfUserInAccession
 DROP TABLE MessagesInAccession
 DROP TABLE RoleOfUsers
-
+DROP TABLE ListSkillsOfUsers
 ALTER TABLE dbo.[Accession] DROP CONSTRAINT fk_Accession
 
 DROP TABLE RequestCompleteToAccession
@@ -44,3 +44,4 @@ DROP PROC ExitWithAccession
 DROP PROC LoadProfileImg
 DROP PROC GetUsersByIdOfAccession
 DROP PROC RequestComplateAccession
+DROP PROC AddSkillToUser

@@ -136,6 +136,7 @@ namespace JoinAndDo.Controllers
             if (user != null)
             {
                 ViewBag.user = user;
+                ViewBag.skills = _sqlRepository.GetSkillsOfUserByLogin(user.Login);
                 try
                 {
                     if (user.Login == Request.Cookies["login"].Value)
@@ -245,6 +246,10 @@ namespace JoinAndDo.Controllers
             }
         }
 
+        public string AddSkillToUser(string login, string hash, string pathImg, string name)
+        {
+            return _sqlRepository.AddSkillToUser(login, hash, pathImg, name);
+        }
         public string SendRequestCompleteAccession(string login, string hash, int idAccession)
         {
             return _sqlRepository.SendRequestCompleteAccession(login,hash,idAccession);
@@ -313,6 +318,10 @@ namespace JoinAndDo.Controllers
         public string AcceptRequestOfUserToAccession(string login, string hash, string user, string role, string idAccession)
         {
             return _sqlRepository.AcceptRequestOfUserToAccession(login, hash, user, role, idAccession);
+        }
+        public string RejectRequestOfUserToAccession(string login, string hash, string user, string idAccession)
+        {
+            return _sqlRepository.RejectRequestOfUserToAccession(login, hash, user, idAccession);
         }
         public string DeleteJoin( string login, string hash, int idAccession )
         {

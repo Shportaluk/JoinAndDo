@@ -92,11 +92,12 @@
     position: absolute;
     top: 50px;
     left: 40px;
+    width: calc( 100% - 90px );
 
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(255,255,255,0.8);
 }
 #page2 li {
-    color: white;
+    color: black;
     font-size: 25px;
     font-family: Expand;
     margin: 10px;
@@ -225,21 +226,23 @@
     right: 10px;
     bottom: 0px;
 
-    width: 650px;
-    height: 400px;
+    width: 350px;
+    height: 240px;
 
     background: url( "images/man_right.png" ) 100% 100% no-repeat;
+    background-size: cover;
 }
 #think{
     display: none;
     position: absolute;
     right: 125px;
-    bottom: 360px;
+    bottom: 250px;
 
-    width: 300px;
-    height: 250px;
+    width: 200px;
+    height: 160px;
 
     background: url( "images/man_right_think2.png" ) 100% 100% no-repeat;
+    background-size: cover;
 }
 
 

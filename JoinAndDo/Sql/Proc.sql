@@ -178,9 +178,9 @@ GO
 CREATE PROC GetUserByName
 	@name NVARCHAR(20)
 AS
-	SELECT Id, FirstName, LastName, Hash FROM Users WHERE FirstName LIKE @name + '%'
+	SELECT Id, FirstName, LastName, Hash, PathImg FROM Users WHERE FirstName LIKE @name + '%'
 	UNION ALL
-	SELECT Id, FirstName, LastName, Hash FROM Users WHERE LastName LIKE @name + '%'
+	SELECT Id, FirstName, LastName, Hash, PathImg FROM Users WHERE LastName LIKE @name + '%'
 GO
 
 
@@ -372,7 +372,7 @@ IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
 	IF ((SELECT COUNT(*) FROM Accession WHERE Login = @login and Id = @idAccession ) >= 1)
 	BEGIN
-		UPDATE RequestJoinToAccession SET Status = 'Rejected' WHERE ToIdAccession = @idAccession and Login = @login
+		UPDATE RequestJoinToAccession SET Status = 'Rejected' WHERE ToIdAccession = @idAccession and Login = @user
 		SELECT 'Ok'
 	END
 	ELSE
@@ -381,6 +381,8 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
+
+EXEC RejectRequestOfUserToAccession @login = 'qweqwe', @hash = '6cpe33dkzUq0DAWABVf7TQ', @user = '123123', @idAccession = 7
 
 
 GO
@@ -539,3 +541,27 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
+
+
+GO
+CREATE PROC AddSkillToUser
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@pathImg NVARCHAR(100),
+	@name NVARCHAR(10)
+AS
+IF ((SELECT COUNT(*) FROM Users WHERE Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF((SELECT COUNT(*) FROM ListSkillsOfUsers WHERE Login = @login and Name = @name) = 0)
+	BEGIN
+		INSERT INTO ListSkillsOfUsers VALUES( @pathImg, @name, @login )
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'This skill you already have'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
+EXEC GetUserByName @name = 'qweqwe'

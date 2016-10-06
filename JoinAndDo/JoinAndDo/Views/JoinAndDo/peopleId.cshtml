@@ -3,6 +3,7 @@
 @{
     User user = ViewBag.User;
     bool isMyProfile = ViewBag.IsMyProfile;
+    List<Skill> skills = ViewBag.skills;
 }
 @{
     ViewBag.Title = @user.FirstName  + " " + @user.LastName;
@@ -12,6 +13,8 @@
 <script src="~/Scripts/js_sms.js"></script>
 <link href="~/Styles/style_my_profile.css" rel="stylesheet" />
 <script src="~/Scripts/sc_my_profile.js"></script>
+
+
 
 <div id="blocks">
     <div id="information">
@@ -26,6 +29,8 @@
             }
         </div>
         
+        @if (isMyProfile == false)
+        {
         <div id="form_write_msg">
             <p>To:</p>
             <p id="recipient_name">@user.Login</p>
@@ -33,6 +38,7 @@
             <button id="btn_send_msg" onclick="SendMsg()">Send</button>
             <button id="close" onclick="HideFormWriteMsg()">Close</button>
         </div>
+        }
         <p id="full_name">@user.LastName @user.FirstName</p>
         <div id="shape">
             @if (user.IsOnline)
@@ -68,6 +74,44 @@
                     <div id="line_in_statusbar" style="width: @user.CurrentlyAccessionsPercent%" />
                 </div>
             </div>
+        </div>
+
+        <div id="list_skills">
+            <strong id="strong_skills">Skills</strong>
+            <div id="form_add_skill">
+                <strong>Select Skill</strong>
+                <select id="select_skill">
+                    <option data-target="asp-net.png">ASP.NET</option>
+                    <option data-target="bicycle.png">Bicycle</option>
+                    <option data-target="car.png">Drive Car</option>
+                    <option data-target="c-plas-plas.png">C++</option>
+                    <option data-target="CSharp.png">C#</option>
+                    <option data-target="css.png">CSS</option>
+                    <option data-target="html.png">HTML</option>
+                    <option data-target="java.png">Java</option>
+                    <option data-target="javascript.png">JavaScript</option>
+                    <option data-target="python.png">Python</option>
+                    <option data-target="ruby.png">Ruby</option>
+                    <option data-target="swimming.png">Swimming</option>
+                    <option data-target="unity.png">Unity</option>
+                </select>
+                <button id="btn_add" onclick="AddSkill()">Add</button>
+                <button id="btn_close" onclick="HideFormAddSkill()">Close</button>
+            </div>
+            @if (isMyProfile == true)
+            {
+                <div id="add_skill" onclick="ShowFormAddSkill()">
+                    <img src="~/Styles/images/add.png"/>
+                    <strong>Add Skill</strong>
+                </div>
+            }
+            @foreach ( Skill skill in @skills  )
+            {
+                <div class="skill">
+                    <img src="~/Styles/images/skills/@skill.PathImg" />
+                    <strong>@skill.Name</strong>
+                </div>
+            }
         </div>
     </div>
 </div>

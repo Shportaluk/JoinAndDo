@@ -39,6 +39,46 @@ namespace JoinAndDo.Repositoryes
             _con = new SqlConnection( _conStr );
         }
 
+
+        public string AddSkillToUser(string login, string hash, string pathImg, string name)
+        {
+            string res = null;
+            string comm = String.Format("EXEC AddSkillToUser @login = '{0}', @hash = '{1}', @pathImg = '{2}', @name = '{3}'", login, hash, pathImg, name);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+
+            _con.Close();
+            return res;
+        }
+        public List<Skill> GetSkillsOfUserByLogin(string login)
+        {
+            List<Skill> skills = new List<Skill>();
+            string comm = String.Format("SELECT PathImg, Name FROM ListSkillsOfUsers WHERE Login = '"+login+"'");
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Skill skill = new Skill();
+                skill.PathImg = reader[0].ToString();
+                skill.Name = reader[1].ToString();
+                skills.Add(skill);
+            }
+
+            _con.Close();
+            return skills;
+        }
         public List<Accession> GetMyInvitation(string login, string hash)
         {
             List<Accession> listInvitation = new List<Accession>();
@@ -721,6 +761,24 @@ namespace JoinAndDo.Repositoryes
         {
             string res = null;
             string comm = String.Format("EXEC AcceptRequestOfUserToAccession @login = '{0}', @hash = '{1}', @user = '{2}', @role = '{3}', @idAccession = {4}", login, hash, user, role, idAccession);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+            _con.Close();
+
+            return res;
+        }
+        public string RejectRequestOfUserToAccession(string login, string hash, string user, string idAccession)
+        {
+            string res = null;
+            string comm = String.Format("EXEC RejectRequestOfUserToAccession @login = '{0}', @hash = '{1}', @user = '{2}', @idAccession = {3}", login, hash, user, idAccession);
 
             SqlCommand sqlComm = new SqlCommand(comm);
             sqlComm.Connection = _con;

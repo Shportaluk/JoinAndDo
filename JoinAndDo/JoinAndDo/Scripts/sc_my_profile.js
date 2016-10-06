@@ -52,6 +52,56 @@ function EditProfileImg() {
         }
     });
 }
+function ShowFormAddSkill(){
+    $("#strong_skills").css("opacity", "0");
+    $("#form_add_skill").css("display", "block")
+    $("#form_add_skill").animate({
+        opacity: 1
+    }, 200)
+}
+function HideFormAddSkill() {
+    $("#strong_skills").css("opacity", "1");
+    $("#form_add_skill").animate({
+        opacity: 0
+    }, 200)
+
+    $("#form_add_skill").css("display", "none")
+}
+function AddSkill() {
+    var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    
+    var name = $("#select_skill").val();
+    var pathImg = $("#select_skill :selected").data("target");
+
+    $.ajax({
+        url: '/JoinAndDo/AddSkillToUser',
+        type: 'POST',
+        contentType: 'application/json;',
+        data: JSON.stringify({ login: l, hash: h, pathImg: pathImg, name: name }),
+        success: function (res) {
+            if (res == "Ok") {
+                var div_SKILL = document.createElement('div');
+                var div_IMG = document.createElement('img');
+                var div_STRONG = document.createElement('strong');
+
+                div_SKILL.className = "skill";
+
+                div_IMG.src = "/Styles/images/skills/" + pathImg;
+                div_STRONG.textContent = name;
+
+                div_SKILL.appendChild(div_IMG);
+                div_SKILL.appendChild(div_STRONG);
+
+                $("#list_skills").append(div_SKILL);
+                HideFormAddSkill();
+            }
+            else {
+                ShowMessage(res);
+            }
+        }
+    });
+}
 (function () {
     $(document).ready(function () {
         // Write Msg
