@@ -14,9 +14,20 @@ namespace JoinAndDo
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                "peopleId",
+                "{id}/JoinAndDo/{peopleId}",
+                new { controller = "JoinAndDO", action = "peopleId", id = UrlParameter.Optional });
+
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new
+                {
+                    controller = "Home",
+                    action = "Index",
+                    id = UrlParameter.Optional
+                }
             );
         }
     }

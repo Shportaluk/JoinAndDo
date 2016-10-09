@@ -65,46 +65,52 @@
             <div id="users">
                 <p>Management</p>
                 @if (!isInAccession)
-            {
-            <div class="user" id="user1_join">
-                <img src="~/Styles/images/arrow_right.png" />
-                Join Now
-            </div>
-            }
+                {
+                    <div class="user" id="user1_join">
+                        <img src="~/Styles/images/arrow_right.png" />
+                        Join Now
+                    </div>
+                }
 
                 @if (isInAccession)
-            {
-            <div class="user" id="user1_invite">
-                <img src="~/Styles/images/invite.png" />
-                Invite User
-            </div>
-            <div class="user" id="user1_exit_from_the_accession">
-                <img src="~/Styles/images/exit.png" />
-                Exit
-            </div>
-            <div class="user" id="user1_delete_join" onclick="DeleteJoin()">
-                <img src="~/Styles/images/remove2.png" />
-                Delete Join
-            </div>
-            <div class="user" id="user1_complete_join" onclick="SendRequestCompleteAccession()">
-                <img src="~/Styles/images/complete.png" />
-                Complete
-            </div>
+                {
+                    <div class="user" id="user1_invite">
+                        <img src="~/Styles/images/invite.png" />
+                        Invite User
+                    </div>
+                    <div class="user" id="user1_exit_from_the_accession">
+                        <img src="~/Styles/images/exit.png" />
+                        Exit
+                    </div>
+                    <div class="user" id="user1_delete_join" onclick="DeleteJoin()">
+                        <img src="~/Styles/images/remove2.png" />
+                        Delete Join
+                    </div>
+                    <div class="user" id="user1_complete_join" onclick="SendRequestCompleteAccession()">
+                        <img src="~/Styles/images/complete.png" />
+                        Complete
+                    </div>
                 }
 
                 @if( accession.ListAvailableRoles.Count > 0 )
-            {
-            <p>Need people</p>
-                foreach ( string role in accession.ListAvailableRoles )
                 {
-            <div class="need_people">@role</div>
+                    <p>Need people</p>
+                    foreach ( string role in accession.ListAvailableRoles )
+                    {
+                        <div class="need_people">@role</div>
+                    }
                 }
-            }
                 <p>Customers</p>
                 @for (int i = 0; i < listUsers.Count; i++)
                 {
-                    <div class="user" id="user1_@i" onclick="OpenUser(@listUsers[@i].Id)">
-                    <img src="~/Images/@listUsers[@i].PathImgMini" /> @listUsers[@i].LastName</div>
+                    <!--onclick="OpenUser(@listUsers[@i].Id)"-->
+                    <div class="user" id="user1_@i" >
+                        <img src="~/Images/@listUsers[@i].PathImgMini" /> @listUsers[@i].Login
+                        @if (@i != 0)
+                        {
+                            <div class="remove_user" onclick='RemoveUser("@listUsers[@i].Login")'></div>
+                        }
+                    </div>
                 }
             </div>
             <div id="div_informations">
@@ -156,14 +162,14 @@
                     </div>
                 </div>
                 @for (int i = 0; i < listUsers.Count; i++)
-            {
-            <div class="information" id="info1_@i">
-                <div class="specialty">
-                    @listUsers[@i].Role
+                {
+                    <div class="information" id="info1_@i">
+                    <div class="specialty">
+                        @listUsers[@i].Role
+                    </div>
+                    <button id="btn_ReviewUser" onclick='OpenUser( "@listUsers[@i].Login" )'>Review user</button>
                 </div>
-                <button>Write Message</button>
-            </div>
-            }
+                }
             </div>
         </div>
         <div class="users_and_information" id="div_requests">
@@ -173,29 +179,29 @@
             <p>Requests Addition Of</p>
                 for (int i = 0; i < listRequestsAdditionOf.Count; i++)
                 {
-            <div class="user" id="user2_@i" onclick="OpenUser(@listRequestsAdditionOf[@i].Id)">
-                <img src="~/Styles/images/arrow_right.png" />
-                @listRequestsAdditionOf[@i].Login
-            </div>
+                    <div class="user" id="user2_@i">
+                        <img src="~/Styles/images/arrow_right.png" />
+                        @listRequestsAdditionOf[@i].Login
+                    </div>
                 }
             }
             </div>
             <div id="div_informations">
                 @for (int i = 0; i < listRequestsAdditionOf.Count; i++)
-            {
-            <div class="information" id="info2_@i">
-                <div id="name" style="display: none">
-                    @listRequestsAdditionOf[@i].Login
+                {
+                <div class="information" id="info2_@i">
+                    <div id="name" style="display: none">
+                        @listRequestsAdditionOf[@i].Login
+                    </div>
+                    <div class="specialty">
+                        @listRequestsAdditionOf[@i].Category
+                    </div>
+                    <div id="request_text">@listRequestsAdditionOf[@i].Text</div>
+                    <button id="btn_ReviewUser" onclick='OpenUser( "@listRequestsAdditionOf[@i].Login" )'>Review user</button>
+                    <button id="btn_accept" onclick="AcceptUser( @i )">Accept</button>
+                    <button id="btn_reject" onclick="RejectUser( @i )">Reject</button>
                 </div>
-                <div class="specialty">
-                    @listRequestsAdditionOf[@i].Category
-                </div>
-                <div id="request_text">@listRequestsAdditionOf[@i].Text</div>
-                <button id="btn_WriteMsg">Write Message</button>
-                <button id="btn_accept" onclick="AcceptUser( @i )">Accept</button>
-                <button id="btn_reject" onclick="RejectUser( @i )">Reject</button>
-            </div>
-            }
+                }
             </div>
         </div>
     </div>

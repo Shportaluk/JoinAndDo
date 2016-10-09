@@ -45,3 +45,4 @@ DROP PROC LoadProfileImg
 DROP PROC GetUsersByIdOfAccession
 DROP PROC RequestComplateAccession
 DROP PROC AddSkillToUser
+DROP PROC RemoveUserFromAccession

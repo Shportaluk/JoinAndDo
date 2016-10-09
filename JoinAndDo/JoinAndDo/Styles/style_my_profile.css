@@ -162,7 +162,7 @@
  margin: 60px 15px 5px 5px;
  border: 1px solid rgba(46, 204, 250, 0.5);
 }
-#Statistics p
+.statictic p
 {
     text-align: center;
     position: relative;
@@ -171,9 +171,17 @@
     color: white;
     font-size: 17px;
     margin: 0px;
+    text-shadow: 0 0 3px black;
+}
+.statictic_text {
+background-color: rgba(0,0,0,0.5);
+padding: 10px;
+border-bottom: 1px solid black;
 }
 
-
+.statictic_text strong {
+    text-shadow: 0 0 10px black;
+}
 
 #full_of_accession
 {
@@ -193,30 +201,41 @@
 
 #list_skills {
     margin-top: 30px;
+    
+    padding-bottom: 1px;
+    overflow: hidden;
 }
-#list_skills strong {
-    font-family: Caviar_Dreams_Bold;
+#div_strong_skills {
+    background-color: rgba(0,0,0,.5);
+    padding: 5px;
+}
+#strong_skills {
+    text-align: center;
     color: white;
     font-size: 25px;
+    font-family: Caviar_Dreams_Bold;
+
 }
 
 #add_skill {
     position: absolute;
-    top: 254px;
+    top: 213px;
     right: 36px;
     cursor: pointer;
     width: 150px;
-    height: 56px;
-    background-color: rgba(0,0,0,.3);
+    height: 42px;
+    background-color: rgba(0,0,0,0.5);
 }
 #add_skill img {
-    width: 50px;
-    height: 50px;
+    width: 36px;
+    height: 36px;
     margin: 3px;
 }
 #add_skill strong {
+    color: white;
     position: absolute;
-    top: 16px;
+    top: 10px;
+    left: 50px;
     font-size: 18px;
     font-family: Caviar_Dreams_Bold;
 }
@@ -241,34 +260,48 @@
     width: 120px;
     margin-left: 50px;
 }
-#btn_add {
-    width: 100px;
-}
-#btn_close {
+#btn_add, #btn_close {
     position: absolute;
     width: 100px;
-    right: 10px;
+    top: 8px;
+    height: 42px;
+    background-color: rgba(0,0,0,0.5);
 }
+#btn_add:hover, #btn_close:hover{
+    background-color: white;
+    color: black;
+}
+#btn_add { right: 252px; }
+#btn_close { right: 151px; }
 
 
 .skill {
+    float: left;
     position: relative;
-    width: 270px;
-    height: 60px;
-    background-color: rgba(0,0,0,0.3);
-    margin: 5px;
+    width: calc( 33% - 2px );
+    height: 40px;
+    background-color: rgba(255, 255, 255, .3);
+    margin: 2px;
+    transition: .7s;
 }
+.skill:hover {
+    box-shadow: 0 0 5px black;
+    background-color: rgba(255, 255, 255, .0);
+    transition: .1s;
+}
+
 .skill img {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     margin: 5px;
 }
 .skill strong{
     position: absolute;
-    top: 15px;
-    left: 75px;
+    top: 12px;
+    left: 50px;
     text-align: center;
-    color: white;
-    font-size: 25px;
+    color: black;
+    font-size: 15px;
     font-family: Caviar_Dreams_Bold;
+    text-shadow: 0 0 1px black;
 }

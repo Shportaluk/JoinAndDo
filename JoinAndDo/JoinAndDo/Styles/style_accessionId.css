@@ -182,13 +182,12 @@
     float: left;
 }
 .user, .need_people {
+    position: relative;
     font-family: Expand;
     text-decoration: none;
     padding: 15px 25px;
     border-bottom: 1px solid black;
     background-color: rgba(0,0,0,0.5);
-}
-.user:hover {
     cursor: pointer;
 }
 .user img {
@@ -197,6 +196,20 @@
     width: 32px;
     height: 32px;
     margin-bottom: -16px;
+}
+
+.remove_user {
+    position: absolute;
+    top: 13px;
+    right: 10px;
+    width: 25px;
+    height: 25px;
+    background: url("/Styles/images/remove_grey.png") 100% 100% no-repeat;
+    background-size: cover;
+}
+.remove_user:hover {
+    background: url("/Styles/images/remove.png") 100% 100% no-repeat;
+    background-size: cover;
 }
 
 .need_people {
@@ -213,6 +226,7 @@
     font-family: Caviar_Dreams_Bold;
     box-shadow: 0 0 10px white;
 }
+
 
 #div_informations {
     overflow: hidden;
@@ -252,7 +266,7 @@
 }
 #div_requests { display: none; }
 #btn_send_request_to_accession { left: 50%; }
-#btn_WriteMsg { left: 5px; }
+#btn_ReviewUser { left: 5px; }
 #btn_accept { right: 160px; }
 #btn_reject { right: 5px; }
 

@@ -60,24 +60,15 @@
                 </div>
             </div>
 
-            <div class="statictic">
-                <p>Abandoned projects (@user.AbandonedAccessions/@user.AllAccessions)</p>
-                <div id="full_of_accession">
-                    <div id="line_in_statusbar" style="width: @user.AbandonedAccessionsPercent%" />
-                </div>
-            </div>
+            <p class="statictic_text">Abandoned accessions: <strong>@user.AbandonedAccessions</strong></p>
+            <p class="statictic_text">Currntly accessions: <strong>@user.CurrentlyAccessions </strong></p>
 
-
-            <div class="statictic">
-                <p>Currently have projects (@user.CurrentlyAccessions/@user.AllAccessions)</p>
-                <div id="full_of_accession">
-                    <div id="line_in_statusbar" style="width: @user.CurrentlyAccessionsPercent%" />
-                </div>
-            </div>
-        </div>
+</div>
 
         <div id="list_skills">
-            <strong id="strong_skills">Skills</strong>
+            <div id="div_strong_skills">
+                <strong id="strong_skills">Skills</strong>
+            </div>
             <div id="form_add_skill">
                 <strong>Select Skill</strong>
                 <select id="select_skill">

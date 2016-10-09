@@ -104,7 +104,18 @@ function AcceptUser(id) {
         success: function (res) {
             if (res == "Ok") {
                 $("#users_and_information #users div").remove(':contains("' + role + '")');
+
+                var div_RemoveUser = document.createElement('div');
+
+                div_RemoveUser.className = "remove_user";
+                div_RemoveUser.onclick = function () { RemoveUser(user); };
+
+
+                $("#info2_" + id).remove();
+                $("#user2_" + id).append(div_RemoveUser);
                 $("#user2_" + id).appendTo("#users_and_information #users");
+
+
                 if ($(".need_people").length <= 0) {
                     $("#users_and_information #users p").remove(':contains("Need people")');
                 }
@@ -234,6 +245,27 @@ function EditTitle(text)
         }
     });
 }
+function RemoveUser(user)
+{
+    var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var idAccession = $("#id_accession").text();
+
+    $.ajax({
+        url: '/JoinAndDo/RemoveUserFromAccession',
+        type: 'POST',
+        contentType: 'application/json;',
+        data: JSON.stringify({ login: l, hash: h, idAccession: idAccession, user: user }),
+        success: function (res) {
+            if (res == "Ok") {
+                $("#users_and_information #users div").remove(':contains("'+user+'")');
+            }
+            else {
+                ShowMessage(res);
+            }
+        }
+    });
+}
 
 $(document).ready(function () {
     
@@ -308,7 +340,6 @@ $(document).ready(function () {
             });
         })
     }
-
 
     AddHover($("#info1_invite"));
     AddHover($("#info1_delete_join"));

@@ -564,4 +564,27 @@ ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
 
-EXEC GetUserByName @name = 'qweqwe'
+
+
+GO
+CREATE PROC RemoveUserFromAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@idAccession INT,
+	@user NVARCHAR(20)
+AS
+IF ((SELECT COUNT(*) FROM Users WHERE Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF (( SELECT Login FROM Accession WHERE Id = @idAccession) = @login )
+	BEGIN
+		UPDATE Accession SET People = People - 1 WHERE Id = @idAccession
+		DELETE RoleOfUserInAccession WHERE IdAccession = @idAccession and RoleName != 'Creator' and Login = @user
+		SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have not access'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+

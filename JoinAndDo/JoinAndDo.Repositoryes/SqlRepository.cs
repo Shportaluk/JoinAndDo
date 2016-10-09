@@ -27,7 +27,6 @@ namespace JoinAndDo.Repositoryes
         private SqlCommand _cmdGetInterlocutors;
         private SqlCommand _cmdGetDialog;
         private SqlCommand _cmdGetLastMessages;
-        private SqlCommand _cmdGetUserById;
         private SqlCommand _cmdGetCountMessages;
         private SqlCommand _cmdJoins = new SqlCommand("SELECT * FROM Joins");
         private SqlCommand _cmdMyAccession;
@@ -341,61 +340,82 @@ namespace JoinAndDo.Repositoryes
         }
         public User GetUserById(int? iD)
         {
+            string comm = "SELECT Id, Login, FirstName, LastName, Hash, PathImg, CompletedAccessions, AbandonedAccessions, CurrentlyAccessions, AllAccessions FROM Users where Id = " + iD;
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+
             User user = null;
-            using (_cmdGetUserById = new SqlCommand("SELECT Login, FirstName, LastName, Hash, PathImg, CompletedAccessions, AbandonedAccessions, CurrentlyAccessions, AllAccessions FROM Users where Id = " + iD))
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
             {
-                _cmdGetUserById.Connection = _con;
-                _con.Open();
-                SqlDataReader reader = _cmdGetUserById.ExecuteReader();
-
-                while (reader.Read())
+                user = new User();
+                user.Id = reader[0].ToString();
+                user.Login = reader[1].ToString();
+                user.FirstName = reader[2].ToString();
+                user.LastName = reader[3].ToString();
+                if (!String.IsNullOrEmpty(reader[4].ToString()))
                 {
-                    user = new User();
-                    user.Login = reader[0].ToString();
-                    user.FirstName = reader[1].ToString();
-                    user.LastName = reader[2].ToString();
-                    if (!String.IsNullOrEmpty(reader[3].ToString()))
-                    {
-                        user.IsOnline = true;
-                    }
-                    user.PathImg = reader[4].ToString();
-
-                    user.CompletedAccessions = int.Parse( reader[5].ToString() );
-                    user.AbandonedAccessions = int.Parse( reader[6].ToString()) ;
-                    user.CurrentlyAccessions = int.Parse( reader[7].ToString() );
-                    user.AllAccessions = int.Parse( reader[8].ToString() );
-
-                    if( user.AllAccessions != 0 )
-                    {
-                        user.CompletedAccessionsPercent = user.CompletedAccessions * 100 / user.AllAccessions;
-                        user.AbandonedAccessionsPercent = user.AbandonedAccessions * 100 / user.AllAccessions;
-                        user.CurrentlyAccessionsPercent = user.CurrentlyAccessions * 100 / user.AllAccessions;
-                    }
+                    user.IsOnline = true;
                 }
+                user.PathImg = reader[5].ToString();
 
-                _con.Close();
+                user.CompletedAccessions = int.Parse(reader[6].ToString());
+                user.AbandonedAccessions = int.Parse(reader[7].ToString());
+                user.CurrentlyAccessions = int.Parse(reader[8].ToString());
+                user.AllAccessions = int.Parse(reader[9].ToString());
+
+                if (user.AllAccessions != 0)
+                {
+                    user.CompletedAccessionsPercent = user.CompletedAccessions * 100 / user.AllAccessions;
+                    user.AbandonedAccessionsPercent = user.AbandonedAccessions * 100 / user.AllAccessions;
+                    user.CurrentlyAccessionsPercent = user.CurrentlyAccessions * 100 / user.AllAccessions;
+                }
             }
+
+            _con.Close();
             return user;
         }
         public User GetUserByLogin(string login)
         {
+            string comm = "SELECT Id, Login, FirstName, LastName, Hash, PathImg, CompletedAccessions, AbandonedAccessions, CurrentlyAccessions, AllAccessions FROM Users WHERE Login = '" + login + "'";
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
+
             User user = null;
-            using (SqlCommand sqlComm = new SqlCommand( "SELECT Id, FirstName, LastName FROM Users where Login = '" + login + "'" ))
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
             {
-                sqlComm.Connection = _con;
-                _con.Open();
-                SqlDataReader reader = sqlComm.ExecuteReader();
-
-                while (reader.Read())
+                user = new User();
+                user.Id = reader[0].ToString();
+                user.Login = reader[1].ToString();
+                user.FirstName = reader[2].ToString();
+                user.LastName = reader[3].ToString();
+                if (!String.IsNullOrEmpty(reader[4].ToString()))
                 {
-                    user = new User();
-                    user.Id = reader[0].ToString();
-                    user.FirstName = reader[1].ToString();
-                    user.LastName = reader[2].ToString();
+                    user.IsOnline = true;
                 }
+                user.PathImg = reader[5].ToString();
 
-                _con.Close();
+                user.CompletedAccessions = int.Parse(reader[6].ToString());
+                user.AbandonedAccessions = int.Parse(reader[7].ToString());
+                user.CurrentlyAccessions = int.Parse(reader[8].ToString());
+                user.AllAccessions = int.Parse(reader[9].ToString());
+
+                if (user.AllAccessions != 0)
+                {
+                    user.CompletedAccessionsPercent = user.CompletedAccessions * 100 / user.AllAccessions;
+                    user.AbandonedAccessionsPercent = user.AbandonedAccessions * 100 / user.AllAccessions;
+                    user.CurrentlyAccessionsPercent = user.CurrentlyAccessions * 100 / user.AllAccessions;
+                }
             }
+
+            _con.Close();
             return user;
         }
         public List<User> GetUsersByIdOfAccession( int? id )
@@ -625,7 +645,26 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return listRequest;
         }
-        // Користувач надсилає заявку на приєднання до Accession
+
+        public string RemoveUserFromAccession(string login, string hash, int idAccession, string user)
+        {
+            string res = "";
+            string command = String.Format("EXEC RemoveUserFromAccession @login = '{0}', @hash = '{1}', @idAccession = {2}, @user = '{3}'", login, hash, idAccession, user);
+            SqlCommand sqlComm = new SqlCommand(command);
+            sqlComm.Connection = _con;
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
+
+            _con.Close();
+
+            return res;
+        }
         public string SendRequestToAccession(string login, string hash, string text, string category, int idAccession)
         {
             string res = "";

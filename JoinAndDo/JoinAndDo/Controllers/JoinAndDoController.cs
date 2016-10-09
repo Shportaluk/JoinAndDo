@@ -123,15 +123,25 @@ namespace JoinAndDo.Controllers
             }
             
         }
-        public ActionResult peopleId( int? id )
+        public ActionResult peopleId( string id )
         {
             if (id == null)
             {
                 return RedirectToAction("/NoUser");
             }
 
+            int res;
+            User user;
+            if ( int.TryParse(id, out res) )
+            {
+                user = _sqlRepository.GetUserById(res);
+            }
+            else
+            {
+                user = _sqlRepository.GetUserByLogin(id);
+            }
             
-            User user = _sqlRepository.GetUserById( id );
+           
             ViewBag.IsMyProfile = false;
             if (user != null)
             {
@@ -246,6 +256,10 @@ namespace JoinAndDo.Controllers
             }
         }
 
+        public string RemoveUserFromAccession(string login, string hash, int idAccession, string user)
+        {
+            return _sqlRepository.RemoveUserFromAccession(login, hash, idAccession, user);
+        }
         public string AddSkillToUser(string login, string hash, string pathImg, string name)
         {
             return _sqlRepository.AddSkillToUser(login, hash, pathImg, name);

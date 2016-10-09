@@ -1,5 +1,7 @@
 USE JoinAndDo
 
+SELECT * FROM RoleOfUserInAccession
+DELETE RoleOfUserInAccession WHERE IdAccession = 10 and RoleName != 'Creator' and Login = 'qwerty'
 
 SELECT * FROM Users
 SELECT * FROM Joins
