@@ -22,8 +22,6 @@
         <p id="text"></p>
     </div>
     <script type="text/javascript">
-        $( init );
-        function init() {
             var l = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
             var h = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
@@ -42,7 +40,6 @@
                 cursor: 'move',
                 snap: '#blocks'
             });
-        }
         function Logout() {
             var cookieLogin = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
             var cookieHash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -82,6 +79,7 @@
         <a href="/JoinAndDo/" id="name">-</a>
         <a href="/JoinAndDo/new_join">New Join</a>
         <a href="/JoinAndDo/my_message">My message</a>
+        <!--<strong id="count_msg">+1</strong>-->
         <a href="/JoinAndDo/my_accession">My accession</a>
         <a href="/JoinAndDo/MyInvitation">My Invitation</a>
         <a href="/JoinAndDo/deals_accession">Deals accession</a>

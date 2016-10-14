@@ -50,9 +50,15 @@ namespace JoinAndDo.Controllers
                 Name = "hash",
                 Value = user.Hash
             };
+            var cookieNewMsg = new HttpCookie("cookieNewMsg")
+            {
+                Name = "new_msg",
+                Value = user.NewMsg
+            };
             Response.SetCookie(cookieId);
             Response.SetCookie(cookieLogin);
             Response.SetCookie(cookieHash);
+            Response.SetCookie(cookieNewMsg);
             #endregion
             return Content(res);
         }

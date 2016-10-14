@@ -12,10 +12,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/Scripts/js_sms.js"></script>
+
+<script src="~/Scripts/jquery-1.6.4-vsdoc.js"></script>
+<script src="~/Scripts/jquery-1.6.4.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
+
 <script src="~/Scripts/js_accessionId.js"></script>
+<script src="~/Scripts/js_sms.js"></script>
 <link href="~/Styles/style_accessionId.css" rel="stylesheet" />
 <link href="~/Styles/style_search_people.css" rel="stylesheet" />
+
 
 <div id="blocks">
     <div id="form_accession">
@@ -56,7 +63,8 @@
                 </div>
                 <div class="div_send_msg">
                     <textarea id="txt_msg"> </textarea>
-                    <button id="btn_send_msg_to_accession" onclick="SendMessageToAccession()">Send</button>
+                    <button id="btn_send_msg_to_accession">Send</button>
+                    <!-- onclick="SendMessageToAccession()"-->
                 </div>
             </div>
         }

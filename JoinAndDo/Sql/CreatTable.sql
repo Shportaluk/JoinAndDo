@@ -15,6 +15,7 @@ CREATE TABLE Users
 	CurrentlyAccessions INT,
 	AllAccessions INT,
 	
+	HaveNewMsg INT,
 	PRIMARY KEY ( Login )
 );
 
@@ -130,6 +131,16 @@ CREATE TABLE RequestCompleteToAccession (
 	CONSTRAINT fk_request_complete_accession_idAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
 );
 
+CREATE TABLE RequestDeleteToAccession (
+	Id INT IDENTITY( 1, 1 ),
+	Login NVARCHAR ( 20 ),
+	IdAccession INT,
+	
+	
+	PRIMARY KEY ( Id ),
+	CONSTRAINT fk_request_delete_accession_login FOREIGN KEY ( Login ) REFERENCES Users( Login ),
+	CONSTRAINT fk_request_delete_accession_idAccession FOREIGN KEY ( IdAccession ) REFERENCES Accession( Id )
+);
 
 CREATE TABLE ListSkillsOfUsers (
 	Id INT IDENTITY( 1, 1 ),

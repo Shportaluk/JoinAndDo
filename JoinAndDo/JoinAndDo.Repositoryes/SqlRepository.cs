@@ -18,9 +18,6 @@ namespace JoinAndDo.Repositoryes
 
         private SqlCommand _cmdNewJoin;
 
-        // Send
-        private SqlCommand _cmdSendMsg;
-
 
         // Get
         private SqlCommand _cmdGetUsers;
@@ -158,7 +155,7 @@ namespace JoinAndDo.Repositoryes
         {
             User user = new User();
 
-            using ( _cmdUser = new SqlCommand( "SELECT Id, Login, FirstName, LastName, Hash FROM Users where Login = '" + login + "' and Pass = '" + pass + "'") )
+            using ( _cmdUser = new SqlCommand( "SELECT Id, Login, FirstName, LastName, Hash, HaveNewMsg FROM Users where Login = '" + login + "' and Pass = '" + pass + "'") )
             {
                 _cmdUser.Connection = _con;
                 _con.Open();
@@ -171,6 +168,7 @@ namespace JoinAndDo.Repositoryes
                     user.FirstName = reader[2].ToString();
                     user.LastName = reader[3].ToString();
                     user.Hash = reader[4].ToString();
+                    user.NewMsg = reader[5].ToString();
                 }
                 _con.Close();
                 return user;
@@ -220,13 +218,20 @@ namespace JoinAndDo.Repositoryes
         }
         public string SendMsg( string login, string hash, string to, string text )
         {
-            string res = "-";
-            _cmdSendMsg = new SqlCommand("DECLARE @res NVARCHAR(20) EXEC SendMsg @login = '"+login+"', @hash = '"+hash+"', @to = '"+to+"', @text = '"+text+"', @res = @res OUTPUT SELECT @res" );
-            _cmdSendMsg.Connection = _con;
+            string res = null;
+            string comm = String.Format("EXEC SendMsg @login = '{0}', @hash = '{1}', @to = '{2}', @text = '{3}'", login, hash, to, text);
+
+            SqlCommand sqlComm = new SqlCommand(comm);
+            sqlComm.Connection = _con;
             _con.Open();
-            SqlDataReader reader = _cmdSendMsg.ExecuteReader();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                res = reader[0].ToString();
+            }
             _con.Close();
-            
+
             return res;
         }
 
@@ -781,7 +786,7 @@ namespace JoinAndDo.Repositoryes
         public string DeleteJoin(string login, string hash, int idAccession)
         {
             string res = null;
-            string comm = String.Format("EXEC DeleteJoin @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
+            string comm = String.Format("EXEC RequestDeleteAccession @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
 
             SqlCommand sqlComm = new SqlCommand(comm);
             sqlComm.Connection = _con;

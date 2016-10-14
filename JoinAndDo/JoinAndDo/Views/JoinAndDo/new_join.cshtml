@@ -2,7 +2,12 @@
     ViewBag.Title = "Join And Do";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/jquery-1.6.4-vsdoc.js"></script>
+<script src="~/Scripts/jquery-1.6.4.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+<script src="~/signalr/hubs"></script>
 
+<script src="~/Scripts/js_sms.js"></script>
 <script src="~/Scripts/js_new_join.js"></script>
 <link href="~/Styles/style_new_join.css" rel="stylesheet" />
 
@@ -10,7 +15,7 @@
     <div id="form_new_join">
         <p data-target="name">Name</p>
         <input type="text" id="name_join"/>
-        <p data-target="text">Text</p>
+        <p data-target="text">Description</p>
         <textarea id="txt_join"></textarea>
         <p data-target="select">Select Category</p>
         <select id="category_select">

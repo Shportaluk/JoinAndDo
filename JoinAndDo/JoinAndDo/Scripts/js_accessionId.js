@@ -80,8 +80,8 @@ function DeleteJoin() {
         contentType: 'application/json;',
         data: JSON.stringify({ login: l, hash: h, idAccession: idAccession }),
         success: function (res) {
-            if (res == "Ok")  {
-                window.location.href = "/JoinAndDo/my_accession/";
+            if (res == "Ok") {
+                ShowMessage("Removal request, success executed");
             }
             else {
                 ShowMessage(res);
@@ -266,9 +266,41 @@ function RemoveUser(user)
         }
     });
 }
+function htmlEncode(value) {
+    var encodedValue = $('<div />').text(value).html();
+    return encodedValue;
+}
+function AddMsgToAccession(name, text)
+{
+    var div_MSG = document.createElement('div');
+    var MSG = document.createElement('div');
+    var p = document.createElement('p');
+    var strong_Name = document.createElement('strong');
+    var strong_Text = document.createElement('strong');
 
+    div_MSG.className = "div_message";
+    MSG.className = "message";
+    strong_Name.className = "name_sender";
+    strong_Text.className = "text";
+
+    strong_Name.textContent = name;
+    strong_Text.textContent = text;
+
+    p.appendChild(strong_Name);
+    p.appendChild(strong_Text);
+
+    MSG.appendChild(p);
+    div_MSG.appendChild(MSG);
+    $("#list_messages").append(div_MSG);
+
+    ScrollDown();
+}
+function ScrollDown() {
+    var wtf = $('#list_messages');
+    var height = wtf[0].scrollHeight;
+    wtf.scrollTop(height);
+}
 $(document).ready(function () {
-    
     var login = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     var hash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     $("#info1_join #my_name").text(login);
@@ -321,6 +353,7 @@ $(document).ready(function () {
         });
     }
     else {
+        $("#user1_delete_join").css("display", "block");
         $("#user1_exit_from_the_accession").click(function() {
             var idAccession = $("#id_accession").text();
 
@@ -366,4 +399,26 @@ $(document).ready(function () {
             $("#messages").css("opacity", "1")
         }
     );
+
+
+
+
+    var chat = $.connection.chatHub;
+    chat.client.addMessageToAccession = function (name, message) {
+        AddMsgToAccession(name, message);
+    };
+    $.connection.hub.start().done(function () {
+        //alert("Open connection");
+
+        var login = document.cookie.replace(/(?:(?:^|.*;\s*)login\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        var hash = document.cookie.replace(/(?:(?:^|.*;\s*)hash\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        var idAccession = $("#id_accession").text();
+        chat.server.connectToAccession(login, idAccession);
+        //alert();
+        $('#btn_send_msg_to_accession').click(function () {
+            chat.server.sendMsgToAccession(login, hash, $('#txt_msg').val(), idAccession);
+            $("#txt_msg").val("");
+        });
+    });
+
 });

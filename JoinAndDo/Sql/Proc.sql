@@ -9,7 +9,7 @@ CREATE PROC Registration
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login ) = 0)
 BEGIN
-	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null, 'default.bmp', 0, 0, 0, 0 );
+	INSERT INTO Users VALUES( @login, @pass, @firstName, @lastName, null, 'default.bmp', 0, 0, 0, 0, 0 );
 	SELECT 'OK'
 END
 ELSE
@@ -33,16 +33,16 @@ CREATE PROC SendMsg
   @login NVARCHAR(20),
   @hash NVARCHAR(100),
   @to NVARCHAR(20),
-  @text NVARCHAR(1000),
-  @res NVARCHAR(20) OUTPUT
+  @text NVARCHAR(1000)
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
 	INSERT INTO Messages VALUES( @login, @text, @to, GETDATE() );
-	SELECT @res = 'OK'
+	UPDATE Users SET HaveNewMsg = HaveNewMsg + 1 WHERE Login = @login
+	SELECT 'Ok'
 END
 ELSE
-	SELECT @res = 'Error !!!'
+	SELECT 'Error !!!'
 GO
 
 GO
@@ -317,6 +317,7 @@ BEGIN
 		DELETE FROM RoleOfUserInAccession WHERE IdAccession = @idAccession
 		DELETE FROM MessagesInAccession WHERE IdAccession = @idAccession
 		DELETE FROM RequestCompleteToAccession WHERE IdAccession = @idAccession
+		DELETE FROM RequestDeleteToAccession WHERE IdAccession = @idAccession
 		DELETE FROM Accession WHERE Id = @idAccession
 		SELECT 'Ok'
 	END
@@ -381,8 +382,6 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
-
-EXEC RejectRequestOfUserToAccession @login = 'qweqwe', @hash = '6cpe33dkzUq0DAWABVf7TQ', @user = '123123', @idAccession = 7
 
 
 GO
@@ -508,7 +507,9 @@ BEGIN
 	IF ( (SELECT COUNT(*) FROM RequestCompleteToAccession WHERE Login = @login and IdAccession = @idAccession) = 0 )
 	BEGIN
 		INSERT INTO RequestCompleteToAccession VALUES( @login, @idAccession )
-		IF( ((SELECT COUNT(*) FROM RequestCompleteToAccession WHERE IdAccession = @idAccession)/((SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession)-1)) >= 0.7 )
+		DECLARE @num1 int = (SELECT COUNT(*) FROM RequestCompleteToAccession WHERE IdAccession = @idAccession)
+		DECLARE @num2 int = (SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession)
+		IF( (@num1/CONVERT(decimal(5,2), @num2)) > 0.6 )
 		BEGIN
 			
 			SELECT Login INTO #TempLoginsRequestComplateAccession FROM RoleOfUserInAccession WHERE IdAccession = @idAccession and Login IS NOT NULL
@@ -541,6 +542,60 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
+
+
+
+GO
+CREATE PROC RequestDeleteAccession
+	@login NVARCHAR(20),
+	@hash NVARCHAR(100),
+	@idAccession INT
+AS
+IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
+BEGIN
+	IF ( (SELECT COUNT(*) FROM RequestDeleteToAccession WHERE Login = @login and IdAccession = @idAccession) = 0 )
+	BEGIN
+		INSERT INTO RequestDeleteToAccession VALUES( @login, @idAccession )
+		DECLARE @num1 int = (SELECT COUNT(*) FROM RequestDeleteToAccession WHERE IdAccession = @idAccession)
+		DECLARE @num2 int = (SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession)
+		IF( (@num1/CONVERT(decimal(5,2), @num2)) > 0.6 )
+		BEGIN
+			SELECT Login INTO #TempLoginsRequestDeleteAccession FROM RoleOfUserInAccession WHERE IdAccession = @idAccession and Login IS NOT NULL
+			WHILE (SELECT COUNT(*) FROM #TempLoginsRequestDeleteAccession) > 0
+			BEGIN
+				Declare @Login_ NVARCHAR(20)
+				SET @Login_ = ( SELECT TOP 1 Login FROM #TempLoginsRequestDeleteAccession )
+				
+				UPDATE Users SET AllAccessions = AllAccessions - 1 WHERE Login = @Login_
+				
+				Delete #TempLoginsRequestDeleteAccession WHERE Login = @Login_
+			END
+			DROP TABLE #TempLoginsRequestDeleteAccession
+			
+			
+			DECLARE @Creator NVARCHAR(20)
+			DECLARE @HashOfCreator NVARCHAR(100)
+			SET @Creator = (SELECT Login FROM RoleOfUserInAccession WHERE RoleName = 'Creator' and IdAccession = @idAccession)
+			SET @HashOfCreator = ( SELECT Hash FROM Users WHERE Login = @Creator )
+			EXEC DeleteJoin @login = @Creator, @hash = @HashOfCreator, @idAccession = @idAccession
+			
+			SELECT 'Complated'
+		END
+		ELSE
+			SELECT 'Ok'
+	END
+	ELSE
+		SELECT 'You have sent a request'
+END
+ELSE
+	SELECT 'You are not registered or do not have entrance to the site'
+GO
+
+
+
+
+
+
 
 
 GO

@@ -40,7 +40,7 @@ function AddMsgToDialog( res )
             i = res.length;
         }
     }
-    $('.dialog .sender_name:contains("' + name + '")').parent().children(".messages").append("<div class='list_message' id='him_message'>" + text + "</div>");
+    $('.dialog .sender_name:contains("' + name + '")').parent().children(".messages").append("<div id='message'><div class='list_message' id='him_message'>" + text + "</div></div>");
     ScrollDown();
     document.getElementById('new_msg_in_dialog_sound').play()
 }

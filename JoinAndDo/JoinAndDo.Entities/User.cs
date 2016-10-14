@@ -23,6 +23,8 @@ namespace JoinAndDo.Entities
         public int CurrentlyAccessions { get; set; }
         public int AllAccessions { get; set; }
 
+        public string NewMsg { get; set; }
+
         public int CompletedAccessionsPercent { get; set; }
         public int AbandonedAccessionsPercent { get; set; }
         public int CurrentlyAccessionsPercent { get; set; }
