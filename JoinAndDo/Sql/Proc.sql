@@ -249,8 +249,7 @@ CREATE PROC AddUserToAccession
 	@hash NVARCHAR(100),
 	@loginUserAdded NVARCHAR(20),
 	@role NVARCHAR(100),
-	@idAccession INT,
-	@res NVARCHAR(255) OUTPUT
+	@idAccession INT
 AS
 IF (( SELECT COUNT(*) FROM Users WHERE Login = @login and Hash = @hash ) = 1)
 BEGIN
@@ -262,19 +261,19 @@ BEGIN
 			BEGIN
 				UPDATE RoleOfUserInAccession SET Login = @loginUserAdded WHERE IdAccession = @idAccession and RoleName = @role
 				UPDATE Accession SET People = People + 1 WHERE Id = @idAccession
-				SELECT @res = 'Ok'
+				SELECT 'Ok'
 			END
 			ELSE
-				SELECT @res = 'No free places'
+				SELECT 'No free places'
 		END
 		ELSE
-			SELECT @res = 'This RoleOfUserInAccession does not exist'
+			SELECT 'This RoleOfUserInAccession does not exist'
 	END
 	ELSE
-		SELECT @res = 'You have not access'
+		SELECT 'You have not access'
 END
 ELSE
-	SELECT @res = 'You are not registered or do not have entrance to the site'
+	SELECT 'You are not registered or do not have entrance to the site'
 GO 
 
 

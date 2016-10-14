@@ -2,8 +2,8 @@
 {
     public abstract class JoinsEntity
     {
-        public string title;
-        public string text;
+        public string Title { get; set; }
+        public string Text { get; set; }
 
         private int _people;
         private int _allPeople;
@@ -48,8 +48,8 @@
 
         public JoinsEntity(  )
         {
-            title = "";
-            text = "";
+            Title = "";
+            Text = "";
             _people = 0;
             _allPeople = 1;
         }

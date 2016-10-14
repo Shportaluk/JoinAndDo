@@ -2,12 +2,12 @@
 {
     public class MyAccession : JoinsEntity
     {
-        public bool isComplete;
+        public bool IsComplete { get; set; }
 
         public MyAccession()
         {
-            title = "";
-            text = "";
+            Title = "";
+            Text = "";
             People = 0;
             AllPeople = 0;
         }

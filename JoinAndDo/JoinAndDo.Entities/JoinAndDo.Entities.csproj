@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accession.cs" />
-    <Compile Include="DealsAccession.cs" />
     <Compile Include="Interlocutor.cs" />
     <Compile Include="JoinsEntity.cs" />
     <Compile Include="Message.cs" />

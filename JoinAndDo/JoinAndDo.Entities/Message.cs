@@ -2,10 +2,10 @@
 {
     public class Message
     {
-        public string login;
-        public string text;
-        public string loginInterlocutor;
-        public string date;
+        public string Login { get; set; }
+        public string Text { get; set; }
+        public string LoginInterlocutor { get; set; }
+        public string Date { get; set; }
 
         public Message() { }
     }

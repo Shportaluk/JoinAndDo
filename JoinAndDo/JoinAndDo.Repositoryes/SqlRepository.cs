@@ -10,25 +10,6 @@ namespace JoinAndDo.Repositoryes
     {
         private string _conStr = ConfigurationManager.ConnectionStrings["con_str"].ConnectionString;
         private SqlConnection _con { get; set; }
-        private SqlCommand _cmdRegistration = new SqlCommand();
-        private SqlCommand _cmdUser = new SqlCommand();
-        private SqlCommand _cmdDeleteHash = new SqlCommand();
-        private SqlCommand _cmdSetHash = new SqlCommand();
-        private SqlCommand _cmdGetHash = new SqlCommand();
-
-        private SqlCommand _cmdNewJoin;
-
-
-        // Get
-        private SqlCommand _cmdGetUsers;
-        private SqlCommand _cmdGetInterlocutors;
-        private SqlCommand _cmdGetDialog;
-        private SqlCommand _cmdGetLastMessages;
-        private SqlCommand _cmdGetCountMessages;
-        private SqlCommand _cmdJoins = new SqlCommand("SELECT * FROM Joins");
-        private SqlCommand _cmdMyAccession;
-        private SqlCommand _cmdDealsAccession = new SqlCommand("SELECT * FROM Deals_accession");
-
 
         public SqlRepository()
         {
@@ -39,10 +20,25 @@ namespace JoinAndDo.Repositoryes
         public string AddSkillToUser(string login, string hash, string pathImg, string name)
         {
             string res = null;
-            string comm = String.Format("EXEC AddSkillToUser @login = '{0}', @hash = '{1}', @pathImg = '{2}', @name = '{3}'", login, hash, pathImg, name);
+            string comm = "EXEC AddSkillToUser @login = @Login, @hash = @Hash, @pathImg = @PathImg, @name = @Name";
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@PathImg", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param4 = new SqlParameter("@Name", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = pathImg;
+            Param4.Value = name;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
 
@@ -54,57 +50,32 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return res;
         }
-        public List<Skill> GetSkillsOfUserByLogin(string login)
-        {
-            List<Skill> skills = new List<Skill>();
-            string comm = String.Format("SELECT PathImg, Name FROM ListSkillsOfUsers WHERE Login = '"+login+"'");
-
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
-            _con.Open();
-            SqlDataReader reader = sqlComm.ExecuteReader();
-
-            while (reader.Read())
-            {
-                Skill skill = new Skill();
-                skill.PathImg = reader[0].ToString();
-                skill.Name = reader[1].ToString();
-                skills.Add(skill);
-            }
-
-            _con.Close();
-            return skills;
-        }
-        public List<Accession> GetMyInvitation(string login, string hash)
-        {
-            List<Accession> listInvitation = new List<Accession>();
-            string comm = String.Format("EXEC GetMyInvitation @login = '{0}', @hash = '{1}'", login, hash);
-
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
-            _con.Open();
-            SqlDataReader reader = sqlComm.ExecuteReader();
-
-            while (reader.Read())
-            {
-                Accession accession = new Accession();
-                accession.Text = reader[0].ToString();
-                accession.Category = reader[1].ToString();
-                accession.Id = int.Parse(reader[2].ToString());
-                accession.Status = reader[3].ToString();
-                listInvitation.Add(accession);
-            }
-
-            _con.Close();
-            return listInvitation;
-        }
         public string AddUserToAccession(string login, string hash, string loginUserAdded, string role, int idAccession)
         {
             string res = null;
-            string comm = String.Format("DECLARE @res NVARCHAR(255) EXEC AddUserToAccession @login = '{0}', @hash = '{1}', @loginUserAdded = '{2}', @role = '{3}', @idAccession = {4}, @res = @res OUTPUT", login, hash, loginUserAdded, role, idAccession);
+            string comm = "EXEC AddUserToAccession @login = @Login, @hash = @Hash, @loginUserAdded = @LoginUserAdded, @role = @Role, @idAccession = @IdAccession";
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@LoginUserAdded", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param4 = new SqlParameter("@Role", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param5 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = loginUserAdded;
+            Param4.Value = role;
+            Param5.Value = idAccession;
+
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+            sqlComm.Parameters.Add(Param5);
+            
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
 
@@ -118,78 +89,135 @@ namespace JoinAndDo.Repositoryes
         }
         public string Registration( string login, string pass, string firstName, string lastName )
         {
-            _cmdRegistration = new SqlCommand("EXEC Registration @login = '" + login + "', @pass = '" + pass + "', @firstName = '"+ firstName +"', @lastName = '" + lastName + "'");
-            _cmdRegistration.Connection = _con;
+            string res = null;
+            string comm = "EXEC Registration @login = @Login, @pass = @Pass, @firstName = @FirstName, @lastName = @LastName";
+
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Pass", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@FirstName", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param4 = new SqlParameter("@LastName", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = pass;
+            Param3.Value = firstName;
+            Param4.Value = lastName;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+
             _con.Open();
-            SqlDataReader reader = _cmdRegistration.ExecuteReader();
+            SqlDataReader reader = sqlComm.ExecuteReader();
 
             while( reader.Read() )
             {
-                return reader[0].ToString();
+                res = reader[0].ToString();
             }
-            return null;
+            _con.Close();
+            return res;
         }
         public bool IsAuthenticated( string login, string hash )
         {
-            bool isAutn = false;
-            using ( _cmdGetHash = new SqlCommand( "SELECT Login FROM Users where Hash = '" + hash + "'") )
+            bool isAuth = false;
+            string comm = "SELECT Login FROM Users WHERE Login = @Login and Hash = @Hash";
+
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Pass", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+
+            while (reader.Read())
             {
-                _cmdGetHash.Connection = _con;
-                _con.Open();
-                SqlDataReader reader = _cmdGetHash.ExecuteReader();
-                
-
-                while ( reader.Read() )
+                if (!string.IsNullOrEmpty(reader[0].ToString()))
                 {
-                    if (login == reader[0].ToString())
-                    {
-                        isAutn = true;
-                    }
+                    isAuth = true;
                 }
-
-                _con.Close();
-                return isAutn;
             }
+
+            _con.Close();
+            return isAuth;
         }
         public User Authentication( string login, string pass )
         {
             User user = new User();
 
-            using ( _cmdUser = new SqlCommand( "SELECT Id, Login, FirstName, LastName, Hash, HaveNewMsg FROM Users where Login = '" + login + "' and Pass = '" + pass + "'") )
-            {
-                _cmdUser.Connection = _con;
-                _con.Open();
-                SqlDataReader reader = _cmdUser.ExecuteReader();
+            string comm = "SELECT Id, Login, FirstName, LastName, Hash, HaveNewMsg FROM Users where Login = @Login and Pass = @Pass";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-                while (reader.Read())
-                {
-                    user.Id = reader[0].ToString();
-                    user.Login = reader[1].ToString();
-                    user.FirstName = reader[2].ToString();
-                    user.LastName = reader[3].ToString();
-                    user.Hash = reader[4].ToString();
-                    user.NewMsg = reader[5].ToString();
-                }
-                _con.Close();
-                return user;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Pass", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = pass;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+
+            while (reader.Read())
+            {
+                user.Id = reader[0].ToString();
+                user.Login = reader[1].ToString();
+                user.FirstName = reader[2].ToString();
+                user.LastName = reader[3].ToString();
+                user.Hash = reader[4].ToString();
+                user.NewMsg = reader[5].ToString();
             }
+            _con.Close();
+            return user;
         }
         public void DeleteHash(string login, string hash)
         {
-            _cmdDeleteHash = new SqlCommand( "UPDATE Users SET Hash = NULL where Login = '" + login + "' and hash = '" + hash + "'" );
-            _cmdDeleteHash.Connection = _con;
+            string comm = "UPDATE Users SET Hash = NULL where Login = @Login and Hash = @Hash";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Pass", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+
             _con.Open();
-            SqlDataReader reader = _cmdDeleteHash.ExecuteReader();
+            SqlDataReader reader = sqlComm.ExecuteReader();
             _con.Close();
         }
 
         public string LoadProfileImg(string login, string hash, string pathImg)
         {
             string res = null;
-            string comm = String.Format("EXEC LoadProfileImg @login = '{0}', @hash = '{1}', @pathImg = '{2}'", login, hash, pathImg);
+            string comm = "EXEC LoadProfileImg @login = @Login, @hash = @Hash, @pathImg = @PathImg";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@PathImg", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = pathImg;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
 
@@ -206,11 +234,24 @@ namespace JoinAndDo.Repositoryes
             Guid g = Guid.NewGuid();
             string hash = Convert.ToBase64String(g.ToByteArray());
             hash = hash.Replace("=", "").Replace("+", "");
+            
+            string comm = "UPDATE Users SET Hash = @Hash WHERE Login = @Login and Pass = @Pass";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            _cmdSetHash = new SqlCommand("UPDATE Users SET Hash = '" + hash + "' where Login = '" + login + "' and Pass = '" + pass + "' ");
-            _cmdSetHash.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@Pass", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = hash;
+            Param2.Value = login;
+            Param3.Value = pass;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+
             _con.Open();
-            SqlDataReader reader = _cmdSetHash.ExecuteReader();
+            SqlDataReader reader = sqlComm.ExecuteReader();
             _con.Close();
             
 
@@ -219,13 +260,26 @@ namespace JoinAndDo.Repositoryes
         public string SendMsg( string login, string hash, string to, string text )
         {
             string res = null;
-            string comm = String.Format("EXEC SendMsg @login = '{0}', @hash = '{1}', @to = '{2}', @text = '{3}'", login, hash, to, text);
+            string comm = "EXEC SendMsg @login = @Login, @hash = @Hash, @to = @To, @text = @Text";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@To", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param4 = new SqlParameter("@Text", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = to;
+            Param4.Value = text;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -235,24 +289,84 @@ namespace JoinAndDo.Repositoryes
             return res;
         }
 
+        public List<Skill> GetSkillsOfUserByLogin(string login)
+        {
+            List<Skill> skills = new List<Skill>();
+            string comm = "SELECT PathImg, Name FROM ListSkillsOfUsers WHERE Login = @Login";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+
+            sqlComm.Parameters.Add(Param1);
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+            while (reader.Read())
+            {
+                Skill skill = new Skill();
+                skill.PathImg = reader[0].ToString();
+                skill.Name = reader[1].ToString();
+                skills.Add(skill);
+            }
+
+            _con.Close();
+            return skills;
+        }
+        public List<Accession> GetMyInvitation(string login, string hash)
+        {
+            List<Accession> listInvitation = new List<Accession>();
+            string comm = "EXEC GetMyInvitation @login = Login, @hash = @Hash";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
+            while (reader.Read())
+            {
+                Accession accession = new Accession();
+                accession.Text = reader[0].ToString();
+                accession.Category = reader[1].ToString();
+                accession.Id = int.Parse(reader[2].ToString());
+                accession.Status = reader[3].ToString();
+                listInvitation.Add(accession);
+            }
+
+            _con.Close();
+            return listInvitation;
+        }
         public List<User> GetUsers( string full_name )
         {
             List<User> listUser = new List<User>();
 
             string comm;
+            SqlCommand sqlComm;
             if (String.IsNullOrEmpty(full_name))
             {
                 comm = "SELECT Id, FirstName, LastName, Hash, PathImg FROM Users";
+                sqlComm = new SqlCommand(comm, _con);
             }
             else
             {
-                comm = "EXEC GetUserByName @name = '" + full_name + "'";
+                comm = "EXEC GetUserByName @name = @Name";
+                sqlComm = new SqlCommand(comm, _con);
+                SqlParameter Param1 = new SqlParameter("@Name", System.Data.SqlDbType.NVarChar);
+                Param1.Value = full_name;
+                sqlComm.Parameters.Add(Param1);
             }
-            _cmdGetUsers = new SqlCommand( comm );
-            _cmdGetUsers.Connection = _con;
-            _con.Open();
 
-            SqlDataReader reader = _cmdGetUsers.ExecuteReader();
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
             while (reader.Read())
             {
                 User user = new User();
@@ -273,11 +387,15 @@ namespace JoinAndDo.Repositoryes
         public List<string> GetInterlocutors(string login)
         {
             List<string> interlocutors = new List<string>();
-            _cmdGetInterlocutors = new SqlCommand("EXEC GetInterlocutor @login = '"+login+"'");
-            _cmdGetInterlocutors.Connection = _con;
-            _con.Open();
+            string comm = "EXEC GetInterlocutor @login = Login";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlDataReader reader = _cmdGetInterlocutors.ExecuteReader();
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            Param1.Value = login;
+            sqlComm.Parameters.Add(Param1);
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
             while (reader.Read())
             {
                 interlocutors.Add( reader[0].ToString() );
@@ -286,74 +404,52 @@ namespace JoinAndDo.Repositoryes
 
             return interlocutors;
         }
-        public List<Message> GetDialog( string login, string hash, string LoginInterlocutor )
+        public List<Message> GetDialog( string login, string hash, string loginInterlocutor )
         {
             List < Message > dialog = new List<Message>();
-            //
-            string comm = "EXEC GetDialog @login = '"+login+"', @hash = '"+hash+"', @loginInterlocutor = '"+LoginInterlocutor+"'";
-            _cmdGetDialog = new SqlCommand(comm);
-            _cmdGetDialog.Connection = _con;
-            _con.Open();
+            
+            string comm = "EXEC GetDialog @login = @Login, @hash = @Hash, @loginInterlocutor = @LoginInterlocutor";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlDataReader reader = _cmdGetDialog.ExecuteReader();
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@LoginInterlocutor", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = loginInterlocutor;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+
+            _con.Open();
+            SqlDataReader reader = sqlComm.ExecuteReader();
             while (reader.Read())
             {
                 Message msg = new Message();
-                msg.login = reader[0].ToString();
-                msg.text = reader[1].ToString();
-                msg.loginInterlocutor = reader[2].ToString();
-                msg.date = reader[3].ToString();
+                msg.Login = reader[0].ToString();
+                msg.Text = reader[1].ToString();
+                msg.LoginInterlocutor = reader[2].ToString();
+                msg.Date = reader[3].ToString();
                 dialog.Add( msg );
             }
 
             _con.Close();
             return dialog;
         }
-        public string GetLastMessages( string login, string hash )
-        {
-            string res = "";
-            string comm = "SELECT TOP 1 Login, Text  FROM Messages WHERE ToLogin = ( SELECT Login FROM Users WHERE Login = '" + login + "' and Hash = '" + hash + "' ) ORDER BY Id DESC";
-            _cmdGetLastMessages = new SqlCommand(comm);
-            _cmdGetLastMessages.Connection = _con;
-            _con.Open();
-
-            SqlDataReader reader = _cmdGetLastMessages.ExecuteReader();
-            while (reader.Read())
-            {
-                res = reader[0].ToString() + ":" + reader[1].ToString();
-            }
-
-            _con.Close();
-            return res;
-        }
-        public string GetCountMessages(string login, string hash)
-        {
-            string count = "-";
-            _cmdGetCountMessages = new SqlCommand("EXEC GetCountMessages @login = '" + login + "', @hash = '" + hash + "'");
-            _cmdGetCountMessages.Connection = _con;
-            _con.Open();
-
-            SqlDataReader reader = _cmdGetCountMessages.ExecuteReader();
-            while (reader.Read())
-            {
-                count = reader[0].ToString();
-            }
-
-            _con.Close();
-
-            return count;
-        }
         public User GetUserById(int? iD)
         {
-            string comm = "SELECT Id, Login, FirstName, LastName, Hash, PathImg, CompletedAccessions, AbandonedAccessions, CurrentlyAccessions, AllAccessions FROM Users where Id = " + iD;
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
-
             User user = null;
+            string comm = "SELECT Id, Login, FirstName, LastName, Hash, PathImg, CompletedAccessions, AbandonedAccessions, CurrentlyAccessions, AllAccessions FROM Users where Id = @Id";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Id", System.Data.SqlDbType.NVarChar);
+            Param1.Value = iD;
+            sqlComm.Parameters.Add(Param1);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 user = new User();
@@ -385,15 +481,16 @@ namespace JoinAndDo.Repositoryes
         }
         public User GetUserByLogin(string login)
         {
-            string comm = "SELECT Id, Login, FirstName, LastName, Hash, PathImg, CompletedAccessions, AbandonedAccessions, CurrentlyAccessions, AllAccessions FROM Users WHERE Login = '" + login + "'";
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
-
             User user = null;
+            string comm = "SELECT Id, Login, FirstName, LastName, Hash, PathImg, CompletedAccessions, AbandonedAccessions, CurrentlyAccessions, AllAccessions FROM Users WHERE Login = @Login";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            Param1.Value = login;
+            sqlComm.Parameters.Add(Param1);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 user = new User();
@@ -426,13 +523,16 @@ namespace JoinAndDo.Repositoryes
         public List<User> GetUsersByIdOfAccession( int? id )
         {
             List<User> users = new List<User>();
+            
+            string comm = "EXEC GetUsersByIdOfAccession @idAccession = @Id";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand( "EXEC GetUsersByIdOfAccession @idAccession = " + id);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Id", System.Data.SqlDbType.NVarChar);
+            Param1.Value = id;
+            sqlComm.Parameters.Add(Param1);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 User user = new User();
@@ -453,44 +553,22 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return users;
         }
-        public List<JoinsEntity> GetAllFromJoins(  )
-        {
-            List<JoinsEntity> listJoins = new List<JoinsEntity>();
-            _cmdJoins.Connection = _con;
-            _con.Open();
-            SqlDataReader reader = _cmdJoins.ExecuteReader();
-            
-            //string title;
-            //string text;
-            //int people;
-            //int allPeople;
-            //
-            //
-            //while ( reader.Read() )
-            //{
-            //    title = reader[1].ToString();
-            //    text = reader[2].ToString();
-            //    people = int.Parse( reader[3].ToString() );
-            //    allPeople = int.Parse(reader[4].ToString());
-            //
-            //    listJoins.Add( new JoinsEntity( title, text, people, allPeople ) );
-            //}
-
-            _con.Close();
-            return listJoins;
-        }
-
-    
-        // Отримання приєднання якими я керую
+        
         public List<Accession> GetMyAccessionsManagement( string login, string hash )
         {
             List<Accession> listMyAccession = new List<Accession>();
-            _cmdMyAccession = new SqlCommand("EXEC GetMyAccessionsManagement @login = '" + login+"', @hash = '"+hash+"'" );
-            _cmdMyAccession.Connection = _con;
+            string comm = "EXEC GetMyAccessionsManagement @login = @Login, @hash = @Hash";
+
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            Param1.Value = login;
+            Param2.Value = hash;
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
 
             _con.Open();
-            SqlDataReader reader = _cmdMyAccession.ExecuteReader();
-
+            SqlDataReader reader = sqlComm.ExecuteReader();
             while (reader.Read())
             {
                 Accession accession = new Accession();
@@ -510,12 +588,18 @@ namespace JoinAndDo.Repositoryes
         public List<Accession> GetMyAccessions(string login, string hash)
         {
             List<Accession> listMyAccession = new List<Accession>();
-            _cmdMyAccession = new SqlCommand("EXEC GetMyAccessions @login = '" + login + "', @hash = '" + hash + "'");
-            _cmdMyAccession.Connection = _con;
+            string comm = "EXEC GetMyAccessions @login = @Login, @hash = @Hash";
+
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            Param1.Value = login;
+            Param2.Value = hash;
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
 
             _con.Open();
-            SqlDataReader reader = _cmdMyAccession.ExecuteReader();
-
+            SqlDataReader reader = sqlComm.ExecuteReader();
             while (reader.Read())
             {
                 Accession accession = new Accession();
@@ -532,39 +616,18 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return listMyAccession;
         }
-        public List<DealsAccession> GetAllFromDealsAccession(  )
-        {
-            List<DealsAccession> listDealsAccession = new List<DealsAccession>();
-            _cmdDealsAccession.Connection = _con;
-
-            _con.Open();
-            SqlDataReader reader = _cmdDealsAccession.ExecuteReader();
-
-            
-            while (reader.Read())
-            {
-                DealsAccession dealsAccession = new DealsAccession();
-                dealsAccession.title = reader[1].ToString();
-                dealsAccession.text = reader[2].ToString();
-                dealsAccession.user = reader[3].ToString();
-                dealsAccession.People = int.Parse(reader[4].ToString());
-                dealsAccession.AllPeople = int.Parse(reader[5].ToString());
-                listDealsAccession.Add( dealsAccession );
-            }
-
-            _con.Close();
-            return listDealsAccession;
-        }
         public List<Accession> GetAccessions( string text )
         {
             List < Accession > listAccession = new List < Accession >();
-
-            SqlCommand sqlComm = new SqlCommand( "SELECT * FROM Accession WHERE Text LIKE '%"+text+"%'" );
-            sqlComm.Connection = _con;
+            
+            string comm = "SELECT * FROM Accession WHERE Text Like @Text";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+            SqlParameter Param1 = new SqlParameter("@Text", System.Data.SqlDbType.NVarChar);
+            Param1.Value = "%"+text+"%";
+            sqlComm.Parameters.Add(Param1);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 Accession accession = new Accession();
@@ -584,12 +647,14 @@ namespace JoinAndDo.Repositoryes
         public List<string> GetListAvailableRolesOfAccessionById(int? id)
         {
             List<string> listRoles = new List<string>();
-            SqlCommand sqlComm = new SqlCommand("SELECT RoleName FROM RoleOfUserInAccession WHERE IdAccession = "+id+" and Login IS NULL");
-            sqlComm.Connection = _con;
+            string comm = "SELECT RoleName FROM RoleOfUserInAccession WHERE IdAccession = @Id and Login IS NULL";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+            SqlParameter Param1 = new SqlParameter("@Id", System.Data.SqlDbType.NVarChar);
+            Param1.Value = id;
+            sqlComm.Parameters.Add(Param1);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 listRoles.Add( reader[0].ToString() );
@@ -601,12 +666,14 @@ namespace JoinAndDo.Repositoryes
         public Accession GetAccessionById(int? id)
         {
             Accession accession = null;
-            SqlCommand sqlComm = new SqlCommand( "SELECT * FROM Accession WHERE Id = " + id );
-            sqlComm.Connection = _con;
+            string comm = "SELECT * FROM Accession WHERE Id = @Id";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+            SqlParameter Param1 = new SqlParameter("@Id", System.Data.SqlDbType.NVarChar);
+            Param1.Value = id;
+            sqlComm.Parameters.Add(Param1);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 accession = new Accession();
@@ -622,19 +689,19 @@ namespace JoinAndDo.Repositoryes
             _con.Close();
             return accession;
         }
-
-
-        // Отримання заявок приєднання до Accession
+        
         public List<RequestJoinToAccession> GetRequestsAdditionToAccession( int? id )
         {
             List<RequestJoinToAccession> listRequest = new List<RequestJoinToAccession>();
-
-            SqlCommand sqlComm = new SqlCommand( "SELECT * FROM RequestJoinToAccession WHERE ToIdAccession = '" + id + "' and Status = 'Waiting'" );
-            sqlComm.Connection = _con;
+            
+            string comm = "SELECT * FROM RequestJoinToAccession WHERE ToIdAccession = @Id and Status = 'Waiting'";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+            SqlParameter Param1 = new SqlParameter("@Id", System.Data.SqlDbType.NVarChar);
+            Param1.Value = id;
+            sqlComm.Parameters.Add(Param1);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 RequestJoinToAccession requestToAccession = new RequestJoinToAccession();
@@ -654,13 +721,26 @@ namespace JoinAndDo.Repositoryes
         public string RemoveUserFromAccession(string login, string hash, int idAccession, string user)
         {
             string res = "";
-            string command = String.Format("EXEC RemoveUserFromAccession @login = '{0}', @hash = '{1}', @idAccession = {2}, @user = '{3}'", login, hash, idAccession, user);
-            SqlCommand sqlComm = new SqlCommand(command);
-            sqlComm.Connection = _con;
+            string comm = "EXEC RemoveUserFromAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession, @user = @User";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+            SqlParameter Param4 = new SqlParameter("@User", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = idAccession;
+            Param4.Value = user;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -673,13 +753,29 @@ namespace JoinAndDo.Repositoryes
         public string SendRequestToAccession(string login, string hash, string text, string category, int idAccession)
         {
             string res = "";
-            string command = String.Format("EXEC SendRequestToAccession @login = '{0}', @hash = '{1}', @text = '{2}', @category = '{3}', @idAccession = '{4}'", login, hash, text, category, idAccession );
-            SqlCommand sqlComm = new SqlCommand( command );
-            sqlComm.Connection = _con;
+            string comm = "EXEC SendRequestToAccession @login = @Login, @hash = @Hash, @text = @Text, @category = @Category, @idAccession = @IdAccession";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@Text", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param4 = new SqlParameter("@Category", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param5 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = text;
+            Param4.Value = category;
+            Param5.Value = idAccession;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+            sqlComm.Parameters.Add(Param5);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -692,13 +788,23 @@ namespace JoinAndDo.Repositoryes
         public string SendRequestCompleteAccession(string login, string hash, int idAccession)
         {
             string res = "";
-            string command = String.Format("EXEC RequestComplateAccession @login = '{0}', @hash = '{1}', @idAccession = '{2}'", login, hash, idAccession);
-            SqlCommand sqlComm = new SqlCommand(command);
-            sqlComm.Connection = _con;
+            string comm = "EXEC RequestComplateAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = idAccession;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -711,14 +817,27 @@ namespace JoinAndDo.Repositoryes
         public string EditTitleOfAccession(string login, string hash, int idAccession, string title)
         {
             string res = null;
+            
+            string comm = "EXEC EditTitleOfAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession, @title = @Title";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            string command = String.Format("EXEC EditTitleOfAccession @login = '{0}', @hash = '{1}', @idAccession = {2}, @title = '{3}'", login, hash, idAccession, title);
-            SqlCommand sqlComm = new SqlCommand(command);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+            SqlParameter Param4 = new SqlParameter("@Title", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = idAccession;
+            Param4.Value = title;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -730,14 +849,27 @@ namespace JoinAndDo.Repositoryes
         public string EditDescriptionOfAccession(string login, string hash, int idAccession, string description)
         {
             string res = null;
+            
+            string comm = "EXEC EditDescriptionOfAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession, @description = @Description";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            string command = String.Format("EXEC EditDescriptionOfAccession @login = '{0}', @hash = '{1}', @idAccession = {2}, @description = '{3}'", login, hash, idAccession, description);
-            SqlCommand sqlComm = new SqlCommand(command);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+            SqlParameter Param4 = new SqlParameter("@Description", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = idAccession;
+            Param4.Value = description;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -748,12 +880,33 @@ namespace JoinAndDo.Repositoryes
         }
         public string NewJoin(string login, string hash, string title, string text, string category, string needPeople, string arrayRoles)
         {
-            string comm = "EXEC NewJoin @login = '" + login + "', @hash = '" + hash + "', @title = '" + title + "', @text = '" + text + "', @category = '" + category + "', @needPeople = " + needPeople;
             string idAccession = null;
-            _cmdNewJoin = new SqlCommand(comm);
-            _cmdNewJoin.Connection = _con;
+            string comm = "EXEC NewJoin @login = @Login, @hash = @Hash, @title = @Title, @text = @Text, @category = @Category, @needPeople = @NeedPeople";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@Title", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param4 = new SqlParameter("@Text", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param5 = new SqlParameter("@Category", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param6 = new SqlParameter("@NeedPeople", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = title;
+            Param4.Value = text;
+            Param5.Value = category;
+            Param6.Value = needPeople;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+            sqlComm.Parameters.Add(Param5);
+            sqlComm.Parameters.Add(Param6);
+
             _con.Open();
-            SqlDataReader reader = _cmdNewJoin.ExecuteReader();
+            SqlDataReader reader = sqlComm.ExecuteReader();
             while (reader.Read())
             {
                 idAccession = reader[0].ToString();
@@ -769,15 +922,23 @@ namespace JoinAndDo.Repositoryes
         }
         public void InsertRoleOfHumanInAccession( string creator, string arrayRoles, string idAccession )
         {
-            string command = "INSERT INTO RoleOfUserInAccession VALUES ( '"+creator+"', 'Creator', "+idAccession+" )\n";
+            string comm = "INSERT INTO RoleOfUserInAccession VALUES ( @Creator, 'Creator', @IdAccession )\n";
             string[] separator = { "," };
             string[] listRoles = arrayRoles.Split( separator, StringSplitOptions.RemoveEmptyEntries );
             foreach( string role in listRoles )
             {
-                command += String.Format("INSERT INTO RoleOfUserInAccession VALUES ( NULL, '{0}', '{1}' )\n", role, idAccession );
+                comm += String.Format("INSERT INTO RoleOfUserInAccession VALUES ( NULL, '"+role+"', @IdAccession )\n" );
             }
-           SqlCommand sqlComm = new SqlCommand(command);
-            sqlComm.Connection = _con;
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
+
+            SqlParameter Param1 = new SqlParameter("@Creator", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = creator;
+            Param2.Value = idAccession;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
 
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
@@ -786,13 +947,23 @@ namespace JoinAndDo.Repositoryes
         public string DeleteJoin(string login, string hash, int idAccession)
         {
             string res = null;
-            string comm = String.Format("EXEC RequestDeleteAccession @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
+            string comm = "EXEC RequestDeleteAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = idAccession;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -804,13 +975,29 @@ namespace JoinAndDo.Repositoryes
         public string AcceptRequestOfUserToAccession(string login, string hash, string user, string role, string idAccession)
         {
             string res = null;
-            string comm = String.Format("EXEC AcceptRequestOfUserToAccession @login = '{0}', @hash = '{1}', @user = '{2}', @role = '{3}', @idAccession = {4}", login, hash, user, role, idAccession);
+            string comm = "EXEC AcceptRequestOfUserToAccession @login = @Login, @hash = @Hash, @user = @User, @role = @Role, @idAccession = @IdAccession";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@User", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param4 = new SqlParameter("@Role", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param5 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = user;
+            Param4.Value = role;
+            Param5.Value = idAccession;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+            sqlComm.Parameters.Add(Param5);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -822,13 +1009,26 @@ namespace JoinAndDo.Repositoryes
         public string RejectRequestOfUserToAccession(string login, string hash, string user, string idAccession)
         {
             string res = null;
-            string comm = String.Format("EXEC RejectRequestOfUserToAccession @login = '{0}', @hash = '{1}', @user = '{2}', @idAccession = {3}", login, hash, user, idAccession);
+            string comm = "EXEC RejectRequestOfUserToAccession @login = @Login, @hash = @Hash, @user = @User, @idAccession = @IdAccession";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@User", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param4 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = user;
+            Param4.Value = idAccession;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -840,13 +1040,26 @@ namespace JoinAndDo.Repositoryes
         public string SendMsgToAccession(string login, string hash, int idAccession, string text)
         {
             string res = null;
-            string comm = String.Format("EXEC SendMsgToAccession @login = '{0}', @hash = '{1}', @idAccession = {2}, @text = '{3}'", login, hash, idAccession, text);
+            string comm = "EXEC SendMsgToAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession, @text = @Text";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+            SqlParameter Param4 = new SqlParameter("@Text", System.Data.SqlDbType.NVarChar);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = idAccession;
+            Param4.Value = text;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+            sqlComm.Parameters.Add(Param4);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();
@@ -859,18 +1072,28 @@ namespace JoinAndDo.Repositoryes
         {
             List<Message> dialog = new List<Message>();
             
-            string comm = String.Format("EXEC GetDialogOfAccession @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
+            string comm = "EXEC GetDialogOfAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = idAccession;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 Message msg = new Message();
-                msg.login = reader[0].ToString();
-                msg.text = reader[1].ToString();
+                msg.Login = reader[0].ToString();
+                msg.Text = reader[1].ToString();
                 dialog.Add(msg);
             }
             _con.Close();
@@ -880,13 +1103,23 @@ namespace JoinAndDo.Repositoryes
         public string ExitWithAccession(string login, string hash, int idAccession)
         {
             string res = null;
-            string comm = String.Format("EXEC ExitWithAccession @login = '{0}', @hash = '{1}', @idAccession = {2}", login, hash, idAccession);
+            string comm = "EXEC ExitWithAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession";
+            SqlCommand sqlComm = new SqlCommand(comm, _con);
 
-            SqlCommand sqlComm = new SqlCommand(comm);
-            sqlComm.Connection = _con;
+            SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param2 = new SqlParameter("@Hash", System.Data.SqlDbType.NVarChar);
+            SqlParameter Param3 = new SqlParameter("@IdAccession", System.Data.SqlDbType.Int);
+
+            Param1.Value = login;
+            Param2.Value = hash;
+            Param3.Value = idAccession;
+
+            sqlComm.Parameters.Add(Param1);
+            sqlComm.Parameters.Add(Param2);
+            sqlComm.Parameters.Add(Param3);
+
             _con.Open();
             SqlDataReader reader = sqlComm.ExecuteReader();
-
             while (reader.Read())
             {
                 res = reader[0].ToString();

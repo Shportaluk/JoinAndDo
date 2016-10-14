@@ -172,11 +172,6 @@ namespace JoinAndDo.Controllers
         {
             return View();
         }
-        public ActionResult deals_accession()
-        {
-            ViewBag.listDealsAccession = _sqlRepository.GetAllFromDealsAccession();
-            return View();
-        }
         public ActionResult search_people(string name)
         {
             ViewBag.listUser = _sqlRepository.GetUsers( name );
@@ -350,14 +345,6 @@ namespace JoinAndDo.Controllers
         public string NewJoin(string login, string hash, string name, string text, string category, string needPeople, string listRoles)
         {
             return _sqlRepository.NewJoin(login, hash, name, text, category, needPeople, listRoles);
-        }
-        public string GetLastMessages(string login, string hash)
-        {
-            return _sqlRepository.GetLastMessages(login, hash);
-        }
-        public string CheckSms(string login, string hash)
-        {
-            return _sqlRepository.GetCountMessages(login, hash);
         }
         public string SendMsg(string login, string hash, string to, string text)
         {
