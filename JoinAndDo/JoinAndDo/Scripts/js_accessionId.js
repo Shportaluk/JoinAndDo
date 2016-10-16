@@ -81,7 +81,7 @@ function DeleteJoin() {
         data: JSON.stringify({ login: l, hash: h, idAccession: idAccession }),
         success: function (res) {
             if (res == "Ok") {
-                ShowMessage("Removal request, success executed");
+                window.location.href = "/JoinAndDo/search_accession/";
             }
             else {
                 ShowMessage(res);

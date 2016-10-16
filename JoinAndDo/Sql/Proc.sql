@@ -249,7 +249,8 @@ CREATE PROC AddUserToAccession
 	@hash NVARCHAR(100),
 	@loginUserAdded NVARCHAR(20),
 	@role NVARCHAR(100),
-	@idAccession INT
+	@idAccession INT,
+	@res NVARCHAR(255) OUTPUT
 AS
 IF (( SELECT COUNT(*) FROM Users WHERE Login = @login and Hash = @hash ) = 1)
 BEGIN
@@ -261,19 +262,19 @@ BEGIN
 			BEGIN
 				UPDATE RoleOfUserInAccession SET Login = @loginUserAdded WHERE IdAccession = @idAccession and RoleName = @role
 				UPDATE Accession SET People = People + 1 WHERE Id = @idAccession
-				SELECT 'Ok'
+				SET @res = 'Ok'
 			END
 			ELSE
-				SELECT 'No free places'
+				SET @res = 'No free places'
 		END
 		ELSE
-			SELECT 'This RoleOfUserInAccession does not exist'
+			SET @res = 'This RoleOfUserInAccession does not exist'
 	END
 	ELSE
-		SELECT 'You have not access'
+		SET @res = 'You have not access'
 END
 ELSE
-	SELECT 'You are not registered or do not have entrance to the site'
+	SET @res = 'You are not registered or do not have entrance to the site'
 GO 
 
 
@@ -326,7 +327,6 @@ END
 ELSE
 	SELECT 'You are not registered or do not have entrance to the site'
 GO
-
 
 
 GO
@@ -495,11 +495,16 @@ AS
 GO
 
 
+SELECT * FROM Users
+EXEC RequestComplateAccession @login = 'qweqwe', @hash = 'NczmKlPn3kW4T4cnAXaXUQ', @idAccession = 53
+
+
 GO
 CREATE PROC RequestComplateAccession
 	@login NVARCHAR(20),
 	@hash NVARCHAR(100),
-	@idAccession INT
+	@idAccession INT,
+	@res NVARCHAR(255) OUTPUT
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
@@ -507,10 +512,9 @@ BEGIN
 	BEGIN
 		INSERT INTO RequestCompleteToAccession VALUES( @login, @idAccession )
 		DECLARE @num1 int = (SELECT COUNT(*) FROM RequestCompleteToAccession WHERE IdAccession = @idAccession)
-		DECLARE @num2 int = (SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession)
+		DECLARE @num2 int = (SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession and Login IS NOT NULL)
 		IF( (@num1/CONVERT(decimal(5,2), @num2)) > 0.6 )
 		BEGIN
-			
 			SELECT Login INTO #TempLoginsRequestComplateAccession FROM RoleOfUserInAccession WHERE IdAccession = @idAccession and Login IS NOT NULL
 			WHILE (SELECT COUNT(*) FROM #TempLoginsRequestComplateAccession) > 0
 			BEGIN
@@ -530,25 +534,25 @@ BEGIN
 			SET @HashOfCreator = ( SELECT Hash FROM Users WHERE Login = @Creator )
 			EXEC DeleteJoin @login = @Creator, @hash = @HashOfCreator, @idAccession = @idAccession
 			
-			SELECT 'Complated'
+			SET @res = 'Ok'
 		END
 		ELSE
-			SELECT 'Ok'
+			SET @res = 'Removal request, success executed'
 	END
 	ELSE
-		SELECT 'You have sent a request'
+		SET @res = 'You have sent a request'
 END
 ELSE
-	SELECT 'You are not registered or do not have entrance to the site'
+	SET @res = 'You are not registered or do not have entrance to the site'
 GO
-
 
 
 GO
 CREATE PROC RequestDeleteAccession
 	@login NVARCHAR(20),
 	@hash NVARCHAR(100),
-	@idAccession INT
+	@idAccession INT,
+	@res NVARCHAR (255) OUTPUT
 AS
 IF ((SELECT COUNT(*) FROM Users where Login = @login and Hash = @hash ) = 1)
 BEGIN
@@ -556,7 +560,7 @@ BEGIN
 	BEGIN
 		INSERT INTO RequestDeleteToAccession VALUES( @login, @idAccession )
 		DECLARE @num1 int = (SELECT COUNT(*) FROM RequestDeleteToAccession WHERE IdAccession = @idAccession)
-		DECLARE @num2 int = (SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession)
+		DECLARE @num2 int = (SELECT COUNT(*) FROM RoleOfUserInAccession WHERE idAccession = @idAccession and Login IS NOT NULL )
 		IF( (@num1/CONVERT(decimal(5,2), @num2)) > 0.6 )
 		BEGIN
 			SELECT Login INTO #TempLoginsRequestDeleteAccession FROM RoleOfUserInAccession WHERE IdAccession = @idAccession and Login IS NOT NULL
@@ -578,16 +582,16 @@ BEGIN
 			SET @HashOfCreator = ( SELECT Hash FROM Users WHERE Login = @Creator )
 			EXEC DeleteJoin @login = @Creator, @hash = @HashOfCreator, @idAccession = @idAccession
 			
-			SELECT 'Complated'
+			SET @res = 'Ok'
 		END
 		ELSE
-			SELECT 'Ok'
+			SET @res =  'Removal request, success executed'
 	END
 	ELSE
-		SELECT 'You have sent a request'
+		SET @res =  'You have sent a request'
 END
 ELSE
-	SELECT 'You are not registered or do not have entrance to the site'
+	SET @res = 'You are not registered or do not have entrance to the site'
 GO
 
 

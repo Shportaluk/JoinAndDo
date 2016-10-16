@@ -788,7 +788,7 @@ namespace JoinAndDo.Repositoryes
         public string SendRequestCompleteAccession(string login, string hash, int idAccession)
         {
             string res = "";
-            string comm = "EXEC RequestComplateAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession";
+            string comm = "DECLARE @res NVARCHAR(255) EXEC RequestComplateAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession, @res = @res OUTPUT SELECT @res";
             SqlCommand sqlComm = new SqlCommand(comm, _con);
 
             SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);
@@ -944,10 +944,10 @@ namespace JoinAndDo.Repositoryes
             SqlDataReader reader = sqlComm.ExecuteReader();
             _con.Close();
         }
-        public string DeleteJoin(string login, string hash, int idAccession)
+        public string RequestDeleteAccession(string login, string hash, int idAccession)
         {
             string res = null;
-            string comm = "EXEC RequestDeleteAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession";
+            string comm = "DECLARE @res NVARCHAR(255) EXEC RequestDeleteAccession @login = @Login, @hash = @Hash, @idAccession = @IdAccession, @res = @res OUTPUT SELECT @res";
             SqlCommand sqlComm = new SqlCommand(comm, _con);
 
             SqlParameter Param1 = new SqlParameter("@Login", System.Data.SqlDbType.NVarChar);

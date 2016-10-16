@@ -237,7 +237,7 @@ body
     margin: 8px;
 }
 #left_boxes { top: 60px; left: 20px; }
-#right_boxes {  top: 329px; left: 20px; }
+#right_boxes {  top: 290px; left: 20px; }
 
 #left_boxes:hover ,#right_boxes:hover {  }
 #left_boxes>a:link,#right_boxes>a:link

@@ -340,7 +340,7 @@ namespace JoinAndDo.Controllers
         }
         public string DeleteJoin( string login, string hash, int idAccession )
         {
-            return _sqlRepository.DeleteJoin( login, hash, idAccession );
+            return _sqlRepository.RequestDeleteAccession( login, hash, idAccession );
         }
         public string NewJoin(string login, string hash, string name, string text, string category, string needPeople, string listRoles)
         {
